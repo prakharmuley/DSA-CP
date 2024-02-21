@@ -1,0 +1,68 @@
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+public class GfG
+{
+    public static void main(String args[])
+        {
+            Scanner sc = new Scanner(System.in);
+            int t = sc.nextInt();
+            while(t-->0)
+                {
+                    int n;
+                    n = sc.nextInt();
+                    ArrayList<String> dictionary = new ArrayList<String>();
+                    for(int i = 0;i<n;i++)
+                        {
+                            String p = sc.next();
+                            dictionary.add(p);
+                        }
+                    String s = sc.next();
+                    Solution obj = new Solution();  
+                    System.out.println(obj.wordBreak(n, s, dictionary));  
+                    
+                }
+        }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution
+{
+   static boolean[] dp;
+    public static boolean fun(int i, int n, String s, Set<String> hs)
+    {
+        if(i>=n) return true;
+        if(dp[i]!=false) return dp[i];
+        StringBuilder sb=new StringBuilder();
+        for(int j=i;j<n;j++)
+        {
+            sb.append(s.charAt(j));
+            if(hs.contains(sb.toString()))
+            {
+                if(fun(j+1,n,s,hs))
+                {
+                    dp[j]=true;
+                    return true;
+                }
+            }
+        }
+        return dp[i]=false;
+    }
+    public static int wordBreak(int n, String s, ArrayList<String> dictionary )
+    {
+       Set<String> hs=new HashSet<>();
+       
+       for(String ss: dictionary)
+       {
+           hs.add(ss);
+       }
+       dp=new boolean[s.length()+5];
+       Arrays.fill(dp,false);
+       return fun(0,s.length(),s,hs)==true?1:0;
+    }
+}
