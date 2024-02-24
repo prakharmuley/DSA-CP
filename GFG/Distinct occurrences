@@ -1,0 +1,29 @@
+class Solution
+{
+    int mod=(int)1e9+7;
+    int  subsequenceCount(String s, String t)
+    {
+	   int dp[][] = new int[s.length()][t.length()];
+        for(int row[] : dp){
+            Arrays.fill(row,-1);
+        }
+        int count = solve(s,t,dp,0,0);
+        return count;
+    }
+      public int solve(String s,String t,int dp[][],int sPos,int tPos){
+        
+        if(tPos==t.length()){
+            return 1;
+        }
+        if(sPos == s.length()){
+            return 0;   
+        }
+        if(dp[sPos][tPos]!=-1){
+            return dp[sPos][tPos];
+        }
+        if(s.charAt(sPos)==t.charAt(tPos)){
+            return dp[sPos][tPos] = (solve(s,t,dp,sPos+1,tPos+1) + solve(s,t,dp,sPos+1,tPos))%mod;    
+        }
+        return dp[sPos][tPos] = solve(s,t,dp,sPos+1,tPos);
+    }
+}
