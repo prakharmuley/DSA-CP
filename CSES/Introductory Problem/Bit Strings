@@ -1,0 +1,32 @@
+import java.util.*;
+import java.io.*;
+public class Cses {
+   public static long bin(long a, long b, int m)
+   {
+	   long r=1L;
+	   while(b>0)
+	   {
+		   if(((b&1)!=0))
+		   {
+			   r=r*a%m;
+		   }
+		   a=a*a%m;
+		   b>>=1;
+	   }
+	   return r;
+	   
+	   
+   }
+   
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scanner=new Scanner(System.in);
+		int n=scanner.nextInt();
+		int mod=(int)1e9+7;
+		System.out.println(bin(2L, n*1L, mod));
+		}
+	//	System.out.print(1);
+
+	
+
+}
