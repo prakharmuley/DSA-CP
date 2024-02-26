@@ -1,0 +1,19 @@
+class Solution
+{
+     static void subSequence(String str, String newStr, int idx, List<String> list){
+        if(idx==str.length()){
+            list.add(newStr);
+            return;
+        }
+        subSequence(str, newStr+str.charAt(idx), idx+1,list);
+        subSequence(str, newStr, idx+1,list);
+    }
+    public List<String> AllPossibleStrings(String s)
+    {
+        List<String> list = new ArrayList<>();
+        subSequence(s,"",0,list);
+        list.remove("");
+        Collections.sort(list);
+        return list;
+    }
+}
