@@ -1,0 +1,16 @@
+class Solution {
+    public int diameterOfBinaryTree(TreeNode root) {
+        int d[]=new int[1];
+        fun(root,d);
+        return d[0];
+        
+    }
+    public int fun(TreeNode root, int[] d)
+    {
+        if(root==null) return 0;
+        int l=fun(root.left,d);
+        int r=fun(root.right,d);
+        d[0]=Math.max(d[0],l+r);
+        return Math.max(l,r)+1;
+    }
+}
