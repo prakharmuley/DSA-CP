@@ -1,0 +1,57 @@
+class Solution {
+    public boolean isEv(List<List<Integer>> lvl)
+    {
+        
+        for(int i=0;i<lvl.size();i+=2)
+        {
+            int prev=-1;
+            for(int j=0;j<lvl.get(i).size();j++)
+            {
+                if(prev>=lvl.get(i).get(j)||lvl.get(i).get(j)%2==0) return false;
+                prev=lvl.get(i).get(j);
+                    
+            }
+        }
+        return true;
+    }
+    public boolean isOd(List<List<Integer>> lvl)
+    {
+        
+        for(int i=1;i<lvl.size();i+=2)
+        {
+             int prev=-1;
+            for(int j=lvl.get(i).size()-1;j>=0;j--)
+            {
+                if(prev>=lvl.get(i).get(j)||lvl.get(i).get(j)%2==1) return false;
+                prev=lvl.get(i).get(j);
+                    
+            }
+        }
+        return true;
+    }
+    public List<List<Integer>> bfs(TreeNode root)
+    {
+        Queue<TreeNode> q=new LinkedList<>();
+        List<List<Integer>> lvl=new ArrayList<>();
+        q.offer(root);
+        while(!q.isEmpty())
+        {
+            int l=q.size();
+            List<Integer> ll=new ArrayList<>();
+            for(int i=0;i<l;i++)
+            {
+                TreeNode cur=q.poll();
+                ll.add(cur.val);
+                if(cur.left!=null) q.offer(cur.left);
+                if(cur.right!=null) q.offer(cur.right);
+            }
+            
+            lvl.add(ll);
+        }
+        return lvl;
+    }
+    public boolean isEvenOddTree(TreeNode root) {
+        List<List<Integer>> bfs_path=bfs(root);
+        return isEv(bfs_path)&&isOd(bfs_path);
+    }
+}
