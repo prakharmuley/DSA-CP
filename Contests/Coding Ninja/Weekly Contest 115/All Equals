@@ -1,0 +1,38 @@
+import java.util.ArrayList;
+
+
+public class Solution {
+    static boolean isP(int n)
+    {
+        return ((n&(n-1))==0);
+    }
+     static int gcd(int a, int b)
+     {
+         if(b==0) return a;
+         return gcd(b,a%b);
+     }
+    static int gcd_all(ArrayList<Integer> l)
+    {
+      int g=l.get(0);
+      for(int i=1;i<l.size();i++)
+      {
+          g=gcd(g,l.get(i));
+      }
+      return g;
+    }
+    static int canYouMakeEqual(int n, ArrayList<Integer> v) {
+        // Write your code here.
+        int g=gcd_all(v);
+        int a[]=new int[v.size()];
+        for(int i=0;i<v.size();i++)
+        {
+            a[i]=v.get(i)/g;
+        }
+        for(int x: a)
+        {
+            if(!isP(x)) return 0;
+        }
+        return 1;
+
+    }
+}
