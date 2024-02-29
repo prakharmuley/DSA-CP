@@ -1,0 +1,19 @@
+class Solution {
+    long sumBitDifferences(int[] arr, int n) {
+     long ans=0L;
+      for(int i=0;i<32;i++)
+      {
+          int z=0,o=0;
+          for(int x: arr)
+          {
+              if((((1<<i)&(x)))!=0) o++;
+              else z++;
+              
+          }
+        
+          ans+=(long)z*(long)o;
+          
+      }
+      return ans*2L;
+    }
+}
