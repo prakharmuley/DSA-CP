@@ -1,0 +1,37 @@
+import java.util.*;
+public class Solution {   
+    static int minCost(ArrayList<Integer> arr, ArrayList<Integer> brr) {
+        // Write your code here.
+        int m=arr.size();
+        int n=brr.size();
+        Map<Integer,Integer> mp=new HashMap<>();
+     
+        for(int x: arr) mp.put(x,mp.getOrDefault(x, 0)+1);
+         int c=arr.size();
+      
+        int[] b=new int[n];
+        for(int i=0;i<n;i++) b[i]=brr.get(i);
+        int l=0,r=0,len=Integer.MAX_VALUE;
+        while(r<n)
+        {
+            if(mp.containsKey(b[r]))
+            {
+                mp.put(b[r],mp.get(b[r])-1);                 
+                if(mp.get(b[r])>=0) 
+                 c--;           
+            }
+            while(c==0)
+            {
+                len=Math.min(len,r-l+1);
+                if(mp.containsKey(b[l]))
+                {
+                    mp.put(b[l],mp.getOrDefault(b[l],0)+1);
+                    if(mp.containsKey(b[l])&&mp.get(b[l])>0) c++;
+                }
+                l++;
+            }
+            r++;
+        }
+        return len==Integer.MAX_VALUE?-1:len;
+    }
+}
