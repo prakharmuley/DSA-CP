@@ -1,0 +1,12 @@
+public class Solution {    
+    static int boredChef(int n, int k, String s) {
+        // Write your code here.
+        int h[]=new int[26];
+        for(char c: s.toCharArray()) h[c-'a']++;
+        for(int x: h)
+        {
+            if(x>=k) return 1;
+        }
+        return 0;
+    }
+}
