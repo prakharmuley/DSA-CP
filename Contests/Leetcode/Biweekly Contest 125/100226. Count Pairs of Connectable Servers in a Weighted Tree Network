@@ -1,0 +1,54 @@
+class Solution {
+    void dfs(int node,int par,int s,int wt,int[] ans, List<List<int[]>> adj){ 
+        if(wt%s==0){ 
+            ans[0]++; 
+        } 
+        for(int[] x:adj.get(node)){ 
+            if(x[0]==par){ 
+                continue; 
+            } 
+            dfs(x[0],node,s,x[1]+wt,ans,adj); 
+        } 
+    } 
+    int fn(int node,int s,List<List<int[]>> adj){ 
+        List<Integer> v=new ArrayList<>();
+        int tsum=0; 
+        for(int[] x:adj.get(node)){ 
+            int[] ans=new int[1]; 
+            dfs(x[0],node,s,x[1],ans,adj); 
+            v.add(ans[0]); 
+            tsum+=ans[0]; 
+        } 
+        int res=0; 
+        for(int x:v){ 
+            tsum-=x; 
+            res+=x*tsum; 
+        } 
+        return res; 
+    }
+    public int[] countPairsOfConnectableServers(int[][] edges, int signalSpeed) {
+        List<List<int[]>> graph = new ArrayList<>();
+        int n=edges.length+1;
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        // Build the graph
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int weight = edge[2];
+            graph.get(u).add(new int[]{v, weight});
+            graph.get(v).add(new int[]{u, weight});
+        }
+
+        int[] counts = new int[n];
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; i++) {
+           counts[i]+=fn(i,signalSpeed,graph);
+        }
+
+        return counts;
+
+    }
+}
