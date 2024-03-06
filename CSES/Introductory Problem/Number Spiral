@@ -1,0 +1,99 @@
+import java.util.*;
+import java.io.*;
+import java.text.DecimalFormat;
+ 
+public class Solution {
+	
+	static class InputReader {
+		public BufferedReader reader;
+		public StringTokenizer tokenizer;
+ 
+		public InputReader(InputStream stream) {
+			reader = new BufferedReader(new InputStreamReader(stream), 32768);
+			tokenizer = null;
+		}
+ 
+		public String nextLine() {
+			return null;
+		}
+ 
+		public String next() {
+			while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+				try {
+					tokenizer = new StringTokenizer(reader.readLine());
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			return tokenizer.nextToken();
+		}
+ 
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+ 
+		public long nextLong() {
+			return Long.parseLong(next());
+		}
+	}
+	
+	
+	public static void solve(InputReader scanner, PrintWriter pw) {
+		
+		int t=scanner.nextInt();
+		while(t-->0)
+		{
+			long x=scanner.nextLong();
+			long y=scanner.nextLong();
+			long mx=Math.max(x, y);
+			if(mx%2==1)
+			{
+				if(y>x)
+				{
+					long ans=mx*mx;
+				
+					pw.print(ans-x+1);
+				}
+				else {
+					long ans=(mx-1)*(mx-1);
+					pw.print(ans+y);
+					
+				}
+			}
+			else {
+				if(x>y)
+				{
+					long ans=mx*mx;
+					pw.print(ans-y+1);
+				}
+				else {
+					long ans=(mx-1)*(mx-1);
+					pw.print(ans+x);
+					
+				}
+			}
+			pw.print("\n");
+		}
+    			
+       
+        
+            		
+    	
+	
+	   }
+	
+ 
+	public static void main(String[] args) {
+ 
+		InputStream inputStream = System.in;
+		OutputStream outputStream = System.out;
+		InputReader in = new InputReader(inputStream);
+		PrintWriter out = new PrintWriter(outputStream);
+		solve(in, out);
+		out.close();
+	}
+	
+	
+  
+	
+}
