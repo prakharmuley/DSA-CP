@@ -1,0 +1,23 @@
+class Solution {
+    public List<Long> minOperations(int[] nums, int[] queries) {
+       Arrays.sort(nums); 
+        int n = nums.length; 
+        long[] prefix = new long[n+1]; 
+        for (int i = 0; i < n; ++i)
+            prefix[i+1] = prefix[i] + nums[i]; 
+        List<Long> ans = new ArrayList(); 
+        for (var q : queries) {
+            int lo = 0, hi = n; 
+            while (lo < hi) {
+                int mid = lo + (hi-lo)/2; 
+                if (nums[mid] < q) lo = mid+1; 
+                else hi = mid; 
+            }
+           
+            long val =(((long)q*(long)lo)-prefix[lo])+(prefix[prefix.length-1]-prefix[lo])-(long)q*(long)(prefix.length-lo-1); 
+            ans.add(val); 
+        }
+        
+        return ans;
+    }
+}
