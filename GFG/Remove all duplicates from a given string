@@ -1,0 +1,15 @@
+class Solution {
+   
+       String removeDuplicates(String str) {
+        Set<Character> set = new LinkedHashSet<>();
+        for (char ch : str.toCharArray()) {
+            set.add(ch);
+        }
+        Iterator<Character> it = set.iterator();
+        String result = "";
+        while(it.hasNext()){
+            result = result + it.next();
+        }
+        return result;
+    }
+}
