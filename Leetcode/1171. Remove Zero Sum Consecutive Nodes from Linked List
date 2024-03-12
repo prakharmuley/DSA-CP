@@ -1,0 +1,103 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+// class Solution {
+//     public ListNode removeZeroSumSublists(ListNode head) {
+//         int n=0;   
+//         if(head.val==0)
+//         {
+//             head=head.next;
+//         }
+//         ListNode temp=head;
+//         while(temp!=null)
+//         {
+//             temp=temp.next;
+//             n++;
+//         }
+//         int a[]=new int[n];
+//         temp=head;
+//         int k=0;
+//          while(temp!=null)
+//         {
+//              a[k++]=temp.val;
+//             temp=temp.next;
+//         }
+//         ListNode d=new ListNode(-1);
+//         ListNode new_head=d;
+//         int idx=-1;
+//         for(int i=0;i<n;i++)
+//         {
+//             int sum=0;
+//             int j=i;
+//             int st=i;
+//             for(;j<n;j++)
+//             {
+//                 sum+=a[j];
+//                 if(sum==0)
+//                 {
+//                     idx=j;
+//                 }
+                
+//             }
+//             for(k=idx;k>=st;k--) a[k]=0;      
+//         }
+//         for(int x: a)
+//         {
+//             if(x!=0) 
+//             {
+//                 d.next=new ListNode(x);
+//                 d=d.next;
+//             }
+//         }
+//         return new_head.next;    
+//     }
+// }
+
+class Solution {
+    public ListNode removeZeroSumSublists(ListNode head) {
+       
+        ListNode d=new ListNode(0);
+        d.next=head;
+        ListNode new_head=d;
+        int idx=-1;
+        Map<Integer,ListNode> mp=new HashMap<>();
+        int sum=0;
+        mp.put(0,d);
+        while(head!=null)
+        {
+            sum+=head.val;
+            if(mp.containsKey(sum))
+            {
+                ListNode prev=mp.get(sum);
+                ListNode start=prev;
+                
+                
+                //skipping part till the current node
+                while(prev!=head)
+                {
+                    prev=prev.next;
+                    sum+=prev.val;
+                    if(prev!=head) mp.remove(sum);
+                }
+                
+                //pointingt to next node of last skipped node
+                start.next=head.next;
+                
+            }
+            else
+            {
+                mp.put(sum,head);
+            }
+            head=head.next;
+        }
+      
+        return d.next;    
+    }
+}
