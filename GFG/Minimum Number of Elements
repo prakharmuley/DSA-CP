@@ -1,0 +1,22 @@
+class Solution {
+    public static int minElements(int n, int m, int[] arr1, int[] arr2) {
+        // code here
+      int s1=0,s2=0;
+      for(int x: arr1) s1+=x;
+      Arrays.sort(arr2);
+      int c=0;
+      for(int i=m-1;i>=0;i--)
+      {
+          if(s2>=s1){
+         
+         
+          break;
+          }
+           s2+=arr2[i];
+            c++;
+          
+      }
+      return c==m&&s1>s2?-1:c;
+    }
+}
+        
