@@ -1,0 +1,53 @@
+class Solution {
+    public static int maxScoreSubseq(int n, int[] arr) {
+      Map<Integer,Integer> mp=new HashMap<>();
+      Map<Integer,ArrayList<Integer>> mpp=new HashMap<>();
+      int ans=0;
+     
+      int[] d=new int[n];
+      for(int i=0;i<n;i++) d[i]=arr[i]-i;
+      
+      
+      for(int i=0;i<n;i++)
+      {
+          if(arr[i]>=0){
+          if(!mpp.containsKey(d[i]))
+          {
+              ArrayList<Integer> al=new ArrayList<>();
+              al.add(arr[i]);
+              mpp.put(d[i],al);
+          }
+          else
+          {
+              ArrayList<Integer> al=mpp.get(d[i]);
+              al.add(arr[i]);
+              mpp.put(d[i],al);
+          }
+          }
+      }
+        int mxx=Integer.MIN_VALUE;
+      for(int x: arr) mxx=Math.max(x,mxx);
+      int mx=Integer.MIN_VALUE;
+    
+      for(Map.Entry<Integer,ArrayList<Integer>> e: mpp.entrySet())
+      {
+          ArrayList<Integer> l=new ArrayList<>();
+          int s=0;
+         
+          
+          for(int x: e.getValue())
+          {
+            
+              s+=x;
+          }
+          mx=Math.max(s,mx);
+          
+         
+      }
+      
+      return Math.max(mx,mxx);
+      
+      
+    }
+}
+        
