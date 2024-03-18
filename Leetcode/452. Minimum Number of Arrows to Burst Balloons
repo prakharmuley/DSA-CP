@@ -1,0 +1,21 @@
+class Solution {
+    public int findMinArrowShots(int[][] p) {
+        int n=p.length;
+        int cnt=0;
+       Arrays.sort(p,(a,b)->Integer.compare(a[0],b[0]));
+        int mn=Integer.MAX_VALUE;
+        for(int a[]: p)
+        {
+           if(a[0]>mn)
+           {
+               cnt++;
+               mn=a[1];
+           }
+            else
+                mn=Math.min(mn,a[1]);
+           
+        }
+        
+        return cnt+1;
+    }
+}
