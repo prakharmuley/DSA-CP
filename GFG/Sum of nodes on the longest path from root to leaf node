@@ -1,0 +1,32 @@
+class Solution{
+    static int ans=0;
+    public int height(Node root)
+    {
+        if(root==null) return 0;
+        int l=height(root.left);
+        int r=height(root.right);
+        return 1+Math.max(l,r);
+    }
+    public int fun(Node root, int h, int s)
+    {
+       if(root==null)
+       {
+           return -1;
+       }
+       if(h==1&&root!=null) return s+root.data;
+       s+=root.data;
+       int l=fun(root.left,h-1,s);
+       int r=fun(root.right,h-1,s);
+       return Math.max(l,r);
+           
+        
+    }
+    public int sumOfLongRootToLeafPath(Node root)
+    {
+        //code here
+        int h=height(root);
+        return fun(root,h,0);
+       
+        
+    }
+}
