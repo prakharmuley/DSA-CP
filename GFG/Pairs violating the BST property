@@ -1,0 +1,92 @@
+class Solution {
+    static int  i=0;
+    static int  count=0;
+    public static int pairsViolatingBST(int n, Node root) {
+        // code here
+        
+        int[] arr=new int[n];
+        i=0;
+        count=0;
+        
+        
+        
+        inOrder(root,arr);
+        mergeSort(arr,n,0,n-1);
+       
+        return count;
+        
+    }
+    
+    public static void inOrder(Node root,int[] arr){
+        if(root==null){
+            return ;
+        }
+        
+        inOrder(root.left,arr);
+        arr[i]=root.data;
+        i++;
+        inOrder(root.right,arr);
+        
+        
+    }
+    
+    public static void mergeSort(int[] arr,int n,int f,int l)
+    {
+        if(f==l){
+            return ;
+        }
+        
+        int mid=(f+l)/2;
+        
+        mergeSort(arr,n,f,mid);
+        mergeSort(arr,n,mid+1,l);
+        merge(arr,n,f,mid,l);
+    }
+    
+    public static void merge(int arr[],int n,int f,int mid,int l){
+        
+        int fs=mid-f+1;
+        int ss=l-mid;
+        
+        int x;
+        int y;
+        
+        int fa[]=new int[fs];
+        int sa[]=new int[ss];
+        
+        for(x=0;x<fs;x++){
+           fa[x]=arr[x+f]; 
+        }
+        
+        for(y=0;y<ss;y++){
+            sa[y]=arr[y+mid+1];
+        }
+        
+        x=0;
+        y=0;
+        
+        while(x<fs && y<ss){
+            if(fa[x]<=sa[y]){
+                arr[f+x+y]=fa[x];
+                x++;
+            }else{
+                
+                count+=fs-x;
+                arr[f+x+y]=sa[y];
+                y++;
+            }
+        }
+        
+        while(x<fs)
+        {
+            arr[f+x+y]=fa[x];
+            x++;
+           
+        }
+        while(y<ss){
+            arr[f+x+y]=sa[y];
+            y++;
+            
+        }
+    }
+}
