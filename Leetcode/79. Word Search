@@ -1,0 +1,41 @@
+class Solution {
+    static boolean vis[][];
+  
+    public boolean exist(char[][] b, String w) {
+      
+        vis=new boolean[b.length][b[0].length];
+        
+          for(int i = 0; i < b.length; i++){
+            for(int j = 0; j < b[i].length; j++){
+                if((w.charAt(0) == b[i][j]) && dfs(b, w, i, j, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+        
+    }
+    public boolean dfs(char[][] b, String w, int i, int j, int k)
+    {
+   
+        if(k==w.length()) {return true;}
+            if(i>=b.length || i <0 || j<0 || j >=b[i].length || b[i][j]!=w.charAt(k)||vis[i][j])
+                       return false;
+        
+        vis[i][j]=true;
+        if(w.charAt(k)==b[i][j]){
+         if (dfs(b,w,i+1,j,k+1)||dfs(b,w,i-1,j,k+1)||dfs(b,w,i,j+1,k+1)||dfs(b,w,i,j-1,k+1)) return true;
+        }
+        
+        vis[i][j]=false;
+      
+    //      b[i][j]=w.charAt(k);
+        
+        return false;
+      
+       
+       
+        
+    }
+}
