@@ -1,0 +1,25 @@
+class Solution {
+    public static long geekTasks(int n, int m, int q, int[][] tasks) {
+       int mnr=Integer.MAX_VALUE,mnc=Integer.MAX_VALUE;
+       int[] col=new int[n];
+       Arrays.fill(col,-1);
+       for(int[] t: tasks)
+       {
+           mnr=Math.min(t[0],mnr);
+           mnc=Math.min(t[1],mnc);
+           col[t[0]]=Math.max(col[t[0]],t[1]);
+       }
+      
+       long c=-1L;
+       long mx=-1L;
+       long t=0L;
+       for(int i=n-1;i>=0;i--)
+       {
+           c=Math.max((long)col[i],c);
+           t+=(c+1);
+       }
+       return t-(((long)mnr+1L)*((long)mnc+1L));
+       
+    }
+}
+        
