@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Solution {
+
+    static boolean kDifferent(String s, int k) {
+        // Write your code here.
+        int[] h=new int[26];
+        for(char c: s.toCharArray()) h[c-'a']++;
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->b[0]-a[0]);
+
+        for(int i=0;i<26;i++)
+         if(h[i]>0)
+          pq.offer(new int[]{h[i],i});
+
+        Deque<int[]> q=new ArrayDeque<>();
+        StringBuilder sb=new StringBuilder();
+        while(!pq.isEmpty())
+        {
+            int[] p=pq.poll();
+            int x=p[0],y=p[1];
+            sb.append((char)('a'+y));
+            q.offer(new int[]{x-1,y});
+            if(q.size()>=k)
+            {
+                p=q.pollFirst();
+                if(p[0]>0) pq.offer(p);
+            }
+        }
+        return sb.length()==s.length();
+    }
+}
