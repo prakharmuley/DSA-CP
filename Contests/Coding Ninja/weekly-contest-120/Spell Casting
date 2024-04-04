@@ -1,0 +1,19 @@
+import java.util.*;
+
+public class Solution {
+
+    static int spellCasting(int n, int k, String s) {
+        // Write your code here.
+        int cnt=0;
+
+        for(char c: s.toCharArray())
+        {
+            if(k<=0) return cnt;
+            if(c=='*') k-=2;
+            else if(c=='.') k+=1;
+
+            cnt++;
+        }
+        return cnt;
+    }
+}
