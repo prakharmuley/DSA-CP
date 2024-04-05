@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Solution {
+   
+   static boolean isP(long n, long m)
+   {
+       long t=n;
+       long s=0L;
+       while(t!=0)
+       {
+          s+=(t%10L);
+          t/=10L;
+       }
+       return Math.abs(n-s)<=m;
+   }
+    static long countGoodNumbers(long n, long m) {
+        long l=1L;
+        long r=n*1L;
+        long ans=0L;
+        int mod=(int)1e9+7;
+        while(l<=r)
+        {
+          long mid=((l+((r-l)/2L)));
+          if(isP(mid,m))
+          {
+              l=mid+1;
+              ans=mid;
+          }
+          else r=mid-1;
+        }
+        return ((r%mod)*(n%mod-r%mod)%mod)%mod;
+    }
+}
