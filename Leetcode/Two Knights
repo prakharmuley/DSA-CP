@@ -1,0 +1,128 @@
+import java.util.*;
+
+
+
+import java.io.*;
+import java.text.DecimalFormat;
+
+public class Solution {
+	
+	static class InputReader {
+		public BufferedReader reader;
+		public StringTokenizer tokenizer;
+
+		public InputReader(InputStream stream) {
+			reader = new BufferedReader(new InputStreamReader(stream), 32768);
+			tokenizer = null;
+		}
+
+		public String nextLine() {
+			return null;
+		}
+
+		public String next() {
+			while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+				try {
+					tokenizer = new StringTokenizer(reader.readLine());
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			return tokenizer.nextToken();
+		}
+
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+
+		public long nextLong() {
+			return Long.parseLong(next());
+		}
+	}
+	static int _gcd(int a, int b) {
+		if (b == 0)
+			return a;
+		return _gcd(b, a % b);
+	}
+	public static String swap(char[] ch, int i, int j)
+	{
+		
+		char t=ch[i];
+		ch[i]=ch[j];
+		ch[j]=t;
+		return new String(ch);
+		
+	}
+	public static void reverse(char[] ch, int l, int r)
+	{
+		while(l<r)
+		{
+			char t=ch[l];
+			ch[l]=ch[r];
+			ch[r]=t;
+			l++;
+			r--;
+		}
+	}
+	
+	static long ncr(long n, long r, long mod) {
+		if (r == 0)
+			return 1;
+		long val = ncr(n - 1, r - 1, mod);
+		val = (n * val) % mod;
+		val = (val * modInverse(r, mod)) % mod;
+		return val;
+	}
+	
+	static long modInverse(long n, long M) {
+		return fast_pow(n, M - 2, M);
+	}
+	
+	static long fast_pow(long base, long n, long M) {
+		if (n == 0)
+			return 1;
+		if (n == 1)
+			return base % M;
+		long halfn = fast_pow(base, n / 2, M);
+		if (n % 2 == 0)
+			return (halfn * halfn) % M;
+		else
+			return (((halfn * halfn) % M) * base) % M;
+	}
+	
+	public static void solve(InputReader scanner, PrintWriter pw) {
+		
+//		int t=scanner.nextInt();
+//		while(t-->0)
+//		{
+//			
+//			
+//		}
+		
+		
+            	int n=scanner.nextInt();
+            	for(int i=1;i<=n;i++) {
+            	
+            	long ans=((long)(i*1L*i*1L)*((long)(i*i)-1*1L)/2L)-(long)(i-1)*(long)(i-2)*4L;
+            	pw.print(ans+"\n");
+            	}
+    	
+	
+	   }
+	
+
+	public static void main(String[] args) {
+
+		InputStream inputStream = System.in;
+		OutputStream outputStream = System.out;
+		InputReader in = new InputReader(inputStream);
+		PrintWriter out = new PrintWriter(outputStream);
+		solve(in, out);
+		out.close();
+	}
+	
+	
+  
+	
+}
+	
