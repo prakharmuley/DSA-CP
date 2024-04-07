@@ -1,0 +1,15 @@
+class Solution {
+    public boolean checkValidString(String s) {
+        int o=0,c=0,e=0;
+        for(char ch: s.toCharArray()) 
+        {
+            if(c<0) return false;
+            if(ch=='(') o++;
+            else o--;
+            if(ch==')') c--;
+            else c++;
+            c=Math.max(c,0);
+        }
+        return o==0;
+    }
+}
