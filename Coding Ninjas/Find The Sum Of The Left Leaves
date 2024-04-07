@@ -1,0 +1,20 @@
+public class Solution {
+    static void dfs(TreeNode<Integer> root, int[] s)
+	{
+		if(root==null) return;
+		if(root.left!=null&&root.left.left==null&&root.left.right==null)
+		{
+			s[0]+=root.left.data;
+
+		}
+		dfs(root.left,s);
+		dfs(root.right,s);
+
+		
+	}
+    public static int sumOfLeftLeaves(TreeNode<Integer> root) {
+		int[] s=new int[1];
+       dfs(root,s);
+	   return s[0];
+    }
+}
