@@ -1,0 +1,17 @@
+class Solution
+{
+    ArrayList<Integer> findMissing(int a[], int b[], int n, int m)
+    {
+         ArrayList<Integer> ls=new ArrayList<>();
+        HashSet<Integer> hs=new HashSet<>();
+        for(int i=0;i<m;i++){
+            hs.add(b[i]);
+        }
+       for(Integer h:a){
+           if(!hs.contains(h)) ls.add(h);
+       }
+       
+        //System.out.println(hs);
+        return ls;
+    }
+}
