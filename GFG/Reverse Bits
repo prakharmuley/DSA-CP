@@ -1,0 +1,24 @@
+class Solution {
+    static Long reversedBits(Long X) {
+        // code here
+        long rev=0,rem=0;
+
+        int k=1;
+
+        while(k<=32)
+
+        {
+
+            rem=X%2;
+
+            rev=rev*2+rem;
+
+            X=X/2;
+
+            k++;
+
+        }
+
+        return rev;
+    }
+};
