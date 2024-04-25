@@ -1,0 +1,62 @@
+class Solution {
+    public int[] FindExitPoint(int n, int m, int[][] matrix) {
+        // code here
+          int row = matrix.length;
+        int col = matrix[0].length;
+        String direction = "foward";
+        
+        int[] coordinates ={0,0};
+        
+        int i=0,j=0;
+        
+        while( (row>i && i>=0) && (col>j && j>=0) ){
+            coordinates[0]=i;
+            coordinates[1]=j;
+            if(matrix[i][j]==1){
+                matrix[i][j]=0;
+                if(direction == "foward"){
+                    direction = "down";
+                    i++;
+                }
+                
+                else if(direction == "down"){
+                    direction = "backward";
+                    j--;
+                }
+                else if(direction == "backward"){
+                 
+                    direction = "upward";
+                    i--;
+                }
+                else{
+                    direction = "foward";
+                    j++;
+                }
+                
+                
+            }
+            else{
+                if(direction == "foward"){
+                    j++;
+                }
+                
+                else if(direction == "down"){
+                  
+                    i++;
+                }
+                else if(direction == "backward"){
+                    j--;
+                }
+                else{
+                    i--;
+                }
+            }
+        }
+        
+        
+        
+    
+        return coordinates;
+ 
+    }
+}
