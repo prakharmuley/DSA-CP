@@ -1,0 +1,20 @@
+class Solution {
+    public int tribonacci(int[] dp, int n)
+    {
+         if(n<2) return n;
+        else if(n==2) return 1;
+        if(dp[n]!=-1) return dp[n];
+        return dp[n]=tribonacci(dp,n-1)+tribonacci(dp,n-2)+tribonacci(dp,n-3);
+    }
+ 
+    public int tribonacci(int n) {
+      int[]  dp=new int[n+4];
+        Arrays.fill(dp,-1);
+        dp[0]=0;
+        dp[1]=1;
+        dp[1]=2;
+        return tribonacci(dp,n);
+    
+       
+    }
+}
