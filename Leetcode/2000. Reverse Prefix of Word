@@ -1,0 +1,22 @@
+class Solution {
+    public String reversePrefix(String s, char ch) {
+        StringBuilder sb=new StringBuilder();
+        int in=-1;
+        for(int i=0;i<s.length();i++)
+        {
+            if(ch==s.charAt(i))
+            {
+               
+                in=i;
+                break;
+            }
+            sb.append(s.charAt(i));
+        }
+        if(in==-1) {return s;}
+        
+        String nw=new String(s.substring(in+1));
+        return ch+sb.reverse().toString()+nw;
+        
+        
+    }
+}
