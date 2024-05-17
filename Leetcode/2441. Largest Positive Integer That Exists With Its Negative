@@ -1,0 +1,16 @@
+class Solution {
+    public int findMaxK(int[] nums) {
+        int p[]=new int[1001];
+             int n[]=new int[1001];
+        for(int x: nums) if(x>0) p[x]++;
+        
+           for(int x: nums) if(x<0) n[Math.abs(x)]++;
+        
+        
+        for(int i=1000;i>=0;i--)
+        {
+            if(p[i]>0&&n[i]>0) return i;
+        }
+        return -1;
+    }
+}
