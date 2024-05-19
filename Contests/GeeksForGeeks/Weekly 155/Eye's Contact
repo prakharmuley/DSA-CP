@@ -1,0 +1,12 @@
+class Solution {
+    static int gcd(int a, int b)
+    {
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+    public static long firstContact(int N, int M) {
+        long lcm=N*1L*M*1L;
+        int g=gcd(N,M);
+        return lcm/g;
+    }
+}
