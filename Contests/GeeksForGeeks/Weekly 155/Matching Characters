@@ -1,0 +1,28 @@
+class Solution {
+    public static int[] matchingCnt(int n, String[] X) {
+        int[] ans=new int[n];
+        
+        int len=X[0].length();
+       
+        for(String s: X) len=Math.max(len,s.length());
+         int[][] h=new int[len][26];
+        for(String s: X)
+        {
+            for(int i=0;i<Math.min(len,s.length());i++)
+            {
+                h[i][s.charAt(i)-'a']++;
+            }
+        }
+        int k=0;
+         for(String s: X)
+        {
+            for(int i=0;i<Math.min(len,s.length());i++)
+            {
+                ans[k]+=--h[i][s.charAt(i)-'a'];
+            }
+            k++;
+        }
+        
+        return ans;
+    }
+}
