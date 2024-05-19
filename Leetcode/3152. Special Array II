@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<bool> isArraySpecial(vector<int>& nums, vector<vector<int>>& queries) {
+         int n = nums.size(); 
+        vector<bool> isSpecial(n, true); 
+        vector<int> specialCount(n + 1, 0); 
+        for (int i = 1; i < n; ++i) { 
+            if ((nums[i-1] % 2 == nums[i] % 2)) { 
+                isSpecial[i] = false; 
+            } 
+        } 
+         
+        for (int i = 1; i <= n; ++i) { 
+            specialCount[i] = specialCount[i - 1] + (isSpecial[i-1] ? 1 : 0); 
+        } 
+ 
+        vector<bool> ans; 
+        ans.reserve(queries.size()); 
+        for (const auto& query : queries) { 
+            int from = query[0]; 
+            int to = query[1]; 
+            if (specialCount[to + 1] - specialCount[from + 1] == (to - from)) { 
+                ans.push_back(true); 
+            } else { 
+                ans.push_back(false); 
+            } 
+        } 
+         return ans; 
+    }
+};
