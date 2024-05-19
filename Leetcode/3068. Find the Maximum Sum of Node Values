@@ -1,0 +1,23 @@
+class Solution {
+    public long maximumValueSum(int[] nums, int k, int[][] edges) {
+        long sum=0L;
+        int c=0;
+        long mn=Long.MAX_VALUE;
+        for(int x: nums)
+        {
+            if((x^k)>x)
+            {
+                sum+=(long)(x^k);
+                mn=Math.min(mn,(x^k)-x);    
+                c++;
+            }
+            else
+            {
+                sum+=(long)x;
+                mn=Math.min(mn,x-(x^k));
+            }
+        }
+        if(c%2==1) return sum-mn;
+        return sum;
+    }
+}
