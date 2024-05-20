@@ -1,0 +1,18 @@
+class Solution
+{
+    public long PowMod(long x, long n, long m)
+    {
+        // Code here
+        long p=1L;
+        while(n>0)
+        {
+            if((n%2)==1)
+            {
+                p=((p%m)*((x%m)))%m;
+            }
+            x=((x%m)*(x%m))%m;
+            n/=2L;
+        }
+        return p%m;
+    }
+}
