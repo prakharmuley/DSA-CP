@@ -1,0 +1,30 @@
+class Solution {
+    public int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
+        Map<Integer,List<Integer>> mp=new HashMap<>();
+        Map<Integer,Integer> freq=new HashMap<>();
+        int[] ans=new int[queries.length];
+  
+        int i=0;
+        List<Integer> list=new ArrayList<>();
+        for(int xx: nums)
+        {
+          if(xx==x)
+          {
+              list.add(i);
+          }
+            i++;
+        }
+        i=0;
+        for(int q: queries)
+        {
+           
+            if(q-1<list.size())
+            {
+                ans[i++]=list.get(q-1);
+            }
+            else ans[i++]=-1;
+          
+        }
+        return ans;
+    }
+}
