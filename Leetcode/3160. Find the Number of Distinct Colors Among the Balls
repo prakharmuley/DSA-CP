@@ -1,0 +1,40 @@
+class Solution {
+    public int[] queryResults(int limit, int[][] queries) {
+        Map<Integer,Integer> mp=new HashMap<>();
+        Map<Integer,Integer> mpp=new HashMap<>();
+        int ans[]=new int[queries.length];
+        Set<Integer> hs=new HashSet<>();
+        int i=0;
+        for(int[] q: queries)
+        {
+           
+            if(mp.containsKey(q[0])){
+             
+                   
+                mpp.put(mp.get(q[0]),mpp.get(mp.get(q[0]))-1);
+                if(mpp.get(mp.get(q[0]))==0) mpp.remove(mp.get(q[0]));
+               
+              
+            }
+          
+              
+               
+              mp.put(q[0],q[1]);
+                mpp.put(q[1],mpp.getOrDefault(q[1],0)+1);
+              
+              
+             
+              
+           
+            
+            ans[i++]=Math.min(mp.size(),mpp.size());
+        }
+        
+        return ans;
+    }
+}
+
+// 4
+// [[1,4],[2,5],[1,3],[3,4]]
+// 1
+// [[0,1],[0,4],[1,2],[1,5],[1,4]]
