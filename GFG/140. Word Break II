@@ -1,0 +1,36 @@
+class Solution {
+      public List<String> dfs(String s, Set<String> hs, Map<String,LinkedList<String>> mp)
+      {
+          if(mp.containsKey(s))
+          {
+            return mp.get(s);
+          }
+          LinkedList<String> res=new LinkedList<>();
+          if(s.length()==0)
+          {
+            res.add("");
+            return res;
+          }
+          for(String word: hs)
+          {
+            if(s.startsWith(word))
+            {
+                List<String> subList=dfs(s.substring(word.length()),hs,mp);
+                for(String sub: subList)
+                {
+                    res.add(word+ (sub.isEmpty()?"":" ")+sub);
+                }
+
+            }
+          }
+          mp.put(s,res);
+          return res;
+      }
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> hs=new HashSet<>();
+        for(String ss: wordDict) hs.add(ss);
+
+        return dfs(s,hs, new HashMap<String,LinkedList<String>>());
+
+    }
+}
