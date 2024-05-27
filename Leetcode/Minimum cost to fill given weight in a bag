@@ -1,0 +1,35 @@
+class Solution {
+    public static int helper(int ind,int W,int cost[],int dp[][])
+    {
+        if(W==0)
+        {
+            return 0;
+        }
+        if(ind<0)
+        {
+            return 100000009;
+        }
+        if(dp[ind][W]!=-1)
+        {
+            return dp[ind][W];
+        }
+        int nottake=helper(ind-1,W,cost,dp);
+        int take=Integer.MAX_VALUE;
+        if(cost[ind]!=-1 && W>=ind+1)
+        {
+            take = cost[ind]+helper(ind,W-(ind+1),cost,dp);
+        }
+        return dp[ind][W] = Math.min(take,nottake);
+    }
+
+
+    public static int minimumCost(int N, int W, int[] cost) {
+        // code here
+        
+    int dp[][] = new int[N+1][W+1];
+        for(int row[]:dp)
+            Arrays.fill(row,-1);
+        int res = helper(N-1,W,cost,dp);    
+        return res==100000009?-1:res;
+    }
+}
