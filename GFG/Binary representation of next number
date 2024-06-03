@@ -1,0 +1,49 @@
+
+class Solution {
+    String binaryNextNumber(String s) {
+        // code here.
+        StringBuilder sb=new StringBuilder();
+        int c=0;
+        if(s.charAt(s.length()-1)=='0')
+        {
+            sb.append('1');
+        }
+        else 
+        {
+            sb.append('1');
+            c=1;
+        }
+        for(int i=s.length()-2;i>=0;i--)
+        {
+            if(s.charAt(i)=='0') 
+            {
+                if(c==0)
+                {
+                    sb.append(s.charAt(i));
+                }
+                else 
+                {
+                    sb.append('1');
+                    c=0;
+                }
+            }
+            else
+            {
+                if(c==1)
+                {
+                    sb.append('0');
+                    c=1;
+                }
+                else
+                {
+                    sb.append('1');
+                }
+            }
+        }
+        if(c!=0) sb.append('1');
+        
+        sb.reverse();
+        return sb.toString();
+        
+    }
+}
