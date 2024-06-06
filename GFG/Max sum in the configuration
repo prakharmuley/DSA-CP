@@ -1,0 +1,26 @@
+class Solution {
+    long max_sum(int a[], int n) {
+        // Your code here
+       
+         long sum=0, total=0;
+        int i;
+        for(i=0;i<n;i++)
+        {
+            sum+=(long)a[i]*i;
+            total+=a[i];
+        }
+        
+        //rotating and finding the maximum sum
+        long max=sum;//initially
+        //we will use a pointer to point to the last element at each rotation
+        int pointer=n-1;//initially the last element is the given's array last element
+        //the rotation will be done till pointer>0
+        long newSum=sum;
+        while(pointer>0)
+        {
+            newSum+=total-(long)n*a[pointer--];
+            max=Math.max(max,newSum);
+        }
+        return max;
+    }
+}
