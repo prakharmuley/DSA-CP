@@ -1,0 +1,23 @@
+class Solution {
+    // Function to find the maximum occurred integer in all ranges.
+    public static int maxOccured(int n, int l[], int r[], int maxx) {
+        int[] pre=new int[maxx+2];
+        for(int i=0;i<n;i++)
+        {
+            pre[l[i]]++;
+            pre[r[i]+1]--;
+        }
+        int mx=pre[0],ans=0;
+        for(int i=1;i<=maxx;i++)
+        {
+            pre[i]+=pre[i-1];
+            if(pre[i]>mx)
+            {
+                mx=pre[i];
+                ans=i;
+            }
+        }
+        return ans;
+    }
+}
+
