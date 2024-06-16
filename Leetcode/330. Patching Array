@@ -1,0 +1,19 @@
+class Solution {
+    public int minPatches(int[] nums, int n) {
+        long mis=1L;
+        int c=0,i=0;
+        while(mis<=n)
+        {
+            if(i<nums.length&&nums[i]<=mis)
+            {
+                mis+=nums[i++]*1L;
+            }
+            else
+            {
+                mis<<=1L;
+                ++c;
+            }
+        }
+        return c;
+    }
+}
