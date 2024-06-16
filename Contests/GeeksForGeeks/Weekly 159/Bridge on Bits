@@ -1,0 +1,25 @@
+class Solution {
+    public static int makeBridgeOne(int n, long[] arr) {
+        // code here
+        int[] bit=new int[64];
+       
+            for(long x: arr)
+            {
+                 long num=x;
+                 for(long i=0;i<64;i++)
+                 {
+                     if(((1L<<i)&x)!=0)
+                     {
+                         bit[(int)i]++;
+                     }
+                 }
+            }
+            int mx=0;
+            for(int i=0;i<64;i++)
+            {
+               mx=Math.max(mx,bit[i]); 
+            }
+            return n-mx;
+        
+    }
+}
