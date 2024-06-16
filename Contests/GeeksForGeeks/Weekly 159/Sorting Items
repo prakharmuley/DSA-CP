@@ -1,0 +1,9 @@
+class Solution {
+    public static ArrayList<String> sortItems(int n, String[] items) {
+        // code here
+        Arrays.sort(items,(a,b)->a.length()-b.length()==0?a.compareTo(b):a.length()-b.length());
+        ArrayList<String> l=new ArrayList<>();
+        for(String s: items ) l.add(s);
+        return l;
+    }
+}
