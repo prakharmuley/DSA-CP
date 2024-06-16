@@ -1,0 +1,43 @@
+class Solution {
+    public boolean isP(int mid, int[] a, int m, int k)
+    {
+        int ses=1;
+        int cur=a[0];
+        int cnt=1;
+        for(int i=1;i<a.length;i++)
+        {
+            if(a[i]>cur+mid||cnt==k)
+            {
+                ses+=1;
+                cur=a[i];
+                cnt=1;
+            }
+            else 
+            {
+                cnt++;
+            }
+            if(ses>m) return false;
+        }
+        return true;
+    }
+    public int minimizeWaitingTime(int n, int m, int k, int[] a) {
+        // code here
+        Arrays.sort(a);
+        int l=0,r=a[n-1]-a[0];
+        int ans=r;
+        while(l<r)
+        {
+            int mid=l+((r-l)/2);
+            if(isP(mid,a,m,k))
+            {
+                ans=mid;
+                r=mid;
+            }
+            else
+            {
+                l=mid+1;
+            }
+        }
+        return ans;
+    }
+}
