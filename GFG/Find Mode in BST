@@ -1,0 +1,19 @@
+class Solution {
+    static int ans;
+    public static void dfs(Node root)
+    {
+        if(root==null) return;
+        
+            ans=Math.min(root.data,ans);
+            
+        
+        dfs(root.left);
+        dfs(root.right);
+    }
+    public static int getMode(Node root) {
+        // code here
+        ans=root.data;
+        dfs(root);
+        return ans;
+    }
+}
