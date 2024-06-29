@@ -1,0 +1,23 @@
+class Solution {
+    public int hIndex(int[] a) {
+        int[] buck=new int[a.length+1];
+        int n=a.length;
+        for(int c: a)
+        {
+            if(c<=n) buck[c]++;
+             else buck[n]++;
+        }
+        int cnt=0;
+        for(int i=0;i<=n;i++)
+        {
+             if(buck[i]!=0) 
+             {
+                cnt+=buck[i];
+             }
+             if(cnt>=n-i) return i;
+        }
+       return 0;
+        
+
+    }
+}
