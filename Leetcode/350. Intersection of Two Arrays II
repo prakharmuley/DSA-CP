@@ -1,0 +1,29 @@
+class Solution {
+  
+    public int[] intersect(int[] n1, int[] n2) {
+        int h[]=new int[1001];
+       // int h2[]=new int[1001];
+        ArrayList<Integer> l=new ArrayList<>();
+        for(int x: n1) h[x]++;
+        for(int x: n2) {
+            if(h[x]>0)
+            {
+                l.add(x);
+                h[x]--;
+            }
+        }
+        
+
+        int a[]=new int[l.size()];
+        for(int i=0;i<l.size();i++)
+        {
+            a[i]=l.get(i);
+        }
+        return a;
+        
+        
+        
+    }
+
+    
+}
