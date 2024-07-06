@@ -1,0 +1,28 @@
+class Solution {
+    Node prev=null;
+    public void dfs(Node root)
+    {
+        if(root==null) return;
+        dfs(root.left);
+        if(prev==null)
+        {
+            prev=root;
+            
+        }
+        else
+        {
+            if(prev!=root)
+            {
+                prev.next=root;
+                prev=root;
+            }
+            else prev.next=new Node(-1);
+        }
+        dfs(root.right);
+        
+    }
+    public void populateNext(Node root) {
+        dfs(root);
+     //   root=prev;
+    }
+}
