@@ -16,7 +16,7 @@ class Solution {
         int n=grid.length;
         int num=2;
         int ans=0;
-        Map<Integer,Integer> mp=new HashMap<>();
+        Map<Integer,Integer> map=new HashMap<>();
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<n;j++)
@@ -24,7 +24,7 @@ class Solution {
                 if(grid[i][j]==1)
                 {
                     int sz=dfs(grid,i,j,n,num);
-                    mp.put(num,sz);
+                    map.put(num,sz);
                     ans=Math.max(ans,sz);
                     num++;
                 }
