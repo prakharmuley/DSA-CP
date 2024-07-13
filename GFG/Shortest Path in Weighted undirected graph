@@ -1,0 +1,53 @@
+class Solution {
+    public List<Integer> shortestPath(int n, int m, int edges[][]) {
+       List<int[]>[] adj=new ArrayList[n+1];
+       for(int i=0;i<=n;i++) adj[i]=new ArrayList<>();
+       for(int[] e: edges)
+       {
+           adj[e[0]].add(new int[]{e[1],e[2]});
+           adj[e[1]].add(new int[]{e[0],e[2]});
+       }
+          int[] dist = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[1] = 0;
+
+        int[] par = new int[n + 1];
+        Arrays.fill(par, -1);
+       PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)->a[0]-b[0]);
+       pq.offer(new int[]{1,0});
+       List<Integer> sub=new ArrayList<>();
+       sub.add(1);
+       par[1]=-1;
+       Arrays.fill(par,-1);
+       while(!pq.isEmpty())
+       {
+           int[] p=pq.poll();
+           int node=p[0];
+           int wt=p[1];
+           if(wt>dist[node]) continue;
+           if(node==n)  break;
+           for(int[] e: adj[node])
+           {
+               if(dist[node]+e[1]<dist[e[0]])
+               {
+                   dist[e[0]]=dist[node]+e[1];
+                   pq.offer(new int[]{e[0],dist[e[0]]});
+                   par[e[0]]=node;
+                   
+               }
+           }
+       }
+       if (dist[n] == Integer.MAX_VALUE) {
+            return Collections.singletonList(-1);
+        }
+        List<Integer> path = new ArrayList<>();
+        for (int at = n; at != -1; at = par[at]) {
+            path.add(at);
+        }
+        Collections.reverse(path);
+        path.add(0, dist[n]);
+
+        return path;
+      
+    }
+}
