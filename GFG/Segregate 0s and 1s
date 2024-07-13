@@ -1,0 +1,41 @@
+class Solution {
+    void swap(int[] a, int x, int y)
+    {
+        a[x]^=a[y];
+        a[y]^=a[x];
+        a[x]^=a[y];
+    }
+    void segregate0and1(int[] arr) {
+        int l=0,r=arr.length-1;
+        while(l<r)
+        {
+            if(arr[r]==0)
+            {
+                if(arr[l]==1)
+                {
+                    swap(arr,l,r);
+                }
+                l++;
+                
+                
+            }
+            else
+            {
+                if(arr[l]==1)
+                {
+                    if(arr[r]==0)
+                    {
+                        swap(arr,l,r);
+                        
+                    }
+                    
+                }
+                r--;
+            }
+        }
+        
+        
+        
+        
+    }
+}
