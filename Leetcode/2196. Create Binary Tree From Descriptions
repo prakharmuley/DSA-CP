@@ -1,0 +1,90 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Relation{
+    int parent;
+    int child;
+    boolean isLeft;
+    public Relation(int parent, int child, boolean isLeft)
+    {
+        this.parent=parent;
+        this.child=child;
+        this.isLeft=isLeft;
+        
+    }
+}
+class Solution {
+    static TreeNode root;
+     private static void buildChildParentHashMap(List<Relation> data, Map<Integer, Integer> childToParent, Map<Integer, Boolean> isLeft) {
+
+        for (Relation r : data) {
+            childToParent.put(r.child, r.parent);
+            isLeft.put(r.child, r.isLeft);
+        }
+    }
+
+    private static TreeNode buildTree(Map<Integer, Integer> childToParent, int current, Map<Integer, Boolean> isLeft, Map<Integer, TreeNode> nodes) {
+
+        if (nodes.containsKey(current))
+            return nodes.get(current);
+
+        if (childToParent.get(current) == null) {
+            root = new TreeNode();
+            root.val = current;
+            nodes.put(current, root);
+            return root;
+        }
+
+
+        TreeNode parent = buildTree(childToParent, childToParent.get(current), isLeft, nodes);
+
+        TreeNode child = new TreeNode();
+        child.val= current;
+
+        if (isLeft.get(current))
+            parent.left = child;
+        else
+            parent.right = child;
+
+        nodes.put(current, child);
+
+        return child;
+
+    }
+    public TreeNode createBinaryTree(int[][] d) {
+        root = null;
+        Map<Integer, Integer> childToParent = new HashMap<>();
+        Map<Integer, Boolean> isLeft = new HashMap<>();
+       List<Relation> data=new ArrayList<>();
+       for(int i=0;i<d.length;i++)
+       {
+           data.add(new Relation(d[i][0],d[i][1],d[i][2]==1));
+       }
+        buildChildParentHashMap(data, childToParent, isLeft);
+
+        Map<Integer, TreeNode> nodes = new HashMap<>();
+
+        for (Relation r : data) {
+
+            if (!nodes.containsKey(r.child)) {
+                buildTree(childToParent, r.child, isLeft, nodes);
+            }
+        }
+
+
+        return root;
+        
+    }
+}
