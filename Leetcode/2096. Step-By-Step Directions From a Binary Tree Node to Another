@@ -1,0 +1,40 @@
+class Solution {
+
+
+    public TreeNode find(TreeNode root,int n1,int n2){
+        if(root == null) return root;
+        if(root.val == n1 || root.val == n2) return root;
+
+        TreeNode node1 = find(root.left,n1,n2);
+        TreeNode node2 = find(root.right,n1,n2);
+        if(node1 != null && node2 != null) return root;
+        return node1==null?node2:node1;
+    }
+    
+     public boolean generate(TreeNode root,int val, StringBuilder s){
+        if(root == null) return false;
+        if(root.val == val) return true;
+        s.append('L');
+        if(generate(root.left,val,s)) return true;
+        s.deleteCharAt(s.length()-1);
+        s.append('R');
+        if(generate(root.right,val,s)) return true;
+        s.deleteCharAt(s.length()-1);
+        return false;
+        
+    }
+
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        TreeNode r = find(root,start,dest);
+        StringBuilder s = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+        StringBuilder res = new StringBuilder();
+        generate(r,start,s);
+        generate(r,dest,temp);
+        for(int i = 0;i<s.length();i++){
+            res.append('U');
+        }
+        res.append(temp);
+        return res.toString();
+    }
+}
