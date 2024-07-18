@@ -1,0 +1,20 @@
+class Solution {
+    public int alternatingMaxLength(int[] arr) {
+        // code here
+         int n = arr.length;
+        
+        int up = 1, down = 1;
+        for(int i=1; i<n; i++){
+            if(arr[i] > arr[i-1]){
+                up = down+1;
+            }
+            else if(arr[i] < arr[i-1]){
+                down = up+1;
+            }
+            
+      //      System.out.println(arr[i]+" "+ up+ " "+ " " +down);
+        }
+        
+        return Math.max(up, down);
+    }
+}
