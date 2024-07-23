@@ -1,0 +1,41 @@
+class Solution {
+     public void Inorder(Node root, ArrayList<Integer>al){
+        if(root == null)return;
+        Inorder(root.left,al);
+        al.add(root.data);
+        Inorder(root.right,al);
+    }
+    //Function to return a list of integers denoting the node 
+    //values of both the BST in a sorted order.
+    public List<Integer> merge(Node root1,Node root2)
+    {
+        // Write your code here
+        ArrayList<Integer>first = new ArrayList<>();
+        ArrayList<Integer>second = new ArrayList<>();
+        Inorder(root1,first);
+        Inorder(root2,second);
+        int n = first.size();
+        int m = second.size();
+        ArrayList<Integer>res = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        while(i<n && j<m){
+            if(first.get(i)<second.get(j)){
+                res.add(first.get(i++));
+            }else{
+                res.add(second.get(j++));
+            }
+        }
+        if(i>=n-1){
+            while(j<m){
+                res.add(second.get(j++));
+            }
+        }
+        if(j>=m-1){
+            while(i<n){
+                res.add(first.get(i++));
+            }
+        }
+        return res;
+    }
+}
