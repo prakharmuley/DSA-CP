@@ -1,0 +1,22 @@
+class Solution {
+    // Function to check whether a Binary Tree is BST or not.
+    boolean solve(Node root,int min,int max){
+        if(root==null)return true;
+        //every node's value should be in the range of (min,max) for the bst
+        //if any node's value is greater than and equal to  max value or less than and equal to min value,then it is not bst
+        if(root.data>=max || root.data<=min)return false;
+        //Both the left and right subtrees must also be binary search trees
+        //the left subtree of node's value is less than root's values
+        boolean left = solve(root.left,min,root.data);
+        //the right subtree of node's value is greater than root's value
+        boolean right = solve(root.right,root.data,max);
+        return (left && right);
+    }
+    
+    boolean isBST(Node root) {
+        // code here.
+         int max = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
+        return solve(root,min,max);
+    }
+}
