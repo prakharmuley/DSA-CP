@@ -1,0 +1,41 @@
+class Solution {
+    public long findMaxProduct(List<Integer> arr) {
+        
+       int p=0,ne=0;
+       if(arr.size()==1) return arr.get(0);
+       long ans=1L;
+       int mnneg=11;
+       int mod=(int)1e9+7;
+       for(int x: arr)
+       {
+           if(x<0) ne++;
+           else if(x>0) p++;
+       }
+       if(ne==1&&p==0&&arr.size()>p+ne) return 0L;
+       if(ne+p==0) return 0L;
+       
+           for(int x: arr)
+           {
+               if(x<0)
+               {
+                  
+                   mnneg=Math.min(-1*x,mnneg);
+               }
+           }
+           
+           
+       
+       
+           for(int x: arr)
+           {
+               if(x!=0)
+               {
+                   ans=(((ans%mod)*(x%mod))%mod);
+                  
+               }
+           }
+           if(ne%2==1) {ans/=(long)mnneg; ans*=-1L; }
+       
+       return ans;
+    }
+}
