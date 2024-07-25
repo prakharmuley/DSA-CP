@@ -1,0 +1,38 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        int[] l=new int[nums.length];
+        int i=0;
+        tod_do(nums,0,nums.length-1);
+        for(int x: nums) l[i++]=x;
+        return l;
+    }
+    public void tod_do(int[] a, int l, int r)
+    {
+        if(r-l<=0) return;
+        int mid=l+((r-l)/2);
+        tod_do(a,l,mid);
+        tod_do(a,mid+1,r);
+        jodo(a,l,mid,r);
+    }
+    public void jodo(int[] a, int l,int mid, int r)
+     {
+      
+        int t[]=new int[r-l+1];
+         int idx=0;
+        int i=l,j=mid+1;
+         while(i<=mid&&j<=r)
+         {
+             if(a[i]<a[j])
+             {
+                 t[idx++]=a[i++];
+             }
+             else t[idx++]=a[j++];
+         }
+        while(i<=mid) t[idx++]=a[i++];
+          while(j<=r) t[idx++]=a[j++];
+         for(int k=l;k<=r;k++)
+         {
+             a[k]=t[k-l];
+         }
+     }                  
+}
