@@ -1,0 +1,18 @@
+class Solution {
+    boolean kPangram(String str, int k) {
+        // code here
+        HashSet<Character>hs= new HashSet<>();
+       int ans=0;
+       for(int i=0;i<str.length();i++){
+           if(str.charAt(i)!=' '){
+               hs.add(str.charAt(i));
+               ans+=1;
+               
+           }
+       }
+           if(ans<26)return false;
+           if(hs.size()==26 || k+hs.size()>=26)return true;
+           
+          return false;
+    }
+}
