@@ -59,3 +59,56 @@ TLE Approach Djistras
 
 //     }
 // }
+
+
+Floyd Wardshal
+class Solution {
+  
+    public long minimumCost(String src, String tar, char[] o, char[] c, int[] cst) {
+        if(src.equals(tar)) return 0L;
+        Map<Character,Map<Character,Long>> mp=new HashMap<>();
+        for(int i=0;i<cst.length;i++)
+        {
+            if(!mp.containsKey(o[i]))
+            {
+                Map<Character,Long> mpp=new HashMap<>();
+                mpp.put(c[i],(long)cst[i]);
+                mp.put(o[i],mpp);
+            }
+            else
+            {
+                 Map<Character,Long> mpp =mp.get(o[i]);
+                 mpp.put(c[i],(long)cst[i]);
+                 mp.put(o[i],mpp);   
+            }
+        }
+        long[][] dis=new long[26][26];
+        for(long[] d: dis) Arrays.fill(d,(long)1e12);
+        for(int i=0;i<26;i++) dis[i][i]=0L;
+        for(int i=0;i<o.length;i++)
+        {
+            dis[o[i]-'a'][c[i]-'a']=Math.min((long)cst[i],dis[o[i]-'a'][c[i]-'a']);
+        }
+       
+       
+        for(int k=0;k<26;k++)
+        {
+          for(int i=0;i<26;i++)
+          {
+            for(int j=0;j<26;j++)
+            {
+                if(i==j) continue;
+                 dis[i][j]=Math.min(dis[i][j],dis[i][k]+dis[k][j]);    
+            
+            }
+          }
+        }
+         long ans=0L;
+        for(int i=0;i<src.length();i++)
+        {
+            if(dis[src.charAt(i)-'a'][tar.charAt(i)-'a']==(long)(1e12)) return -1L;
+            ans+=(long)dis[src.charAt(i)-'a'][tar.charAt(i)-'a'];
+        }
+       return ans;
+    }
+}
