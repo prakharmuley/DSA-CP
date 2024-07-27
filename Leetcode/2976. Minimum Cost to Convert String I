@@ -1,0 +1,61 @@
+TLE Approach Djistras
+
+// class Solution {
+//     class Pair{
+//         char x;
+//         long y;
+//         public Pair(char x, long y)
+//         {
+//             this.x=x;
+//             this.y=y;
+//         }
+//     }
+//     public long minimumCost(String src, String tar, char[] o, char[] c, int[] cst) {
+//         if(src.equals(tar)) return 0L;
+//         Map<Character,Map<Character,Long>> mp=new HashMap<>();
+//         for(int i=0;i<cst.length;i++)
+//         {
+//             if(!mp.containsKey(o[i]))
+//             {
+//                 Map<Character,Long> mpp=new HashMap<>();
+//                 mpp.put(c[i],(long)cst[i]);
+//                 mp.put(o[i],mpp);
+//             }
+//             else
+//             {
+//                  Map<Character,Long> mpp =mp.get(o[i]);
+//                  mpp.put(c[i],(long)cst[i]);
+//                  mp.put(o[i],mpp);   
+//             }
+//         }
+        
+//         long ans=0L;
+//         for(int i=0;i<src.length();i++)
+//         {
+//             if(src.charAt(i)==tar.charAt(i)) continue;
+//             PriorityQueue<Pair> pq=new PriorityQueue<>((a,b)->Long.compare(a.y,b.y));
+//             pq.offer(new Pair(src.charAt(i),0L));
+//             boolean f=false;
+//             while(!pq.isEmpty())
+//             {
+//                 Pair p=pq.poll();
+//                 char ch=p.x;
+//                 long dis=p.y;
+//                 if(ch==tar.charAt(i))
+//                 {
+//                     f=true;
+//                     ans+=(long)dis;
+//                     break;
+//                 }
+//                 if(!mp.containsKey(ch)) continue;
+//                 for(Map.Entry<Character,Long> e: mp.get(ch).entrySet())
+//                 {
+//                    pq.offer(new Pair(e.getKey(),dis+e.getValue()));
+//                 }
+//             }
+//             if(!f) return -1L;
+//         }
+//         return ans==0L?-1L:ans;
+
+//     }
+// }
