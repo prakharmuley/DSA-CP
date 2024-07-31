@@ -1,0 +1,49 @@
+//{ Driver Code Starts
+// Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while (t-- > 0) {
+            String arr[] = read.readLine().trim().split(" ");
+
+            Solution ob = new Solution();
+            System.out.println(ob.longestCommonPrefix(arr));
+        }
+    }
+}
+// } Driver Code Ends
+
+
+
+
+// User function Template for Java
+
+class Solution {
+    public String longestCommonPrefix(String s[]) {
+        // code here
+       Arrays.sort(s);
+        
+        String st=new String();
+        if(s!=null&&s.length>0)
+        {
+            char a[]=s[0].toCharArray();
+            char b[]=s[s.length-1].toCharArray();
+            for(int i=0;i<a.length;i++)
+            {
+                if(i<b.length&&a[i]==b[i])
+                    st+=a[i];
+                else
+                {
+                    return st.length()==0||st.equals(" ")?"-1":st;
+                }
+            }
+        }
+       
+        return st.length()==0||st.equals(" ")?"-1":st;
+    }
+}
