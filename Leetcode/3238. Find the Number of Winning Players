@@ -1,0 +1,36 @@
+class Solution {
+    public int winningPlayerCount(int n, int[][] pick) {
+        int ans=0;
+        Map<Integer,Map<Integer,Integer>> mp=new HashMap<>();
+        for(int[] p: pick)
+        {
+            if(!mp.containsKey(p[0]))
+            {
+                Map<Integer,Integer> mpp=new HashMap<>();
+                mpp.put(p[1],mpp.getOrDefault(p[1],0)+1);
+                mp.put(p[0],mpp);
+            }
+            else
+            {
+                Map<Integer,Integer> mpp=mp.get(p[0]);
+                mpp.put(p[1],mpp.getOrDefault(p[1],0)+1);
+                mp.put(p[0],mpp);
+            }
+        }
+        for(int i=0;i<=n;i++)
+        {
+             if(mp.containsKey(i))
+             {
+                Map<Integer,Integer> mpp=mp.get(i);
+                for(int j=0;j<=10;j++)
+                {
+                    if(mpp.containsKey(j))
+                    {
+                        if(i<mpp.get(j)) {ans++; break;}
+                    }
+                }
+             }
+        }
+        return ans;
+    }
+}
