@@ -1,0 +1,32 @@
+class Solution {
+    
+    public int rangeSum(int[] nums, int n, int left, int right) {
+        PriorityQueue<Pair> pq=new PriorityQueue<>((p1,p2)->Long.compare(p1.s,p2.s));
+        for(int i=1;i<=n;i++) pq.offer(new Pair((long)nums[i-1],i));
+        int ans=0,m=(int)1e9+7;
+        for(int i=1;i<=right;i++)
+        {
+            Pair p=pq.poll();
+            if(i>=left)
+            {
+               ans=(int)(ans+p.s)%m;
+            }
+            if(p.idx<n)
+            {
+                p.s=((p.s%m)+(nums[p.idx++]%m))%m;
+                pq.offer(p);
+            }
+        }
+        return ans;
+    }
+}
+class Pair {
+        long s;
+        int idx;
+        
+        Pair(long s, int idx) {
+            this.s = s;
+            this.idx = idx;
+        }
+    }
+
