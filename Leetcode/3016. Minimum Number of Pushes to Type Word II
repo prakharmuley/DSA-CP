@@ -1,0 +1,56 @@
+class Solution {
+    public int minimumPushes(String word) {
+        Map<Character,Integer> mp=new HashMap<>();
+        
+        int h[]=new int[26];
+        for(char c: word.toCharArray()) h[c-'a']++;
+        int ans=0;
+        PriorityQueue<Pair> pq=new PriorityQueue<>((a,b)->b.freq-a.freq);
+        for(char c='a';c<='z';c++)
+        {
+            if(h[c-'a']==0) continue;
+            pq.offer(new Pair(c,h[c-'a']));
+        }
+        int c=1;
+        while(!pq.isEmpty())
+        {      
+            if(c<=8)
+            {                
+                 mp.put(pq.peek().c,1);  
+            }
+            else if(c>8&&c<=16)
+            {              
+                mp.put(pq.peek().c,2); 
+            }
+            else if(c>16&&c<=24)
+            {             
+                mp.put(pq.peek().c,3); 
+            }
+            else if(c>24)
+            {       
+                mp.put(pq.peek().c,4);           
+            }    
+            c++;     
+          pq.poll();
+        }
+        for(char ch='a';ch<='z';ch++)
+        {
+          if(mp.containsKey(ch))
+          {
+            ans+=mp.get(ch)*h[ch-'a'];
+          }
+        }
+        return ans;
+        
+        
+    }
+}
+class Pair{
+    char c;
+    int freq;
+    public Pair(char c, int freq)
+    {
+        this.c=c;
+        this.freq=freq;
+    }
+}
