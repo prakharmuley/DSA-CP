@@ -1,0 +1,34 @@
+class Solution {
+      String[] ones = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven","Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+      String[] tens={"","Ten","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
+    public String numberToWords(int num) {
+        if(num==0) return "Zero";
+        
+        return fun(num).trim();
+    }
+    public String fun(int num)
+    {
+        if(num>=1000000000)
+        {
+            return fun(num/1000000000)+" Billion "+(fun(num%1000000000)).trim();
+        }
+        if(num>=1000000)
+        {
+            return (fun(num/1000000)+" Million "+(fun(num%1000000))).trim();
+        }
+        if(num>=1000)
+        {
+            return (fun(num/1000)+" Thousand "+(fun(num%1000))).trim();
+        }
+        if(num>=100)
+        {
+            return (fun(num/100)+" Hundred "+fun((num%100))).trim();
+        }
+         if(num>=20)
+        {
+            return (tens[num/10]+" "+(fun(num%10))).trim();
+        }
+        return ones[num];
+        
+    }
+}
