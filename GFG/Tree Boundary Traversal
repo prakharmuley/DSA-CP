@@ -1,0 +1,67 @@
+ArrayList<Integer> result = new ArrayList<>();
+    ArrayList<Integer>rightNodes = new ArrayList<>();
+    Map<Node, Boolean> visitedNode = new HashMap<>();
+    
+ArrayList <Integer> boundary(Node node)
+{
+    if(node == null) return new ArrayList<>();
+    if(node.left == null && node.right == null){
+        result.add(node.data);
+        return result;
+    }
+   
+    result.add(node.data); //Add root Node
+    getListOfLeftNode(node.left); // get left boundary nodes
+    getListOfLeafNode(node); // get leaf boundary
+    getListOfRightNode(node.right); // get right boundary 
+    
+    // Reverse right boundary nodes
+    for(int i = rightNodes.size() - 1; i >= 0; i--){
+        result.add(rightNodes.get(i));
+    }
+    return result;
+}
+ 
+public void getListOfLeftNode(Node temp) {
+    if(temp == null) 
+        return;
+    visitedNode.put(temp, true);
+    result.add(temp.data);
+    if(temp.left == null && temp.right != null)
+        getListOfLeftNode(temp.right);
+    else
+        getListOfLeftNode(temp.left);
+}
+ 
+public void getListOfLeafNode(Node temp) {
+    if(temp == null) 
+        return;
+    else {   
+        boolean isVisited = false;
+        if(visitedNode.containsKey(temp))
+            isVisited = true;
+        if(temp.left == null && temp.right == null && !isVisited) {
+            result.add(temp.data);
+            visitedNode.put(temp, true);
+        }
+        getListOfLeafNode(temp.left);
+        getListOfLeafNode(temp.right);
+    }
+} 
+ 
+ 
+public void getListOfRightNode(Node temp) {
+    if(temp == null) 
+        return;
+    
+        boolean isVisited = false;
+        if(!visitedNode.containsKey(temp)){
+            rightNodes.add(temp.data);
+            visitedNode.put(temp, true);
+        }
+    
+    if(temp.right == null && temp.left != null)
+        getListOfRightNode(temp.left);
+    else
+        getListOfRightNode(temp.right);
+}
