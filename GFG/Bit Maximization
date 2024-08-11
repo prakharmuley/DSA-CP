@@ -1,0 +1,70 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t;
+        t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+
+            int x;
+            x = Integer.parseInt(br.readLine());
+
+            Solution obj = new Solution();
+            int res = obj.getMax(x);
+
+            System.out.println(res);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+class Solution {
+    public static int getMax(int x) {
+        int[] bit = new int[1000];
+         
+        // counter for binary array
+        int i = 0;
+        int n=x;
+        while (n > 0) 
+        {
+            // storing remainder in binary array
+            bit[i] = n % 2;
+            n = n / 2;
+            i++;
+        }
+ 
+        // printing binary array in reverse order
+        int ans=0;
+        int c=0;
+        int cidx=-1;
+        for (int j = i - 1; j >= 0; j--)
+        {
+            if(bit[j]==0&&cidx==-1&&c<2)
+            {
+                bit[j]=1;
+                cidx=j;
+                c++;
+            }
+            else if(bit[j]==0&&cidx!=-1&&c<2)
+            {
+                if(j==cidx+1||j==cidx-1) continue;
+                bit[j]=1;
+                c++;
+            }
+        }
+        for(int j=0;j<i;j++)
+        {
+            if(bit[j]==1)
+            {
+                ans+=(1<<j);
+            }
+        }
+            return ans;
+    }
+}
