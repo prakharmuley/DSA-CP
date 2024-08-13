@@ -1,0 +1,27 @@
+class Solution {
+    public void fun(int st, int n,int []a, List<List<Integer>> res, int t, List<Integer> cur )
+    {
+        if(t==0)
+        {
+            res.add(new ArrayList<>(cur));
+            return;
+        }
+        for(int i=st;i!=a.length&&t>=a[i];i++)
+        {
+            if(i>st&&a[i]==a[i-1]) continue;
+            cur.add(a[i]);
+             fun(i+1,n,a,res,t-a[i],cur);
+            cur.remove(cur.size()-1);
+        }
+    }
+    public List<List<Integer>> combinationSum2(int[] a, int t) {
+        Set<List<Integer>> hs=new HashSet<>();
+        List<List<Integer>> res=new ArrayList<>();
+        List<Integer> cur=new ArrayList<>();
+        Arrays.sort(a);
+        int n=a.length;
+        fun(0,n,a,res,t,cur);
+        
+        return res;
+    }
+}
