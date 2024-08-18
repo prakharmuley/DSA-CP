@@ -1,0 +1,19 @@
+class Solution {
+    
+    public int nthUglyNumber(int n) {
+        PriorityQueue<Long> pq=new PriorityQueue<>();
+        pq.offer(1L);
+        long ans=1L;
+        for(int i=1;i<n;i++)
+        {
+            ans=pq.poll();
+            while(!pq.isEmpty()&&pq.peek()==ans) pq.poll();
+             pq.offer((long)(ans*2));
+             pq.offer((long)(3*ans));
+             pq.offer((long)(5*ans));
+            
+        }
+       return (int)pq.peek().intValue();
+        
+    }
+}
