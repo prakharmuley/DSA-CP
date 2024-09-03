@@ -1,0 +1,24 @@
+class Solution {
+    public int getLucky(String s, int k) {
+        String sb=new String();
+        for(char c: s.toCharArray())
+        {
+            sb+=(String.valueOf(c-'a'+1));
+        }
+        char sum[]=new char[sb.length()];
+        int su=0,ans=0;
+        for(int i=0;i<k;i++){
+        for(int j=0;j<sb.length();j++)
+        {
+            su=su+(sb.charAt(j)-'0');
+            ans=su;
+        }
+           sb="";
+           sb+=String.valueOf(su);
+            su=0;
+        }
+        return ans;
+        
+        
+    }
+}
