@@ -1,0 +1,33 @@
+class Solution
+{
+    //Function to return the minimum cost to react at bottom
+	//right cell from top left cell.
+    public int minimumCostPath(int[][] grid)
+    {
+        // Code here
+        int[] dir=new int[]{-1,0,1,0,-1};
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[2]-b[2]);
+        pq.offer(new int[]{0,0,grid[0][0]});
+        grid[0][0]=-1;
+        while(!pq.isEmpty())
+        {
+            int[] p=pq.poll();
+            int r=p[0];
+            int c=p[1];
+            int amt=p[2];
+            if(r==grid.length-1&&c==grid[0].length-1) return amt;
+            for(int j=0;j+1<=4;j++)
+            {
+                int nr=r+dir[j];
+                int nc=c+dir[j+1];
+                if(nr<0||nc<0||nr>=grid.length||nc>=grid[0].length||grid[nr][nc]==-1) continue;
+                int namt=amt+grid[nr][nc];
+                grid[nr][nc]=-1;
+                pq.offer(new int[]{nr,nc,namt});
+                
+            }
+            
+        }
+        return -1;
+    }
+}
