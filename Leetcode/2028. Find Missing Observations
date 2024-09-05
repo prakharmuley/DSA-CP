@@ -1,0 +1,29 @@
+class Solution {
+    public int[] missingRolls(int[] a, int avg, int n) {
+    //    List<Integer> l=new ArrayList<>();
+        long sum=0;
+        int m=a.length;
+        for(int x: a) {sum+=(long)x;}
+        
+     int sum2=0;
+         
+        sum2=(int)(((long)avg*(long)(m+n))-(long)sum);
+        if(sum2>6*n||sum2<n) return new int[0];
+        System.out.print(sum2+"\n");
+        int x=sum2/n;
+        int rem=sum2%n;
+        int ans[]=new int[n];
+        Arrays.fill(ans,x);
+        for(int i=0;i<rem;i++)
+        {
+            ans[i]++;
+        }
+        
+      
+    
+        
+        
+        
+        return ans;
+    }
+}
