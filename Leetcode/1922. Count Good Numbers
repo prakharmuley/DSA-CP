@@ -1,0 +1,29 @@
+class Solution {
+    public long pow(long a, long b, int m) {
+        long res = 1L;
+        a%=m;
+        while (b > 0) {
+            if ((b & 1) == 1) {
+                res = (res*a)%m;
+            }
+            a = (a*a) % m;
+            b>>=1;
+          
+        }
+        return  res;
+    }
+
+    public int countGoodNumbers(long n) {
+        int m = (int) 1e9 + 7;
+
+        // Handle p1 and p2 calculations carefully
+        long p1 = (n + 1) / 2;
+        long p2 = n / 2;
+
+        // Ensure the pow function doesn't overflow
+        long a = pow(5, p1, m);
+        long b = pow(4, p2, m);
+
+        return (int)((a * b) % m);
+    }
+}
