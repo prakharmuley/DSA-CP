@@ -1,0 +1,71 @@
+//{ Driver Code Starts
+//Initial Template for Java
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            int N = Integer.parseInt(read.readLine());
+            Solution ob = new Solution();
+            System.out.println(ob.find(N));
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+    static int find(int N){
+        // code here 
+
+        for(int i = N ;i>=1;i--){
+            if(isIncreasing(N))
+                return N;
+            N--;
+        }
+        
+        return 1;
+        
+    }
+    
+    static boolean isIncreasing(int n){
+        int curr;
+        int pre = n%10;
+        n = n/10;
+        while(n!=0){
+            curr = n%10;
+            if(pre >= curr){
+                pre = curr;
+            }
+            else{
+                return false;
+            }
+            n = n/10;
+        }
+        return true;
+    }
+}
+
+/*
+
+19623
+
+
+
+189
+
+
+1003
+
+89
+
+
+*/
