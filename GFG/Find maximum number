@@ -1,0 +1,37 @@
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) throws IOException {
+        BufferedReader read =
+            new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while (t-- > 0) {
+            String N = read.readLine();
+
+            Solution ob = new Solution();
+            System.out.println(ob.findMax(N));
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution {
+    static String findMax(String N) {
+        // code here
+        char[] c1 = N.toCharArray();
+       Arrays.sort(c1);
+       String s = new String();
+       for(int i = c1.length-1 ; i >= 0 ; i--)
+       {
+           s += c1[i];
+       }
+       return s;
+    }
+};
