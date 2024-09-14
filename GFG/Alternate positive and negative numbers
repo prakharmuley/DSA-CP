@@ -1,0 +1,75 @@
+//{ Driver Code Starts
+// Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
+        while (tc-- > 0) {
+            String input = br.readLine();
+            String[] inputArray = input.split("\\s+");
+            ArrayList<Integer> arr = new ArrayList<>();
+
+            for (String s : inputArray) {
+                arr.add(Integer.parseInt(s));
+            }
+
+            new Solution().rearrange(arr);
+            for (int num : arr) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+// User function Template for Java
+
+class Solution {
+    void rearrange(ArrayList<Integer> arr) {
+          int n = arr.size();
+        ArrayList<Integer> positiveVec = new ArrayList<>();
+        ArrayList<Integer> negativeVec = new ArrayList<>();
+
+        // Separate positive and negative numbers
+        for (int i = 0; i < n; ++i) {
+            if (arr.get(i) >= 0) {
+                positiveVec.add(arr.get(i));
+            } else {
+                negativeVec.add(arr.get(i));
+            }
+        }
+
+        int posIndex = 0;
+        int negIndex = 0;
+        int arrIndex = 0;
+        boolean positiveTurn = true;
+
+        // Merge positive and negative numbers alternatively
+        while (posIndex < positiveVec.size() && negIndex < negativeVec.size()) {
+            if (positiveTurn) {
+                arr.set(arrIndex++, positiveVec.get(posIndex++));
+            } else {
+                arr.set(arrIndex++, negativeVec.get(negIndex++));
+            }
+            positiveTurn = !positiveTurn;
+        }
+
+        // Fill the remaining positive numbers, if any
+        while (posIndex < positiveVec.size()) {
+            arr.set(arrIndex++, positiveVec.get(posIndex++));
+        }
+
+        // Fill the remaining negative numbers, if any
+        while (negIndex < negativeVec.size()) {
+            arr.set(arrIndex++, negativeVec.get(negIndex++));
+        }
+    }
+}
