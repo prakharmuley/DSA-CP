@@ -1,0 +1,14 @@
+class Solution {
+    public List<Integer> stableMountains(int[] h, int t) {
+        int p=h[0];
+        int m=h.length;
+        List<Integer>  l=new ArrayList<>();
+        for(int i=1;i<m;i++)
+        {
+            if(p>t) l.add(i);
+            
+            p=h[i];
+        }
+        return l;
+    }
+}
