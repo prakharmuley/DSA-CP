@@ -1,0 +1,13 @@
+class Solution {
+    public int chalkReplacer(int[] chalk, int k) {
+        long s=0L;
+        for(int x: chalk) s+=(long)x;
+        int rem=(int)((long)k%(long)s);
+        for(int i=0;i<chalk.length;i++)
+        {
+           if(rem<chalk[i]) return i;
+            rem-=chalk[i];  
+        }
+        return -1;
+    }
+}
