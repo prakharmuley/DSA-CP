@@ -1,0 +1,33 @@
+class Solution {
+    public int findKthNumber(int n, int k) {
+        int cur=1;
+        --k;
+        while(k>0)
+        {
+            int cnt=getC(n,cur,cur+1);
+            if(cnt<=k)
+            {
+                cur+=1;
+                k-=cnt;
+            }
+            else
+            {
+                cur*=10;
+                --k;
+            }
+        }
+        return cur;
+    }
+    public int getC(int n, long n1, long n2)
+    {
+        int c=0;
+        while(n1<=n)
+        {
+
+            c+=Math.min(n+1,n2)-n1;
+            n1*=10;
+            n2*=10;
+        }
+        return c;
+    }
+}
