@@ -1,0 +1,29 @@
+class Solution {
+    int[] dp;
+    public int fun(String str, Set<String> hs, int n, int i)
+    {
+        if(i>=n) return 0;
+       
+        if(dp[i]!=-1) return dp[i];
+         int ans=Integer.MAX_VALUE;
+        for(int j=i;j<n;j++)
+        {
+         
+            String s=(str.substring(i,j+1));
+            if(hs.contains(s)) ans=Math.min(ans,fun(str,hs,n,j+1));
+            else ans=Math.min(ans,(j-i+1)+fun(str,hs,n,j+1));
+        }
+        return dp[i]=ans;
+    }
+    public int minExtraChar(String s, String[] dictionary) {
+        Set<String> hs=new HashSet<>();
+        for(String ss: dictionary) hs.add(ss);
+        dp=new int[108];
+        Arrays.fill(dp,-1);
+        int n = s.length();
+        return fun(s,hs,n,0);
+
+       
+    }
+    
+}
