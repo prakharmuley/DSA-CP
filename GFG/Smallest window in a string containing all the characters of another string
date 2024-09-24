@@ -1,0 +1,71 @@
+//{ Driver Code Starts
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int test = scan.nextInt();
+		
+		while(test > 0){
+		    String s = scan.next();
+		    String t = scan.next();
+		    
+		    System.out.println(new Solution().smallestWindow(s, t));
+		    test--;
+		}
+	}
+}
+// } Driver Code Ends
+
+
+class Solution
+{
+    //Function to find the smallest window in the string s consisting
+    //of all the characters of string p.
+    public static boolean isP(int[] a)
+    {
+        int s=0;
+        for(int x: a) s+=x;
+        
+        return s==0;
+    }
+    public static String smallestWindow(String s, String p)
+    {
+        // Your code here
+        int[] h=new int[26];
+        int[] hh=new int[26];
+        for(char c: p.toCharArray()){ h[c-'a']++; hh[c-'a']++;}
+        
+        int l=0,r=0;
+        int len=s.length(),mnLen=len+1,c=p.length(),st=0;
+        while(r<s.length())
+        {
+            if(h[s.charAt(r)-'a']>0) 
+            {
+               c--;
+            }
+            h[s.charAt(r)-'a']--;
+            
+            
+            while(c==0)
+            {
+                if(r-l+1<mnLen)
+                {
+                 st=l;
+                 mnLen=r-l+1;
+                }
+                h[s.charAt(l)-'a']++;
+                if(h[s.charAt(l)-'a']>0)
+                {
+                    c++;
+                }
+                l++;
+            }
+            r++;
+            
+        }
+        return mnLen==s.length()+1?"-1":s.substring(st,st+mnLen);
+    }
+}
