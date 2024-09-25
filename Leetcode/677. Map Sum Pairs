@@ -1,0 +1,49 @@
+class MapSum {
+
+    Map<String,Integer> mp;
+    Node root;
+    public MapSum() {
+        root=new Node();
+        mp=new HashMap<>();
+    }
+    
+    public void insert(String key, int val) {
+        Node ptr=root;
+        int diff=val-mp.getOrDefault(key,0);
+        mp.put(key,val);
+        for(char c: key.toCharArray())
+        {
+            if(ptr.child[c-'a']==null)
+            {
+                ptr.child[c-'a']=new Node();
+            }
+            ptr=ptr.child[c-'a'];
+            ptr.sm+=diff;
+           
+        }
+    }
+    
+    public int sum(String prefix) {
+        Node tmp=root;
+
+        for(char c: prefix.toCharArray())
+        {
+            if(tmp.child[c-'a']==null) return 0;
+            tmp=tmp.child[c-'a'];
+           
+        }
+        return tmp.sm;
+    }
+
+}
+class Node{
+    Node child[]=new Node[26];
+    int sm;
+}
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */
