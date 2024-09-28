@@ -1,0 +1,38 @@
+class Solution {
+    public long maximumTotalSum(int[] arr) {
+        int len = arr.length;
+        long totalSum = 0;
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        Set<Integer> usedValues = new HashSet<>();
+
+        for (int num : arr) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+            if (freqMap.get(num) > num) {
+                return -1;
+            }
+        }
+
+       
+
+        ArrayList<Integer> keys = new ArrayList<>(freqMap.keySet());
+        Collections.sort(keys, Collections.reverseOrder());
+
+        for (int value : keys) {
+            int f = freqMap.get(value);
+
+            while (f > 0) {
+                while (usedValues.contains(value)) {
+                    value--;
+                }
+                if (value <= 0) {
+                    return -1;
+                }
+                usedValues.add(value);
+                totalSum += value;
+                f--;
+            }
+        }
+
+        return totalSum;
+    }
+}
