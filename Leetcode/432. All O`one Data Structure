@@ -1,0 +1,86 @@
+class AllOne {
+    Map<String,Pair> mp;
+    PriorityQueue<Pair> pq;
+     PriorityQueue<Pair> pqq;
+   
+    public AllOne() {
+        mp=new HashMap<>(); 
+        pq=new PriorityQueue<>((p1,p2)->p1.val-p2.val);
+        pqq=new PriorityQueue<>((pp2,pp1)->pp1.val-pp2.val);
+ 
+    }
+    
+    public void inc(String key) {
+       
+      if(!mp.containsKey(key))
+      {
+      
+          mp.put(key,new Pair(key,1)); 
+          Pair pair=mp.get(key);
+          pq.add(pair);
+          pqq.add(pair);
+      }
+       else{
+        Pair pair=mp.get(key);
+           pq.remove(pair);
+           pqq.remove(pair);
+           pair.val++;
+           mp.put(key,pair);
+           pq.add(pair);
+           pqq.add(pair);  
+       }
+         
+    }
+    
+    public void dec(String key) {
+     if(mp.get(key).val==1)
+     { 
+         Pair pair=mp.get(key);
+         mp.remove(key);
+         pq.remove(pair);
+         pqq.remove(pair);
+     }
+        else
+        {
+            Pair pair=mp.get(key);
+            pq.remove(pair);
+            pqq.remove(pair);
+            pair.val--;
+            mp.put(key,pair);
+            pq.add(pair);
+            pqq.add(pair);
+        }
+    }
+    
+    public String getMaxKey() {
+          return pqq.isEmpty() ? "" : pqq.peek().key;
+      
+
+    
+        
+       
+    }
+    
+    public String getMinKey() {
+         return pq.isEmpty() ? "" : pq.peek().key;
+       
+    }
+}
+
+class Pair{
+        String key;
+        int val;
+        public Pair(String key, int val) {
+            this.key = key;
+            this.val = val;
+        }
+    }
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne obj = new AllOne();
+ * obj.inc(key);
+ * obj.dec(key);
+ * String param_3 = obj.getMaxKey();
+ * String param_4 = obj.getMinKey();
+ */
