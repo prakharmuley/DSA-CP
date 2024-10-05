@@ -1,0 +1,44 @@
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int n=s.length();
+        int ans=0;
+        int[] pre=new int[s.length()];
+        pre[0]=s.charAt(0)-'0'==1?1:0;
+        for (int i = 1; i < n; i++) {
+            pre[i] = pre[i - 1] + (((int)(s.charAt(i) - '0')) == 1 ? 1 : 0);
+        }
+        for(int i=0;i<n;i++)
+        {
+            
+            for(int j=i;j<n;j++)
+            {
+                int o=pre[j]-(i==0?0:pre[i-1]);
+                int z=(j-i+1)-o;
+
+                if(z*z<o)
+                {
+                    ans++;
+                  int  diff=(int)Math.sqrt(o)-z;
+                    int nxt=j+diff;
+                    if(nxt<n)
+                    {
+                        ans+=diff;
+                    }
+                    else
+                    {
+                        ans+=(n-j-1);
+                    }
+                    j=nxt;
+
+                }
+                else if(z*z==o) ans++;
+                else
+                {
+                    j+=((z*z)-o);
+                    j-=1;
+                }
+            }
+        } 
+        return ans;
+    }
+}
