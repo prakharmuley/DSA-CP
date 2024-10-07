@@ -1,0 +1,33 @@
+class Solution {
+    public int fun(int idx, int n, int[] dp, String s)
+    {
+        if(idx>=n) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int ans=10000;
+        
+         int[] f=new int[26];
+            
+        for(int j=idx;j<n;j++)
+        {
+            f[s.charAt(j)-'a']++;
+             int mn=10000;
+             int mx=0;
+            for(int k=0;k<26;k++)
+            {
+                if(f[k]==0) continue;
+                mx=Math.max(mx,f[k]);
+                mn=Math.min(mn,f[k]);
+            }
+            if(mx-mn==0)
+            {
+                  ans=Math.min(ans,1+fun(j+1,n,dp,s));
+            }
+        }
+        return dp[idx]=ans;
+    }
+    public int minimumSubstringsInPartition(String s) {
+        int[] dp=new int[s.length()];
+        Arrays.fill(dp,-1);
+        return fun(0,s.length(),dp,s);
+    }
+}
