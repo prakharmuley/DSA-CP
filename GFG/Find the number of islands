@@ -1,0 +1,59 @@
+//{ Driver Code Starts
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int tc = scanner.nextInt(); // Number of test cases
+        while (tc-- > 0) {
+            int n = scanner.nextInt(); // Number of rows
+            int m = scanner.nextInt(); // Number of columns
+            char[][] grid = new char[n][m];
+
+            // Read the grid input
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    grid[i][j] = scanner.next().charAt(0);
+                }
+            }
+            Solution obj = new Solution();
+            int ans = obj.numIslands(grid);
+            System.out.println(ans);
+        }
+        scanner.close();
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    void dfs(int i,int j, char arr[][], int dir[][]){
+        if(i<0 || j<0 || i>=arr.length || j>=arr[0].length || arr[i][j]-'0'==0)return ;
+ 
+        arr[i][j]='0';
+        for(int k=0;k<dir.length;k++){
+            int x=i+dir[k][0];
+            int y=j+dir[k][1];
+            dfs(x,y,arr,dir);
+        }
+    }
+    
+  
+    public int numIslands(char[][] arr) {
+        int cnt=0;
+        int n=arr.length;
+        int m=arr[0].length;
+        int dir[][]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(arr[i][j]-'0'==1){
+                    dfs(i,j,arr, dir);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+}
