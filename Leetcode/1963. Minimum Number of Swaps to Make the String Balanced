@@ -1,0 +1,24 @@
+class Solution {
+    public int minSwaps(String s) {
+        int neg=0;
+        int cur=0;
+        for(int i=0;i<s.length();i++)
+        {
+             if(cur<0) {neg++; cur=0;}
+           
+            if(s.charAt(i)==']')
+            {
+                cur--;
+            }
+            else 
+            {
+                cur++;
+            }
+            
+        }
+        int n=(neg+1)/2;
+        return n;
+    }
+}
+
+// "[[[]]] ] [ ] [] ] [[]]] [[["
