@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> relocateMarbles(vector<int>& nums, vector<int>& from, vector<int>& to) {
+        set<int> s;
+        vector<int> ans;
+        multiset<int> st;
+        for(int i=0;i<nums.size();i++){
+            st.insert(nums[i]);
+        }
+        for(int i=0;i<from.size();i++){
+            int count=st.count(from[i]);
+            
+                st.erase(from[i]);
+                st.insert(to[i]);
+                
+            
+        }for(auto it:st){
+            s.insert(it);
+        }
+            for(auto it:s){
+            ans.push_back(it);
+        }
+        return ans;
+        
+    }
+};
