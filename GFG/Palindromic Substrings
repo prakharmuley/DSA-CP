@@ -1,0 +1,59 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t;
+        t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+
+            String s;
+            s = br.readLine();
+
+            int k;
+            k = Integer.parseInt(br.readLine());
+
+            Solution obj = new Solution();
+            int res = obj.countPalindromicSubstrings(s, k);
+
+            System.out.println(res);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+class Solution {
+    public static int countPalindromicSubstrings(String s, int k) {
+        // code here
+        int count = 0, oddCount = 0;
+        int[] freq = new int[26];
+
+        for (int i = 0; i < k; i++) {
+            int charIndex = s.charAt(i) - 'a';
+            freq[charIndex]++;
+            oddCount += (freq[charIndex] % 2 == 0) ? -1 : 1;
+        }
+
+        if (oddCount <= 1) count++;
+
+        for (int i = k; i < s.length(); i++) {
+            int outCharIndex = s.charAt(i - k) - 'a';
+            freq[outCharIndex]--;
+            oddCount += (freq[outCharIndex] % 2 == 0) ? -1 : 1;
+
+            int inCharIndex = s.charAt(i) - 'a';
+            freq[inCharIndex]++;
+            oddCount += (freq[inCharIndex] % 2 == 0) ? -1 : 1;
+
+            if (oddCount <= 1) count++;
+        }
+
+        return count;
+
+    }
+}
