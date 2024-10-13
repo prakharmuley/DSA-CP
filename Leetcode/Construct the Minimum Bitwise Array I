@@ -1,0 +1,46 @@
+class Solution {
+     boolean is(int n)
+    {
+        // Corner case
+        if (n <= 1)
+            return false;
+
+        // Check from 2 to n-1
+        for (int i = 2; i < n; i++)
+            if (n % i == 0)
+                return false;
+
+        return true;
+    }
+    
+    public int[] minBitwiseArray(List<Integer> nums) {
+        int n=nums.size();
+        int[] ans=new int[n];
+        
+      
+        int j=0;
+        while(j<n){
+                        
+            
+        boolean f=true;
+        for(int i=1;i<=1000;i++)
+        {
+           
+             
+                 if(((i|(i+1)))==nums.get(j))
+                 {
+                     f=false;
+                     ans[j++]=i;
+                     break;
+                 }
+            
+             
+        }
+            if(f)
+            {
+                ans[j++]=-1;
+            }
+        }
+        return ans;
+    }
+}
