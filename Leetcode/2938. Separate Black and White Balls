@@ -1,0 +1,18 @@
+class Solution {
+    public long minimumSteps(String s) {
+        int l=s.length()-1,r=s.length()-1;
+        long ans=0L;
+        int z=0;
+        while(r>=0)
+        {
+            if(s.charAt(r)=='0')
+            {
+                z++;
+            }
+            else ans+=(z);
+            --r;
+            
+        }
+        return ans;
+    }
+}
