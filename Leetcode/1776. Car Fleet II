@@ -1,0 +1,23 @@
+class Solution {
+    public double[] getCollisionTimes(int[][] cars) {
+        int n=cars.length;
+        Stack<Integer> st=new Stack<>();
+        double[] res=new double[n];
+        Arrays.fill(res,-1);
+        for(int i=n-1;i>=0;i--)
+        {
+           while(!st.isEmpty()&&cars[st.peek()][1]>=cars[i][1]) st.pop();
+           double t=-1;
+           while(!st.isEmpty())
+           {
+            t=((double)(cars[st.peek()][0]-cars[i][0])/(cars[i][1]-cars[st.peek()][1]));
+            if(res[st.peek()]==-1||t<=res[st.peek()])  break;
+             st.pop();
+           }
+           res[i]=t;
+           st.push(i);
+
+        }
+        return res;
+    }
+}
