@@ -1,0 +1,31 @@
+class Solution {
+    int cnt;
+    int res;
+    int[] nums;
+    public void dfs(int xor, int idx)
+    {
+        if(xor==res) {
+            cnt+=(1<<(idx+1));
+            return;
+        }
+        else
+        {
+            for(int i=idx;i>=0;i--)
+            {
+                dfs(xor|nums[i],i-1);
+            }
+        }
+        
+    }
+    public int countMaxOrSubsets(int[] nums) {
+        res=0;
+        cnt=0;
+        Arrays.sort(nums);
+        this.nums=nums;
+        for(int x: nums) res|=x; 
+        for(int i=nums.length-1;i>=0;i--)
+          dfs(nums[i],i-1);
+       
+        return cnt;
+    }
+}
