@@ -1,0 +1,44 @@
+class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        double[] time=new double[position.length];
+        for(int i=0;i<position.length;i++)
+        {
+            time[i]=(double)(target-position[i])/(double)speed[i];
+        }
+        Pair pair[]=new Pair[position.length];
+        for(int i=0;i<position.length;i++)
+        {
+            pair[i]=new Pair((double)position[i],time[i]);
+        }
+        Arrays.sort(pair, (a, b) -> Double.compare(a.pos, b.pos));
+        double cur=0.0;
+        int ans=0;
+        for(int i=position.length-1;i>=0;i--)
+        {
+            if(pair[i].tim>cur)
+            {
+                cur=pair[i].tim;
+                ans++;
+            }
+        }
+        return ans;
+
+
+    }
+}
+class Pair{
+    double pos;
+    double tim;
+    public Pair(double pos, double tim)
+    {
+        this.pos=pos;
+        this.tim=tim;
+    }
+}
+
+// 3 7 12 1 1
+
+//10 8 0 5 3
+// 2 4 1 1 3
+
+// 1 1 12 7 3
