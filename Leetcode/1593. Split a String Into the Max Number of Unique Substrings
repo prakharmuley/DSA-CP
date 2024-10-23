@@ -1,0 +1,29 @@
+class Solution {
+    Set<String> hs=new HashSet<>();
+    int mx=0;
+    public void fun(int i, int n, String s)
+    {
+          if(i==n) 
+          {
+            mx=Math.max(mx,hs.size());
+            return;
+          }
+          for(int j=i+1;j<=n;j++)
+          {
+            String str=s.substring(i,j);
+             if(!hs.contains(str))
+             {
+                hs.add(str);
+                fun(j,n,s);
+             }
+             else continue;
+
+             hs.remove(str);
+            
+          }
+    }
+    public int maxUniqueSplit(String s) {
+        fun(0,s.length(),s);
+        return mx;
+    }
+}
