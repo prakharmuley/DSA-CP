@@ -1,0 +1,56 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+   private boolean isEqual(TreeNode node1, TreeNode node2) {
+        // check if both are null or either of them is null
+        if (node1 == null && node2 == null) { return true; }
+        else if (node1 == null ^ node2 == null) { return false; }
+        // then verify if equals
+        else if (node1.val == node2.val) { return true; }
+        else { return false; }
+    }
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        Queue<TreeNode> que = new LinkedList<>();
+        que.offer(root1);
+        que.offer(root2);
+        
+        while (!que.isEmpty()) {
+            // pop up the paired guys
+            TreeNode node1 = que.poll(), node2 = que.poll();
+           
+            // check current pair
+            if (node1 == null && node2 == null) { continue; }
+            if (!isEqual(node1, node2)) { return false; }
+            
+            // check 2 cases for "children" nodes
+            if (isEqual(node1.left, node2.left) && isEqual(node1.right, node2.right)) {
+                que.offer(node1.left);
+                que.offer(node2.left);
+                que.offer(node1.right);
+                que.offer(node2.right);
+            } else if (isEqual(node1.left, node2.right) && isEqual(node1.right, node2.left)) {
+                que.offer(node1.left);
+                que.offer(node2.right);
+                que.offer(node1.right);
+                que.offer(node2.left);
+            } else {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
