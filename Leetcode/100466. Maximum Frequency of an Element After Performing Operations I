@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public int maxFrequency(int[] arr, int maxDiff, int maxOps) {
+        int length = arr.length;
+        Map<Integer, Integer> countMap = new HashMap<>();
+        List<int[]> actions = new ArrayList<>();
+        
+        for (int num : arr) {
+            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+            actions.add(new int[]{num - maxDiff, 1});
+            actions.add(new int[]{num + maxDiff + 1, -1});
+        }
+        
+        Set<Integer> uniquePoints = new TreeSet<>();
+        for (int[] action : actions) {
+            uniquePoints.add(action[0]);
+        }
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            uniquePoints.add(entry.getKey());
+        }
+        
+        Collections.sort(actions, (a, b) -> Integer.compare(a[0], b[0]));
+        
+        int pointer = 0;
+        int overlapCount = 0;
+        int result = 0;
+        int currentCount = 0;
+        
+        for (int point : uniquePoints) {
+            while (pointer < actions.size() && actions.get(pointer)[0] <= point) {
+                overlapCount += actions.get(pointer)[1];
+                pointer++;
+            }
+            
+            currentCount = countMap.getOrDefault(point, 0);
+            
+            int possibleFrequency = currentCount + Math.min(maxOps, overlapCount - currentCount);
+            
+            result = Math.max(result, possibleFrequency);
+        }
+        
+        return result;
+    }
+}  
