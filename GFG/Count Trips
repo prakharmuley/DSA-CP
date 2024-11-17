@@ -1,0 +1,96 @@
+//{ Driver Code Starts
+import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Matrix {
+    public static void input(int[][] A, int n, int m, Scanner sc) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                A[i][j] = sc.nextInt();
+            }
+        }
+    }
+
+    public static void print(int[][] A) {
+        for (int[] row : A) {
+            for (int element : row) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+
+            int locations[][] = new int[n][2];
+            Matrix.input(locations, n, 2, sc);
+
+            Solution obj = new Solution();
+            int res = obj.countTrips(locations);
+
+            System.out.println(res);
+            System.out.println("~");
+        }
+        sc.close();
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    public int countTrips(int locations[][]) {
+        // Your code here
+        Set<Double> q1 = new HashSet<>(), q2 = new HashSet<>(), q3 = new HashSet<>(),
+                    q4 = new HashSet<>();
+
+        int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0;
+
+        for (int[] loc : locations) {
+            double x = loc[0], y = loc[1];
+
+            // Positive X-axis
+            if (x > 0 && y == 0) cnt1 = 1;
+
+            // Negative X-axis
+            else if (x < 0 && y == 0)
+                cnt2 = 1;
+
+            // Positive Y-axis
+            else if (x == 0 && y > 0)
+                cnt3 = 1;
+
+            // Negative Y-axis
+            else if (x == 0 && y < 0)
+                cnt4 = 1;
+
+            // First Quadrant
+            else if (x > 0 && y > 0)
+                q1.add(y / x);
+
+            // Second Quadrant
+            else if (x < 0 && y > 0)
+                q2.add(y / x);
+
+            // Third Quadrant
+            else if (x < 0 && y < 0)
+                q3.add(y / x);
+
+            // Fourth Quadrant
+            else if (x > 0 && y < 0)
+                q4.add(y / x);
+        }
+
+        int ans =
+            cnt1 + cnt2 + cnt3 + cnt4 + q1.size() + q2.size() + q3.size() + q4.size();
+        return ans;
+    }
+}
