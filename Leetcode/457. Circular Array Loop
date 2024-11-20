@@ -1,0 +1,63 @@
+class Solution {
+    enum Color{
+        WHITE,GREY,BLACK
+    }Color[] color;
+    List<List<Integer>> graph;
+
+    public boolean dfs(int node)
+    {
+        color[node]=Color.GREY;
+        
+        for(Integer x: graph.get(node))
+        {
+           if(color[x]==Color.WHITE)
+           {
+            if(dfs(x))
+            {
+                return true;
+            }
+           }
+           else if(node!=x)
+           {
+              if(color[x]==Color.GREY) return true;
+           }
+            
+        }
+        color[node]=Color.BLACK;
+        return false;
+    }
+    public boolean circularArrayLoop(int[] nums) {
+       int n = nums.length;
+        graph = new ArrayList<>();
+        color = new Color[n];
+  
+        // Initialize graph and colors
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+            color[i] = Color.WHITE;
+        }
+
+        // Build the graph
+        for (int i = 0; i < n; i++) {
+            int jump = Math.abs(nums[i]) % n;
+            int nextIndex = nums[i] > 0 ? (i + jump) % n : (i - jump + n) % n;
+
+            // Skip invalid edges
+            if (i == nextIndex || nums[i] * nums[nextIndex] < 0) {
+                continue;
+            }
+            graph.get(i).add(nextIndex);
+        }
+
+        // Perform DFS for cycle detection
+        for (int i = 0; i < n; i++) {
+            if (color[i] == Color.WHITE && dfs(i)) {
+                return true;
+            }
+        }
+        return false;
+       
+    }
+}
+
+
