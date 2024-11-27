@@ -1,0 +1,55 @@
+class Solution {
+    public int bfs(int node, int next, List<Integer>[] adj, Queue<Integer> q, int[] dis)
+    {
+        q.offer(0);
+        boolean[] vis=new boolean[next+1];
+        vis[0]=true;
+        int c=0;
+        while(!q.isEmpty())
+        {
+           int l=q.size();
+           for(int i=0;i<l;i++)
+           {
+            int nd=q.poll();
+            for(int x: adj[nd])
+            {
+              if(!vis[x])
+              {
+                q.add(x);
+                vis[x]=true;
+               }
+            } 
+           }
+           c++;
+            if(q.contains(next)){
+                return c;
+            }
+               
+           }
+            
+           
+            
+        return -1;
+    }
+    public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+        List<Integer>[] adj=new ArrayList[n];
+        for(int i=0;i<n;i++)
+        {
+            adj[i]=new ArrayList<>();
+        }
+         for(int i=0;i<n-1;i++)
+        {
+            adj[i].add(i+1);
+        }
+        int[] dis=new int[queries.length];
+        int[] ans=new int[queries.length];
+         for(int i=0;i<queries.length;i++)
+        {
+            adj[queries[i][0]].add(queries[i][1]);
+            Queue<Integer> q=new LinkedList<>();
+            ans[i]=bfs(0,n-1,adj,q,dis);
+        }
+        
+        return ans;
+    }
+}
