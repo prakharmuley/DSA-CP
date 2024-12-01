@@ -1,0 +1,45 @@
+class Solution {
+    public int maximumScore(int[] scores, int[][] edges) {
+        Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+        for(int i =0; i< scores.length;i++)
+        {
+           map.put(i,new ArrayList<Integer>()); 
+        }
+        for(int i =0; i< edges.length;i++)
+        {
+           map.get(edges[i][0]).add(edges[i][1]);
+           map.get(edges[i][1]).add(edges[i][0]);
+        }
+        for(int i =0; i< scores.length;i++)
+        {
+           Collections.sort(map.get(i), new Comparator<Integer>(){
+               public int compare(Integer a, Integer b)
+               {
+                   return(scores[b] - scores[a]);
+               }
+           });
+        }
+        int ans=-1;
+          for (int[] edge : edges) {
+    int u = edge[0];
+    int v = edge[1];
+    int baseScore = scores[u] + scores[v];
+
+    // Iterate through top 3 neighbors of u
+    for (int x : map.get(u).subList(0, Math.min(3, map.get(u).size()))) {
+        if (x == v) continue;
+
+        // Iterate through top 3 neighbors of v
+        for (int y : map.get(v).subList(0, Math.min(3, map.get(v).size()))) {
+            if (y == u || y == x) continue;
+
+            // Update maximum score
+            ans = Math.max(ans, baseScore + scores[x] + scores[y]);
+        }
+    }
+}
+
+return ans;
+        
+    }
+}
