@@ -1,0 +1,25 @@
+class Solution {
+    public boolean isP(int key, int n, int[] a)
+    {
+        int s=0;
+        for(int x: a)
+        {
+            s+=((x+key-1)/key);
+        }
+        return s <= n;
+    }
+    public int minimizedMaximum(int n, int[] quantities) {
+        int l=1,h=1000000;
+        while(l<h)
+        {
+            int m=(l+h)/2;
+            if(isP(m,n,quantities))
+            {
+                h=m;
+            }
+            else l=m+1;
+        }
+        return l;
+
+    }
+}
