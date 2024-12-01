@@ -1,0 +1,41 @@
+class Solution {
+    int[] dir=new int[]{-1,0,1,0,-1};
+    public int minimumObstacles(int[][] a) {
+        Deque<int[]> q=new ArrayDeque<>();
+        int n = a.length, m = a[0].length;
+        q.offer(new int[]{0,0}); 
+        int[][] dis=new int[a.length][a[0].length];
+    
+         for (int[] row : dis) Arrays.fill(row, Integer.MAX_VALUE);
+        dis[0][0]=0;
+        int count=0;
+        while(!q.isEmpty())
+        {
+           
+                int[] p=q.pollFirst();
+                int x=p[0];
+                int y=p[1];
+                for(int j=0;j<4;j++)
+                {
+                  int nx=x+dir[j];
+                  int ny=y+dir[j+1];
+                   if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                    int newDist = dis[x][y] + a[nx][ny];
+                    if (newDist < dis[nx][ny]) {
+                        dis[nx][ny] = newDist;
+                        if (a[nx][ny] == 0) {
+                            q.offerFirst(new int[] {nx, ny});
+                        } else {
+                            q.offerLast(new int[] {nx, ny});
+                        }
+                    }
+                }
+                  
+                }
+            
+
+        }
+        return dis[a.length-1][a[0].length-1];
+
+    }
+}
