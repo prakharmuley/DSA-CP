@@ -1,0 +1,50 @@
+import java.util.*;
+
+class Solution {
+    public void dfs(int node, Map<Integer, List<Integer>> adj, List<Integer> path) {
+        // Traverse edges using DFS
+        List<Integer> edges = adj.getOrDefault(node, new ArrayList<>());
+        while (!edges.isEmpty()) {
+            int next = edges.remove(edges.size() - 1);
+            dfs(next, adj, path);
+        }
+        path.add(node);
+    }
+
+    public int[][] validArrangement(int[][] pairs) {
+        // Initialize adjacency list, in-degree, and out-degree maps
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        Map<Integer, Integer> in = new HashMap<>();
+        Map<Integer, Integer> out = new HashMap<>();
+
+        // Populate adjacency list and degree counts
+        for (int[] pair : pairs) {
+            adj.computeIfAbsent(pair[0], k -> new ArrayList<>()).add(pair[1]);
+            out.put(pair[0], out.getOrDefault(pair[0], 0) + 1);
+            in.put(pair[1], in.getOrDefault(pair[1], 0) + 1);
+        }
+
+        // Find starting node
+        int start = pairs[0][0];
+        for (int node : out.keySet()) {
+            if (out.get(node) > in.getOrDefault(node, 0)) {
+                start = node;
+                break;
+            }
+        }
+
+        // Perform DFS to construct the Eulerian path
+        List<Integer> path = new ArrayList<>();
+        dfs(start, adj, path);
+
+        // Build the result array
+        int[][] ans = new int[pairs.length][2];
+        int idx = 0;
+        for (int i = path.size() - 1; i > 0; i--) {
+            ans[idx][0] = path.get(i);
+            ans[idx][1] = path.get(i - 1);
+            idx++;
+        }
+        return ans;
+    }
+}
