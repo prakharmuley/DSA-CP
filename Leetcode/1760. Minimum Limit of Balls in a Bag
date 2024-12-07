@@ -1,0 +1,30 @@
+class Solution {
+    public boolean isP(int key, int[] a, int k )
+    {
+        int cnt=0;
+        for(int x: a)
+        {
+          cnt += (x - 1) / key;
+          if(cnt>k) return false;
+        }
+        return cnt<=k;
+    }
+    public int minimumSize(int[] nums, int o) {
+        int n=nums.length;
+        int l=1,r=0;
+        int cnt=0;
+        for(int x: nums) r=Math.max(x,r);
+
+        while(l<r)
+        {
+            int m=(l+((r-l)/2));
+            if(isP(m,nums,o))
+            {
+                r=m;
+            }
+            else l=m+1;
+         //   System.out.print("m"+"->"+m);
+        }
+return r;
+    }
+}
