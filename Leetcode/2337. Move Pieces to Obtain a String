@@ -1,0 +1,33 @@
+class Solution {
+    public boolean canChange(String start, String target) {
+        int l1=0,l2=0;
+        int r1=0,r2=0;
+        char[] s1=start.toCharArray();
+        char[] s2=target.toCharArray();
+        while(l1<start.length()||l2<target.length())
+        {
+           
+            while(l1<s1.length&&s1[l1]=='_') l1++;
+            while(l2<s2.length&&s2[l2]=='_') l2++;
+            if(l1==start.length()||l2==target.length()) break;
+           
+            if(l1<s1.length&&l2<s2.length&&s1[l1]!=s2[l2])
+            {
+               return false; 
+            }
+            if(l1<s1.length&&s1[l1]=='L')
+            {
+                if(l1<l2) return false;
+            }
+            if(l1<s1.length&&s1[l1]=='R')
+            {
+                if(l1>l2) return false;
+            }
+            l1++;
+            l2++;
+        }
+
+        
+        return l1==s1.length&&l2==s2.length;
+    }
+}
