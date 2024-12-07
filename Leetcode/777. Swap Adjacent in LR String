@@ -1,0 +1,38 @@
+class Solution {
+    public boolean canTransform(String start, String end) {
+        if (!start.replace("X", "").equals(end.replace("X", ""))) {
+            return false;
+        }
+
+        List<Integer> l_start = new ArrayList<Integer>();
+        List<Integer> l_end = new ArrayList<Integer>();
+        List<Integer> r_start = new ArrayList<Integer>();
+        List<Integer> r_end = new ArrayList<Integer>();
+
+        for (int i = 0; i < start.length(); i++) {
+            if (start.charAt(i) == 'L') {
+                l_start.add(i);
+            } else if (start.charAt(i) == 'R') {
+                r_start.add(i);
+            }
+            if (end.charAt(i) == 'L') {
+                l_end.add(i);
+            } else if (end.charAt(i) == 'R') {
+                r_end.add(i);
+            }
+        }
+
+        for (int i = 0; i < l_start.size(); i++) {
+            if (l_start.get(i) < l_end.get(i)) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < r_start.size(); i++) {
+            if (r_start.get(i) > r_end.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
