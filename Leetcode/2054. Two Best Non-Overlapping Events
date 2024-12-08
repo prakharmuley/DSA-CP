@@ -1,0 +1,34 @@
+class Solution {
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events,(a,b)->a[0]-b[0]);
+        int n=events.length;
+        int[] s=new int[n];
+        s[n-1]=events[n-1][2];
+        for(int i=n-2;i>=0;i--) s[i]=Math.max(s[i+1],events[i][2]);
+        int idx=-1;
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            boolean f=false;
+            int l=i+1,r=n-1;
+            idx=-1;
+            while(l<=r)
+            {
+                int m=l+((r-l)/2);
+                if(events[m][0]>events[i][1])
+                {
+                    idx=m;
+                    r=m-1;   
+                }
+                else l=m+1;
+            }
+            if(idx!=-1)
+            {
+                ans=Math.max(ans,events[i][2]+s[idx]);
+            }
+           ans=Math.max(events[i][2],ans);
+
+        }
+        return ans;
+    }
+}
