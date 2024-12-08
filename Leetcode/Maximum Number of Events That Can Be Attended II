@@ -1,0 +1,27 @@
+class Solution {
+    public int dfs(int[][] e, int k, int i, int c, int[][] dp) {
+        if (i >= e.length || c >= k) return 0;
+        if (dp[i][c] != -1) return dp[i][c];
+        int mx = Integer.MIN_VALUE;
+        int l = i + 1, h = e.length, idx = e.length;
+        while (l < h) {
+            int m = (l + h) / 2;
+            if (e[m][0] > e[i][1]) {
+                idx = m;
+                h = m;
+            } else {
+                l = m + 1;
+            }
+        }
+        mx = Math.max(mx, e[i][2] + dfs(e, k, idx, c + 1, dp));
+        mx = Math.max(mx, dfs(e, k, i + 1, c, dp));
+        return dp[i][c] = mx;
+    }
+
+    public int maxValue(int[][] events, int k) {
+        Arrays.sort(events, (a, b) -> a[0] - b[0] == 0 ? a[1] - b[1] : a[0] - b[0]);
+        int[][] dp = new int[events.length][k + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
+        return dfs(events, k, 0, 0, dp);
+    }
+}
