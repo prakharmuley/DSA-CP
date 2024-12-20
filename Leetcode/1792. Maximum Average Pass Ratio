@@ -1,0 +1,49 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        double truncated = 0.0;
+
+        // PriorityQueue with custom comparator
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            double gainA = calculateGain(a[0], a[1]);
+            double gainB = calculateGain(b[0], b[1]);
+            return Double.compare(gainB, gainA); // Max-heap based on gain
+        });
+
+        // Add all classes to the PriorityQueue
+        for (int[] x : classes) {
+            pq.offer(new int[]{x[0], x[1]});
+        }
+
+        // Distribute extra students
+        while (extraStudents-- > 0) {
+            int[] currentClass = pq.poll();
+            currentClass[0] += 1; // Add one student to pass
+            currentClass[1] += 1; // Add one student to total
+            pq.offer(currentClass);
+        }
+
+        // Calculate the final average
+        while (!pq.isEmpty()) {
+            int[] currentClass = pq.poll();
+            truncated += calculateRatio(currentClass[0], currentClass[1]);
+        }
+
+        // Return truncated result
+        int n = classes.length;
+        return truncated / n;
+    }
+
+    // Calculate the ratio with 10^-5 precision
+    private double calculateRatio(int pass, int total) {
+        return Math.floor((pass * 1.0 / total) * 1e5) / 1e5;
+    }
+
+    // Calculate the gain of adding one student
+    private double calculateGain(int pass, int total) {
+        double currentRatio = pass * 1.0 / total;
+        double newRatio = (pass + 1) * 1.0 / (total + 1);
+        return newRatio - currentRatio;
+    }
+}
