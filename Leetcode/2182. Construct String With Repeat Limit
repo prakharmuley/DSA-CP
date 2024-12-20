@@ -1,0 +1,36 @@
+class Solution {
+    int h[]=new int[26];
+    public char fun( int i)
+    {
+        if(i<0) return '#';
+        if(h[i]==0) return fun(i-1);
+        else
+            h[i]-=1;
+        
+        return (char)(i+'a');
+    }
+    public String repeatLimitedString(String s, int repeatLimit) {
+      
+        for(char c: s.toCharArray()) h[c-'a']++;
+        StringBuilder sb=new StringBuilder();
+       
+        
+         for(int i=25;i>=0;i--)
+        {
+            while(h[i]>0)
+            {
+                int k=Math.min(h[i],repeatLimit);
+                 h[i]-=k;
+                while(k--!=0) sb.append((char)(i+'a'));
+               
+                if(h[i]>0){
+                char prev=fun(i-1);
+                if(prev=='#') break;
+                sb.append(prev); 
+                }
+            }
+        }
+        
+        return sb.toString();
+    }
+}
