@@ -1,0 +1,32 @@
+class Solution {
+    public int[] getStrongest(int[] arr, int k) {
+        int[] ans=new int[k];
+        Arrays.sort(arr);
+        int n=arr.length;
+        int med=(n-1)/2;
+        int l=0,r=n-1;
+        int idx=0;
+        if(n==1) {
+            return arr;
+        }
+        while(l<=r&&idx<k)
+        {
+            if(Math.abs(arr[r]-arr[med])>Math.abs(arr[med]-arr[l]))
+            {
+               ans[idx++]=arr[r--];
+            }
+            else if(Math.abs(arr[r]-arr[med])==Math.abs(arr[med]-arr[l]))
+            {
+              if(arr[r]>arr[l]) ans[idx++]=arr[r--];
+              else ans[idx++]=arr[l++];      
+            }
+            else
+            {
+                ans[idx++]=arr[l++];
+            }
+
+
+        }
+        return ans;
+    }
+}
