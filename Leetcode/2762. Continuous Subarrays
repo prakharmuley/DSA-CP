@@ -1,0 +1,24 @@
+class Solution {
+    public long continuousSubarrays(int[] nums) {
+        PriorityQueue<int[]> minq=new PriorityQueue<>((a,b)->a[0]-b[0]);
+        PriorityQueue<int[]> maxq=new PriorityQueue<>((a,b)->b[0]-a[0]);
+        int l=0,r=0;
+        long ans=0L;
+        while(r<nums.length)
+        {
+           maxq.offer(new int[]{nums[r],r});
+           minq.offer(new int[]{nums[r],r});
+           while(!maxq.isEmpty()&&!minq.isEmpty()&&maxq.peek()[0]-minq.peek()[0]>2)
+           {
+            l++;
+            while(!minq.isEmpty()&&minq.peek()[1]<l) minq.poll();
+            while(!maxq.isEmpty()&&maxq.peek()[1]<l) maxq.poll();
+           }
+           ans+=(long)(r-l+1);
+           r++;
+        }
+        return ans;
+        
+
+    }
+}
