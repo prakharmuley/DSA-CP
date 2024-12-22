@@ -25,3 +25,62 @@ class Solution {
         return ans;  
     }
 }
+
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+         int m = matrix.length, n = matrix[0].length;
+        long total = 0;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                minHeap.add(matrix[i][j]);
+                total += matrix[i][j];
+            }
+        }
+
+        while (!minHeap.isEmpty()) {
+            int min1 = minHeap.poll();
+            int min2 = minHeap.poll();
+
+            if (-min1 + -min2 <= 0) {
+                return total;
+            }
+
+            total += -2L * min1 + -2L * min2;
+            minHeap.add(-min1);
+            minHeap.add(-min2);
+        }
+
+        return 0;
+    }
+}
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+         int m = matrix.length, n = matrix[0].length;
+        long total = 0;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                minHeap.add(matrix[i][j]);
+                total += matrix[i][j];
+            }
+        }
+
+        while (!minHeap.isEmpty()) {
+            int min1 = minHeap.poll();
+            int min2 = minHeap.poll();
+
+            if (-min1 + -min2 <= 0) {
+                return total;
+            }
+
+            total += -2L * min1 + -2L * min2;
+            minHeap.add(-min1);
+            minHeap.add(-min2);
+        }
+
+        return 0;
+    }
+}
