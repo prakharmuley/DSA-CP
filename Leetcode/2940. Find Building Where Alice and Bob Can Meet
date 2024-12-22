@@ -1,0 +1,53 @@
+import java.util.*;
+
+class Solution {
+    public int binarySearch(int h, List<int[]> stack) {
+        int l = 0, r = stack.size() - 1, ans = -1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (stack.get(mid)[0] <= h) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+                ans = stack.get(mid)[1];
+            }
+        }
+        return ans;
+    }
+
+    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
+        List<int[]> q = new ArrayList<>();
+        for (int i = 0; i < queries.length; i++) {
+            q.add(new int[] { Math.max(queries[i][0], queries[i][1]), Math.min(queries[i][0], queries[i][1]), i });
+        }
+        q.sort((a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> stack = new ArrayList<>();
+        int n = heights.length, i = n - 1;
+        int[] ans = new int[queries.length];
+        Arrays.fill(ans, -1);
+
+        while (!q.isEmpty()) {
+            int[] query = q.remove(q.size() - 1);
+            int left = query[1];
+            int right = query[0];
+            int qnum = query[2];
+
+            while (i > right) {
+                int val = heights[i];
+                while (!stack.isEmpty() && stack.get(stack.size() - 1)[0] <= val) {
+                    stack.remove(stack.size() - 1);
+                }
+                stack.add(new int[] { val, i });
+                i--;
+            }
+
+            if (left == right || heights[right] > heights[left]) {
+                ans[qnum] = right;
+            } else {
+                ans[qnum] = binarySearch(Math.max(heights[left], heights[right]), stack);
+            }
+        }
+
+        return ans;
+    }
+}
