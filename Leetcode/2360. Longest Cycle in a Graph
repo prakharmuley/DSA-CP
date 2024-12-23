@@ -1,0 +1,39 @@
+class Solution {
+    int ans = -1; // Initialize answer as -1 (no cycle found)
+    
+    public void dfs(int node, int depth, int[] edges, int[] visited, int[] depthMap) {
+        if (node == -1) return; // No outgoing edge from this node
+
+        if (visited[node] == 2) return; // Already fully processed
+
+        if (visited[node] == 1) {
+            // Cycle detected, calculate cycle length
+            ans = Math.max(ans, depth - depthMap[node]);
+            return;
+        }
+
+        // Mark the node as visited in the current DFS path
+        visited[node] = 1;
+        depthMap[node] = depth;
+
+        // Recurse to the next node
+        dfs(edges[node], depth + 1, edges, visited, depthMap);
+
+        // Mark the node as fully processed
+        visited[node] = 2;
+    }
+
+    public int longestCycle(int[] edges) {
+        int n = edges.length;
+        int[] visited = new int[n]; // 0 = not visited, 1 = visiting, 2 = fully processed
+        int[] depthMap = new int[n]; // Track depth of each node in the current DFS path
+
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == 0) {
+                dfs(i, 0, edges, visited, depthMap);
+            }
+        }
+
+        return ans; // Return the length of the longest cycle, or -1 if no cycle exists
+    }
+}
