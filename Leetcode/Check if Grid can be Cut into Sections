@@ -1,0 +1,40 @@
+class Solution {
+    public boolean isP(int x, int y, TreeMap<Integer,Integer> mp)
+    {
+        int s=0;
+        int p=0;
+        for(int key: mp.keySet())
+        {
+            s+=mp.get(key);
+            if(key>x&&key<y&&s==0) 
+            {
+                p++;
+                if(p>=2) return true;
+                    
+            }
+        }
+        return false;
+    }
+    public boolean checkValidCuts(int n, int[][] rectangles) {
+        TreeMap<Integer,Integer> x=new TreeMap<>();
+        TreeMap<Integer,Integer> y=new TreeMap<>();
+        int xmin=n+1,ymin=n+1,xmax=-1,ymax=-1;
+        for(int[] r: rectangles)
+        {
+            int stx=r[0],lstx=r[2],sty=r[1],lsty=r[3];
+            x.put(stx+1,x.getOrDefault(stx+1,0)+1);
+            y.put(sty+1,y.getOrDefault(sty+1,0)+1);
+            x.put(lstx,x.getOrDefault(lstx,0)-1);
+            y.put(lsty,y.getOrDefault(lsty,0)-1);
+            xmin=Math.min(xmin,stx);
+            ymin=Math.min(sty,ymin);
+            xmax=Math.max(lstx,xmax);
+            ymax=Math.max(lsty,ymax);
+        
+            
+        }
+            if(isP(xmin,xmax,x)||(isP(ymin,ymax,y))) return true;
+        return false;
+        
+    }
+}
