@@ -1,0 +1,17 @@
+class Solution {
+    public int countSubarrays(int[] nums) {
+     int l=0,m=1,r=2,c=0;
+        int n=nums.length;
+      while(m+1<n)
+      {
+          int sum=nums[m-1]+nums[m+1];
+          if(nums[m]%2==0)
+          {
+              if(nums[m]/2==sum) c++;
+          }
+          m++;
+          
+      }
+        return c;
+    }
+}
