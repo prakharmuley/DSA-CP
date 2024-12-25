@@ -1,0 +1,82 @@
+class Solution {
+    public int findMax(int x, int y, int z)
+    {
+        return Math.max(Math.max(x,y),z);
+    }
+    public int findD(List<Integer>[] adj)
+    {
+        Queue<Integer> q=new LinkedList<>();
+        Set<Integer> hs=new HashSet<>();
+        q.offer(0);
+        hs.add(0);
+        int last=-1;
+        while(!q.isEmpty())
+        {
+            int l=q.size();
+            for(int i=0;i<l;i++)
+            {
+               int p=q.poll();
+               last=p;
+               for(int x: adj[p])
+               {
+                  if(!hs.contains(x))
+                  {
+                    hs.add(x);
+                    q.offer(x);
+                  }
+               }
+
+            }
+        }
+        int lvl=-1;
+        q=new LinkedList<>();
+        hs=new HashSet<>();
+        q.offer(last);
+        hs.add(last);
+        while(!q.isEmpty())
+        {
+            int l=q.size();
+            for(int i=0;i<l;i++)
+            {
+               int p=q.poll();
+               for(int x: adj[p])
+               {
+                  if(!hs.contains(x))
+                  {
+                    hs.add(x);
+                    q.offer(x);
+                  }
+               }
+
+            }
+           lvl++;
+        }
+        return lvl;
+
+
+    }
+    public int minimumDiameterAfterMerge(int[][] edges1, int[][] edges2) {
+        int n=edges1.length;
+        int m=edges2.length;
+        List<Integer> adjA[]=new ArrayList[n+1];
+        List<Integer> adjB[]=new ArrayList[m+1];
+        for(int i=0;i<=n;i++)
+        {
+            adjA[i]=new ArrayList<>();
+        }
+        for(int i=0;i<=m;i++)
+        {
+            adjB[i]=new ArrayList<>();
+        }
+        for(int[] e: edges1) {adjA[e[0]].add(e[1]); adjA[e[1]].add(e[0]);}
+        for(int[] e: edges2) {adjB[e[0]].add(e[1]); adjB[e[1]].add(e[0]);}
+        int d1=findD(adjA);
+        int d2=findD(adjB);
+        int r1=(d1+1)/2;
+        int r2=(d2+1)/2;
+
+        int ans=findMax(d1,d2,(r1+r2+1));
+        return ans;
+
+    }
+}
