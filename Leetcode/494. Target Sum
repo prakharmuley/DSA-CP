@@ -1,0 +1,22 @@
+class Solution {
+    public int fun(int i, int t, int[] a, int[][] dp)
+    {
+       
+        if(i<0&&t==0) 
+        {
+          return 1;
+        }
+        else if()
+        int tk=Integer.MIN_VALUE,tk2=tk;
+        tk=fun(i-1,t+a[i],a,dp);
+        tk2=fun(i-1,t-a[i],a,dp);
+        return 1+Math.max(tk,tk2);
+    }
+    public int findTargetSumWays(int[] nums, int t) {
+        int n=nums.length;
+
+        int[][] dp=new int[n+5][2];
+        for(int[] d: dp) Arrays.fill(d,-1);
+        return fun(n-1,t,nums,dp);
+    }
+}
