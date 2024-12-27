@@ -1,0 +1,47 @@
+// class Solution {
+//     public int maxScoreSightseeingPair(int[] values) {
+//          int preFixMax = values[0];
+//         int maxScore = 0;
+
+//         int n = values.length;
+
+//         for(int j=1;j<n;j++){
+
+//             maxScore = Math.max(maxScore,preFixMax + values[j]-j);
+//             preFixMax = Math.max(preFixMax, values[j]+j);
+//         }
+        
+
+//         return maxScore;
+//     }
+// }
+
+
+
+
+class Solution {
+    public int maxScoreSightseeingPair(int[] values) {
+        Integer[][] dp = new Integer[values.length][2];
+        return f(values,0,0,dp);
+    }
+    public int f(int[] nums,int index,int k,Integer[][] dp){
+        if(k == 2){
+            return 0;
+        }
+        if(index >= nums.length){
+            return Integer.MIN_VALUE;
+        }
+        if(dp[index][k] != null){
+            return dp[index][k];
+        }
+        int take = 0;
+        if(k == 0){
+            take = f(nums,index+1,k+1,dp) + nums[index] + index;
+        }
+        else{
+            take = f(nums,index+1,k+1,dp) + nums[index] - index;
+        }
+        int nottake = f(nums,index+1,k,dp);
+        return dp[index][k] = Math.max(take,nottake);
+    }
+}
