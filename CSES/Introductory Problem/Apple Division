@@ -1,0 +1,37 @@
+import java.util.*;
+import java.io.*;
+public class Cses {
+ 
+   
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scanner=new Scanner(System.in);
+		int n=scanner.nextInt();
+		int[] a=new int[n];
+		for(int i=0;i<n;i++) a[i]=scanner.nextInt();
+		long tot=0L,s=0L,cur=0L,ans=Integer.MAX_VALUE;
+		for(int x: a) tot+=(x*1L);
+		for(int i=0;i<1<<n;i++)
+		{
+			long temp=0L;
+			for(int j=0;j<n;j++)
+			{
+				if((i&(1<<j))!=0)
+				{
+					temp+=(long)a[j];
+				}
+			}
+			ans=Math.min(ans, Math.abs((tot-temp)-temp));
+			
+		}
+		System.out.println(ans);
+		
+		
+		
+		
+		
+ 
+	}
+	
+ 
+}
