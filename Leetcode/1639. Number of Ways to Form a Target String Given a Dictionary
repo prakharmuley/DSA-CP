@@ -1,0 +1,35 @@
+class Solution {
+    private static final int MOD = (int) 1e9 + 7;
+
+    public int numWays(String[] words, String target) {
+        int n = words.length, m = target.length(), wLen = words[0].length();
+        if (m > wLen) return 0;
+
+        int[][] freq = new int[wLen][26];
+        for (String word : words) {
+            for (int i = 0; i < wLen; i++) {
+                freq[i][word.charAt(i) - 'a']++;
+            }
+        }
+
+        long[][] dp = new long[wLen + 1][m + 1];
+        for (long[] row : dp) Arrays.fill(row, -1);
+
+        return (int) helper(0, 0, target, freq, dp);
+    }
+
+    private long helper(int i, int j, String target, int[][] freq, long[][] dp) {
+        if (j == target.length()) return 1;
+        if (i == freq.length) return 0;
+        if (dp[i][j] != -1) return dp[i][j];
+
+        long val = helper(i + 1, j, target, freq, dp);
+
+        char c = target.charAt(j);
+        if (freq[i][c - 'a'] > 0) {
+            val += freq[i][c - 'a'] * helper(i + 1, j + 1, target, freq, dp) % MOD;
+        }
+
+        return dp[i][j] = val % MOD;
+    }
+}
