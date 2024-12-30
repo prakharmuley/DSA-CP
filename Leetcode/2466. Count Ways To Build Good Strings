@@ -1,0 +1,30 @@
+class Solution {
+    int mod=(int)1e9+7;
+    public long fun(int len, int low, int high, int zero, int one, long[] dp) {
+        // If the length exceeds the allowed high range, stop recursion.
+        if (len > high) return 0L;
+
+        // If the value is already computed, return the cached result.
+        if (dp[len] != -1) return dp[len];
+
+        // Initialize count for this length.
+        long count = 0L;
+
+        // If the length is within the valid range, count this string.
+        if (len >= low) count+=1L;
+
+        // Explore adding a "0" or a "1" and recurse.
+        count =((count%mod)+ (fun(len + zero, low, high, zero, one, dp)%mod)) %mod;
+        count =((count%mod)+ (fun(len + one, low, high, zero, one, dp)%mod)) %mod;
+
+        // Store result in dp and return.
+        dp[len] = count%mod;
+        return count%mod;
+    }
+
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        long[] dp = new long[high + 1];
+        Arrays.fill(dp, -1L); // Initialize dp array with -1.
+        return (int)fun(0, low, high, zero, one, dp);
+    }
+}
