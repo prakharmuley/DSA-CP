@@ -1,0 +1,65 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+
+        while (t-- > 0) {
+            // Read first array
+            String input = br.readLine();
+            String[] inputArray = input.split(" ");
+            int[] arr = Arrays.stream(inputArray).mapToInt(Integer::parseInt).toArray();
+
+            Solution ob = new Solution();
+            int res = ob.longestConsecutive(arr);
+
+            System.out.println(res);
+            System.out.println("~");
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        // Use a HashSet to store all elements for O(1) lookup.
+         Map<Integer,Integer> mp=new HashMap<>();
+    
+      for(int x: nums)
+      {
+         mp.put(x,1);
+      }
+        int mx=0;
+        int c=0;
+        int sum=0;
+     for(int i=0;i<nums.length;i++)
+     {
+         int j=1;
+         c=1;
+         int n=nums[i];
+         while(mp.containsKey(--n))
+         {
+             c++;
+              mp.remove(n);  
+         }
+         n=nums[i];
+          while(mp.containsKey(++n))
+         {
+             c++;
+            mp.remove(n);
+         }
+    
+         mx=Math.max(mx,c);
+     }
+         
+     
+      return mx; 
+        
+    }
+}
