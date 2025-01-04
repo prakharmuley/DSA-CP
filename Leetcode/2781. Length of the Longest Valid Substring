@@ -1,0 +1,24 @@
+class Solution {
+    public int longestValidSubstring(String word, List<String> forbidden) {
+        Set<String> forbiddenSet = new HashSet<>(forbidden);
+        int maxLen = 0;
+        for (String s : forbiddenSet) {
+            maxLen = Math.max(maxLen, s.length());
+        }
+
+        int start = 0, longest = 0;
+
+        for (int i = 0; i < word.length(); i++) {
+            for (int j = i; j >= start && i - j + 1 <= maxLen; j--) {
+                String sub = word.substring(j, i + 1);
+                if (forbiddenSet.contains(sub)) {
+                    start = j + 1;
+                    break;
+                }
+            }
+            longest = Math.max(longest, i - start + 1);
+        }
+
+        return longest;
+    }
+}
