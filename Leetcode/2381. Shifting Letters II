@@ -1,0 +1,29 @@
+class Solution {
+    public String shiftingLetters(String s, int[][] shifts) {
+        int n=s.length();
+        int[] range=new int[n+1];
+        for(int[] dd: shifts)
+        {
+            if(dd[2]==0)
+            {
+                range[dd[0]]-=1;
+                range[dd[1]+1]+=1;
+            }
+            else
+            {
+                range[dd[0]]+=1;
+                range[dd[1]+1]-=1;
+            }
+        }
+        int pre=0;
+        char ch[]=s.toCharArray();
+        for(int i=0;i<n;i++)
+        {
+             pre+=range[i];
+             int val=((ch[i]-'a')+pre)%26;
+             if(val<0) ch[i]=(char)(26+val+'a');
+             else ch[i]=(char)(val+'a');
+        }
+        return new String(ch);
+    }
+}
