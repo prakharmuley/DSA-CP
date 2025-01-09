@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<String>> findDuplicate(String[] paths) {
+        HashMap<String, Integer> fileMap = new HashMap<>();
+        HashMap<String, List<String>> pathMap = new HashMap<>();
+        
+        for (String path : paths) {
+            String[] files = path.split(" ");
+            String directory = files[0];
+            
+            for (String file : files) {
+                int index = file.indexOf("(");
+                if (index == -1) continue;
+                
+                String fileName = file.substring(0, index);
+                String fileContent = file.substring(index + 1, file.length() - 1);
+                String filePath = directory + "/" + fileName;
+                
+                fileMap.put(fileContent, fileMap.getOrDefault(fileContent, 0) + 1);
+                pathMap.putIfAbsent(fileContent, new ArrayList<>());
+                pathMap.get(fileContent).add(filePath);
+            }
+        }
+        
+        List<List<String>> results = new ArrayList<>();
+        for (String content : fileMap.keySet()) {
+            if (fileMap.get(content) > 1) {
+                results.add(pathMap.get(content));
+            }
+        }
+        
+        return results;
+    }
+}
