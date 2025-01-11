@@ -1,0 +1,30 @@
+class Solution {
+    public String minInteger(String num, int k) {
+        char[] ch=num.toCharArray();
+        int n=num.length();
+   
+        for(int i=0;k>0&&i<n;i++)
+        {
+            int mn=ch[i]-'0';
+            int idx=i;
+            for(int j=i+1;j<Math.min(i+k+1,n);j++)
+            {
+                if(ch[idx]>ch[j])
+                {
+                    idx=j;
+                }
+            }
+            char t=ch[idx];
+            for(int j=idx;j>i;j--)
+            {
+               ch[j]=ch[j-1];
+            }
+
+            ch[i]=t;
+            k-=(idx-i);
+        }
+        return new String(ch);
+    }
+}
+
+//4321 3421 3241 3214 
