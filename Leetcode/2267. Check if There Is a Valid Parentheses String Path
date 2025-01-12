@@ -1,0 +1,49 @@
+class Solution {
+    public boolean hasValidPath(char[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // A 3D boolean array to track visited states (row, col, cnt)
+        boolean[][][] visited = new boolean[rows][cols][rows + cols + 1];
+        
+        // Check if the first cell is valid
+        if (grid[0][0] == ')') return false;
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{0, 0, 1}); // Start at (0, 0) with cnt = 1
+        visited[0][0][1] = true;
+
+        while (!q.isEmpty()) {
+            int[] pair = q.poll();
+            int row = pair[0];
+            int col = pair[1];
+            int cnt = pair[2];
+
+            // If we reach the bottom-right corner and cnt == 0, the path is valid
+            if (row == rows - 1 && col == cols - 1 && cnt == 0) {
+                return true;
+            }
+
+            // Explore the next states
+            // Move Down
+            if (row + 1 < rows) {
+                int newCnt = cnt + (grid[row + 1][col] == ')' ? -1 : 1);
+                if (newCnt >= 0 && !visited[row + 1][col][newCnt]) {
+                    q.offer(new int[]{row + 1, col, newCnt});
+                    visited[row + 1][col][newCnt] = true;
+                }
+            }
+
+            // Move Right
+            if (col + 1 < cols) {
+                int newCnt = cnt + (grid[row][col + 1] == ')' ? -1 : 1);
+                if (newCnt >= 0 && !visited[row][col + 1][newCnt]) {
+                    q.offer(new int[]{row, col + 1, newCnt});
+                    visited[row][col + 1][newCnt] = true;
+                }
+            }
+        }
+
+        return false; // No valid path found
+    }
+}
