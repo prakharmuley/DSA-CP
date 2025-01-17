@@ -1,0 +1,8 @@
+class Solution {
+    public boolean doesValidArrayExist(int[] derived) {
+        int xx=0;
+        for(int x: derived) xx^=x;
+        return xx==0;
+
+    }
+}
