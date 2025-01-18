@@ -1,0 +1,49 @@
+class Solution {
+    public long[] dj(int n, List<int[]>[] adj, int src)
+    {
+        long[] dis=new long[n];
+        Arrays.fill(dis,Long.MAX_VALUE);
+        dis[src]=0L;
+        PriorityQueue<long[]> pq=new PriorityQueue<>((a,b)-> Long.compare(a[0], b[0]));
+        pq.offer(new long[]{0L,src*1L});
+        while(!pq.isEmpty())
+        {
+            long[] p=pq.poll();
+            long w=p[0];
+            int node=(int)p[1];
+             if (w > dis[node]) continue;
+            for(int[] x: adj[node])
+            {
+               int wt=x[1];
+               int ad=x[0];
+               if(dis[ad]>dis[node]+(long)wt)
+               {
+                dis[ad]=dis[node]+wt;
+                pq.offer(new long[]{dis[ad],ad});
+               }
+            }
+        }
+        return dis;
+    }
+    public long minimumWeight(int n, int[][] edges, int src1, int src2, int dest) {
+        List<int[]>[] adj=new ArrayList[n];
+        List<int[]>[] radj=new ArrayList[n];
+        for(int i=0;i<n;i++) {adj[i]=new ArrayList<>(); radj[i]=new ArrayList<>();}
+        for(int[] e: edges)
+        {
+            adj[e[0]].add(new int[]{e[1],e[2]});
+            radj[e[1]].add(new int[]{e[0],e[2]});
+        }
+        long ans=Long.MAX_VALUE;
+        long res=Long.MAX_VALUE;
+        long[] a=dj(n,adj,src1);
+        long[] b=dj(n,adj,src2);
+        long[] c=dj(n,radj,dest);
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]==ans||b[i]==ans||c[i]==ans) continue;
+            res=Math.min(res,a[i]+b[i]+c[i]);
+        }
+        return res==ans?-1:res;
+    }
+}
