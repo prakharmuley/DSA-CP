@@ -1,0 +1,36 @@
+class Solution {
+         int mod=(int)1e9+7;
+    public int dfs(int i, int j, int[][] a, int[][] dp, int[] dir)
+    {
+       if(i<0||i>=a.length||j<0||j>=a[0].length) return 0;
+       if(dp[i][j]!=-1) return dp[i][j];
+       int cnt=1;
+       for(int ii=0;ii<4;ii++)
+       {
+        int nr=i+dir[ii];
+        int nc=j+dir[ii+1];
+        if(nr<0||nc<0||nr>=a.length||nc>=a[0].length||a[i][j]>=a[nr][nc]) continue;
+        cnt=(cnt%mod+(dfs(nr,nc,a,dp,dir)%mod))%mod;
+
+
+       }
+       return dp[i][j]=cnt;
+    }
+    public int countPaths(int[][] grid) {
+   
+        int[] dir=new int[]{-1,0,1,0,-1};
+        int n=grid.length;
+        int m=grid[0].length;
+        int[][] dp=new int[n][m];
+        for(int i=0;i<n;i++) Arrays.fill(dp[i],-1);
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                ans=((ans%mod)+dfs(i,j,grid,dp,dir)%mod)%mod;
+            }
+        }
+        return ans;
+    }
+}
