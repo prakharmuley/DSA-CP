@@ -1,0 +1,57 @@
+class Solution {
+    public boolean eq(int[] h, int k)
+    {
+        for(int i=0;i<26;i++)
+        {
+            if(h[i]==0) continue;
+            if(h[i]!=k) return false; 
+        }
+        return true;
+    }
+    public boolean ad(String s, int l, int r)
+    {
+        for(int i=l+1;i<=Math.min(s.length()-1,r);i++)
+        {
+            int x=s.charAt(i)-'a';
+            int y=s.charAt(i-1)-'a';
+            if(Math.abs(x-y)>2) return false;
+        }
+        return true;
+    }
+    public int countCompleteSubstrings(String str, int k) {
+        int[] h=new int[26];
+        int n=str.length();
+        int ans=0;
+        for(int i=1;i<=26;i++)
+        {
+
+             int winlen=k*i;
+             if(winlen>n) break;
+             int l=0;
+             int r=l+winlen-1;
+             if(r>n) break;
+             h=new int[26];
+             int j=l;
+             for( j=l;j<=Math.min(n-1,r);j++)
+             {
+                h[str.charAt(j)-'a']++;
+             }
+    
+     
+             while(r<n)
+             {
+                if(eq(h,k)&&ad(str,l,r))   ans++;
+
+                h[str.charAt(l)-'a']--;
+                l++;
+                r++;
+                if(r<n)
+                 h[str.charAt(r)-'a']++;;
+
+                 
+             }
+        }
+        return ans;
+    }
+}
+
