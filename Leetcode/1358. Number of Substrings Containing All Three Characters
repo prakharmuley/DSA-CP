@@ -1,0 +1,24 @@
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int aCount = 0, bCount = 0, cCount = 0; 
+        int left = 0, right = 0, count = 0, n = s.length();
+
+        for (char ch : s.toCharArray()) {
+            if (ch == 'a') aCount++;
+            else if (ch == 'b') bCount++;
+            else if (ch == 'c') cCount++;
+
+            while (aCount > 0 && bCount > 0 && cCount > 0) {
+                count += n - right; 
+                if (s.charAt(left) == 'a') aCount--;
+                else if (s.charAt(left) == 'b') bCount--;
+                else if (s.charAt(left) == 'c') cCount--;
+                left++;
+            }
+
+            right++;
+        }
+
+        return count;
+    }
+}
