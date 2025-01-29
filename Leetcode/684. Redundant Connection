@@ -1,0 +1,39 @@
+class Solution {
+    public boolean isCycle(int src,int par, List<Integer>[] adj, boolean[] v)
+    {
+        v[src]=true;
+       
+            for(int x: adj[src])
+            {
+                if(!v[x]){
+                    v[x]=true;
+                  if(isCycle(x,src,adj,v)) return true;
+                }
+                else 
+                {
+                    if(x!=par)
+                     return true;
+                }
+            }
+        return false;
+        
+    }
+    public int[] findRedundantConnection(int[][] edges) {
+        List<Integer>[] adj=new ArrayList[edges.length+1];
+        for(int i=0;i<adj.length;i++) {adj[i]=new ArrayList<>();}
+        
+          
+       for(int i=0;i<edges.length;i++)
+           
+       {
+           
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj[u].add(v);
+            adj[v].add(u);
+            boolean vis[]=new boolean[edges.length+1];
+           if(isCycle(edges[i][0],-1,adj,vis)) return new int[]{edges[i][0],edges[i][1]};
+       }
+        return new int[]{0,0};
+    }
+}
