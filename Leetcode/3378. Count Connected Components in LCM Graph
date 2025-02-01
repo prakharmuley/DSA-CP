@@ -1,0 +1,54 @@
+class Solution {
+    public int countComponents(int[] nums, int threshold) {
+        int n=nums.length;
+        List<Integer> a=new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++)
+        {
+           if(nums[i]>threshold) break;
+           a.add(nums[i]);
+        }
+        DSU dsu=new DSU();
+        dsu.init(threshold+1);
+        for(Integer x: a)
+        {
+            for(int j=x+x;j<=threshold;j+=x)
+            {
+                 dsu.un(x,j);
+            }
+        }
+        return n-a.size()+dsu.count(a);
+
+    }
+}
+class DSU {
+    int[] parent;
+
+    public void init(int n) {
+        parent = new int[n];
+        Arrays.fill(parent, -1);
+    }
+
+    public int findp(int i) {
+        if (parent[i] == -1) return i;
+        return parent[i] = findp(parent[i]);
+    }
+
+    public void un(int x, int y) {
+        int px = findp(x);
+        int py = findp(y);
+        if (px != py) {
+            parent[py] = px;
+        }
+    }
+    public int count(List<Integer> arr)
+    {
+        Set<Integer> hs=new HashSet<>();
+        for(Integer x: arr)
+        {
+            int p=findp(x);
+            hs.add(p);
+        }
+        return hs.size();
+    }
+}
