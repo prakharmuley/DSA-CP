@@ -1,0 +1,69 @@
+import java.util.*;
+
+class Solution {
+    Set<String> visited = new HashSet<>();
+    Queue<int[]> q = new LinkedList<>();
+
+    void commonMoves(int[][] grid, int[] pos) {
+        int n = grid.length;
+   
+        if (pos[3] + 1 < n && grid[pos[2]][pos[3] + 1] == 0 && grid[pos[0]][pos[1] + 1] == 0) {
+            int[] newPos = {pos[0], pos[1] + 1, pos[2], pos[3] + 1};
+            if (visited.add(Arrays.toString(newPos))) {
+                q.offer(newPos);
+            }
+        }
+
+        if (pos[2] + 1 < n && grid[pos[2] + 1][pos[3]] == 0 && grid[pos[0] + 1][pos[1]] == 0) {
+            int[] newPos = {pos[0] + 1, pos[1], pos[2] + 1, pos[3]};
+            if (visited.add(Arrays.toString(newPos))) {
+                q.offer(newPos);
+            }
+        }
+    }
+
+    void horizontal(int[][] grid, int[] pos) {
+        int n = grid.length;
+     
+        if (pos[0] + 1 < n && grid[pos[0] + 1][pos[1]] == 0 && grid[pos[2] + 1][pos[3]] == 0) {
+            int[] newPos = {pos[0], pos[1], pos[0] + 1, pos[1]};
+            if (visited.add(Arrays.toString(newPos))) {
+                q.offer(newPos);
+            }
+        }
+    }
+
+    void vertical(int[][] grid, int[] pos) {
+        int n = grid.length;
+     
+        if (pos[1] + 1 < n && grid[pos[0]][pos[1] + 1] == 0 && grid[pos[2]][pos[3] + 1] == 0) {
+            int[] newPos = {pos[0], pos[1], pos[0], pos[1] + 1};
+            if (visited.add(Arrays.toString(newPos))) {
+                q.offer(newPos);
+            }
+        }
+    }
+
+    public int minimumMoves(int[][] grid) {
+        int n = grid.length;
+        int[] target = {n - 1, n - 2, n - 1, n - 1};
+        q.offer(new int[]{0, 0, 0, 1});
+        visited.add(Arrays.toString(new int[]{0, 0, 0, 1}));
+
+        int moves = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size-- > 0) {
+                int[] curr = q.poll();
+                if (Arrays.equals(curr, target)) return moves; // Reached target
+
+                if (curr[0] == curr[2]) horizontal(grid, curr); // Horizontal snake
+                else vertical(grid, curr); // Vertical snake
+
+                commonMoves(grid, curr); // Right and Down Moves
+            }
+            moves++;
+        }
+        return -1;
+    }
+}
