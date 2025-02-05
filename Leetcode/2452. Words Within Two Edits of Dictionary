@@ -1,0 +1,42 @@
+class Solution {
+    public List<String> twoEditWords(String[] queries, String[] dictionary) {
+        List<String> result = new ArrayList<>();
+        int n = queries[0].length();  // length of the strings
+
+        // Step 1: Create a frequency table for the dictionary
+        int[][][] freq = new int[dictionary.length][n][26];
+        
+        for (int i = 0; i < dictionary.length; i++) {
+            for (int j = 0; j < n; j++) {
+                freq[i][j][dictionary[i].charAt(j) - 'a']++;
+            }
+        }
+
+        // Step 2: Check for each word in queries
+        for (String query : queries) {
+            boolean isValid = false;
+
+            // Check if query can match any word from the dictionary within two edits
+            for (int i = 0; i < dictionary.length; i++) {
+                int edits = 0;
+                for (int j = 0; j < n; j++) {
+                    if (query.charAt(j) != dictionary[i].charAt(j)) {
+                        edits++;
+                    }
+                    if (edits > 2) break;  // More than 2 edits, no need to check further
+                }
+
+                if (edits <= 2) {
+                    isValid = true;
+                    break;  // If we found a valid match, no need to check further dictionary words
+                }
+            }
+
+            if (isValid) {
+                result.add(query);
+            }
+        }
+
+        return result;
+    }
+}
