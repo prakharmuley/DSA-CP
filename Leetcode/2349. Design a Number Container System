@@ -1,0 +1,42 @@
+class NumberContainers {
+    Map<Integer,TreeSet<Integer>> mp;
+    Map<Integer,Integer> map;
+    public NumberContainers() {
+        mp=new HashMap<>();
+         map=new HashMap<>();
+    }
+
+    
+    public void change(int index, int number) {
+        if(map.containsKey(index))
+        {
+            int old=map.get(index);
+            if(old==number) return;
+            TreeSet<Integer> ts=mp.get(old);
+            ts.remove(index);
+            if(ts.isEmpty())
+            {
+                mp.remove(old);
+            }
+
+              
+        }
+        
+          mp.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
+        map.put(index, number);
+        
+    }
+    
+    public int find(int number) {
+      TreeSet<Integer> ts = mp.get(number);
+        return (ts == null || ts.isEmpty()) ? -1 : ts.first();
+    
+    }
+}
+
+/**
+ * Your NumberContainers object will be instantiated and called as such:
+ * NumberContainers obj = new NumberContainers();
+ * obj.change(index,number);
+ * int param_2 = obj.find(number);
+ */
