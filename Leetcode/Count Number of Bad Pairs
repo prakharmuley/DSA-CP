@@ -1,0 +1,19 @@
+class Solution {
+    public long countBadPairs(int[] nums) {
+        Map<Integer,Long> mp=new HashMap<>();
+        long s=0L;
+        int n=nums.length;
+        for(int i=0;i<n;i++)
+        {
+            mp.put(i-nums[i],mp.getOrDefault(i-nums[i],0L)+1L);
+        }
+        for(Map.Entry<Integer,Long> e: mp.entrySet())
+        {
+           long x=e.getValue();
+           if(x==0) continue;
+           s+=(x*(x-1))/2L;
+        }
+        long t=((long)n*(long)(n-1))/2L;
+        return t-s;
+    }
+}
