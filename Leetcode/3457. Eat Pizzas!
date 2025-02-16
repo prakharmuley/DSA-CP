@@ -1,0 +1,27 @@
+class Solution {
+    public long maxWeight(int[] arr) {
+        Arrays.sort(arr);
+        int n=arr.length;
+        int p=n/4;
+        long ans=0L;
+        PriorityQueue<Long> pq= new PriorityQueue<>((a, b) -> Long.compare(b, a));
+        for(int x: arr) pq.offer((long)x);
+        
+        boolean f=false;
+        int c=0;
+        int odd=(p+1)/2;
+        int even=p-odd;
+        while(odd-->0)
+        {
+            ans+=pq.poll();
+            c++;
+        }
+       
+        while(even-->0)
+        {
+            pq.poll();
+            if(!pq.isEmpty()) ans+=pq.poll();
+        }
+        return ans;
+    }
+}
