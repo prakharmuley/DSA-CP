@@ -1,0 +1,52 @@
+import java.util.*;
+
+class Solution {
+    public boolean maxSubstringLength(String s, int k) {
+        int n = s.length();
+        int[] first = new int[26], last = new int[26];
+        Arrays.fill(first, -1);
+        Arrays.fill(last, -1);
+
+        for (int i = 0; i < n; i++) {
+            int c = s.charAt(i) - 'a';
+            if (first[c] == -1) first[c] = i;
+            last[c] = i;
+        }
+
+        List<int[]> intervals = new ArrayList<>();
+        for (int c = 0; c < 26; c++) { // Loop over character indices 'a' to 'z'
+           if (first[c] == -1) continue; // Skip unused characters
+             int i = first[c]; // Start from the first occurrence of the character
+
+           
+            
+            int j = last[c];
+            for (int x = i; x <= j; x++) {
+                j = Math.max(j, last[s.charAt(x) - 'a']);
+            }
+
+            boolean valid = true;
+            for (int x = i; x <= j; x++) {
+                if (first[s.charAt(x) - 'a'] < i) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (!valid || (i == 0 && j == n - 1)) continue;
+
+            intervals.add(new int[]{i, j});
+        }
+
+        intervals.sort(Comparator.comparingInt(a -> a[1]));
+
+        int count = 0, currEnd = -1;
+        for (int[] interval : intervals) {
+            if (interval[0] > currEnd) {
+                count++;
+                currEnd = interval[1];
+            }
+        }
+
+        return count >= k;
+    }
+}
