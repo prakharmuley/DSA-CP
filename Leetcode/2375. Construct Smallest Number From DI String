@@ -1,0 +1,28 @@
+class Solution {
+    public String smallestNumber(String p) {
+        Stack<Integer> st=new Stack<>();
+        String res="";
+        int n=p.length();
+        int c=1;
+        st.push(c);
+        for(int i=0;i<n;i++)
+        {
+            if(p.charAt(i)=='I')
+            {
+                while(!st.isEmpty())
+                {
+                    res+=String.valueOf(st.pop());
+                }
+            }
+            st.push(++c);
+        }
+    
+                while(!st.isEmpty())
+                {
+                    res+=String.valueOf(st.pop());
+                }
+                return res;
+    }
+}
+
+// IIDI 
