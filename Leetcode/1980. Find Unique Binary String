@@ -1,0 +1,29 @@
+class Solution {
+    String ans="";
+    public void fun(StringBuilder sb, String[] arr, Set<String> hs)
+    {
+        if(sb.length()==arr[0].length())
+        {
+            if(!hs.contains(sb.toString())){
+               ans=sb.toString();
+               return;
+            }
+        }
+        else{
+        sb.append('0');
+        fun(sb,arr,hs);
+        sb.setLength(sb.length()-1);
+        sb.append('1');
+        fun(sb,arr,hs);
+        sb.setLength(sb.length()-1);
+        }
+        
+    }
+    public String findDifferentBinaryString(String[] nums) {
+        Set<String> hs=new HashSet<>();
+        StringBuilder sb=new StringBuilder();
+        for(String ss: nums) hs.add(ss);
+        fun(sb,nums,hs);
+        return ans;
+    }
+}
