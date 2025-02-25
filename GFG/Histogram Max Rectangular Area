@@ -1,0 +1,78 @@
+//{ Driver Code Starts
+// Initial Template for Java
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+
+// } Driver Code Ends
+class Solution {
+    public static int getMaxArea(int arr[]) {
+        // your code here
+        int n=arr.length;
+        int[] left=new int[n];
+        int[] right=new int[n];
+        int mx=0;
+        Arrays.fill(left,-1);
+        Arrays.fill(right,n);
+        Stack<Integer> st=new Stack<>();
+        for(int i=0;i<n;i++)
+        {
+            while(!st.isEmpty()&&arr[st.peek()] >arr[i])
+            {
+                right[st.pop()]=i;
+            }
+            st.push(i);
+        }
+        st=new Stack<>();
+         for(int i=n-1;i>=0;i--)
+        {
+            while(!st.isEmpty()&&arr[st.peek()] >arr[i])
+            {
+                left[st.pop()]=i;
+            }
+            st.push(i);
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            mx=Math.max(mx,(right[i]-left[i]-1)*arr[i]);
+        }
+        return mx;
+    }
+    
+}
+
+
+//{ Driver Code Starts.
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+            String line = br.readLine();
+            String[] tokens = line.split(" ");
+
+            // Create an ArrayList to store the integers
+            ArrayList<Integer> array = new ArrayList<>();
+
+            // Parse the tokens into integers and add to the array
+            for (String token : tokens) {
+                array.add(Integer.parseInt(token));
+            }
+
+            int[] arr = new int[array.size()];
+            int idx = 0;
+            for (int i : array) arr[idx++] = i;
+            Solution obj = new Solution();
+            int res = obj.getMaxArea(arr);
+
+            System.out.println(res);
+
+            System.out.println("~");
+        }
+    }
+}
+
+// } Driver Code Ends
