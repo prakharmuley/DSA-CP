@@ -1,0 +1,36 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        Map<Character,Integer> mp=new HashMap<>();
+        int n=s.length();
+        int len=0;
+        int mxchr=0;
+        char ch='.';
+        int left=0;
+        for(int i=0;i<n;i++)
+        {
+            char c=s.charAt(i);
+            mp.put(c,mp.getOrDefault(c,0)+1);
+            if(mp.get(c)>mxchr)
+            {
+                mxchr=mp.get(c);
+            }
+            if(i-left+1-mxchr>k)
+            {
+               char prev=s.charAt(left);
+                mp.put(prev,mp.get(prev)-1);    
+                left++;      
+            }
+            len=Math.max(len,i-left+1);
+        }
+        
+        return len;
+    }
+}
+
+
+//  A A B A B B A
+
+
+// A B A
+
+// 1 1 0
