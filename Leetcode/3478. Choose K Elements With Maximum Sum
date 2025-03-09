@@ -1,0 +1,41 @@
+import java.util.*;
+
+class Solution {
+    public long[] findMaxSum(int[] nums1, int[] nums2, int k) {
+        int n = nums1.length;
+        Pair[] pair = new Pair[n];
+
+        for (int i = 0; i < n; i++) {
+            pair[i] = new Pair(nums1[i], nums2[i], i);
+        }
+
+        Arrays.sort(pair, (a, b) -> a.f - b.f);
+
+        long[] answer = new long[n];
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        long sum = 0;
+        int j = 0;
+
+        for (int i = 0; i < n; i++) {
+            while (j < i && pair[j].f < pair[i].f) { 
+                minHeap.add(pair[j].s);
+                sum += pair[j].s;
+                if (minHeap.size() > k) {
+                    sum -= minHeap.poll();
+                }
+                j++;
+            }
+            answer[pair[i].index] = sum;
+        }
+        return answer;
+    }
+}
+
+class Pair {
+    int f, s, index;
+    public Pair(int f, int s, int index) {
+        this.f = f;
+        this.s = s;
+        this.index = index;
+    }
+}
