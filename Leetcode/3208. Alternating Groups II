@@ -1,0 +1,23 @@
+class Solution {
+    public int numberOfAlternatingGroups(int[] a, int k) {
+        int n = a.length;
+        int ans = 0;
+        int i = 0, j = 0;
+
+        while (j < 2 * n) { 
+            if (j > 0 && a[j % n] == a[(j - 1) % n]) {
+             
+                i = j;
+            }
+
+            if (j - i + 1 == k) { 
+                if(i<n) ans++;
+
+                i++; 
+            }
+            j++; 
+        }
+
+        return ans;
+    }
+}
