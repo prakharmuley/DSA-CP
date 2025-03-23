@@ -1,0 +1,47 @@
+class Solution {
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        Set<String> hs=new HashSet<>();
+        List<String> res=new ArrayList<>();
+        boolean t=true,f=true;
+        for(String s: supplies) hs.add(s);
+        
+        while(t){
+
+            t=false;
+            for(int i=0;i<recipes.length;i++)
+            {
+                if(hs.contains(recipes[i])) continue;
+                   f=true;
+                for(int j = 0; j < ingredients.get(i).size(); j++) {
+					if(!hs.contains(ingredients.get(i).get(j))) {
+						f= false;
+						break;
+					}
+				}
+                   if(f)
+                   {
+                       t=true;
+                      hs.add(recipes[i]);
+                       res.add(recipes[i]);
+                   }
+            }
+        
+    
+            
+        }
+        return res;
+        
+        
+        
+        
+    }
+}
+class Pair{
+    String s;
+    int c;
+    public Pair(String s, int c)
+    {
+        this.s=s;
+        this.c=c;
+    }
+}
