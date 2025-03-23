@@ -1,0 +1,57 @@
+class Solution {
+    public long countOfSubstrings(String word, int k) {
+        long ans = 0L;
+        char[] ch = word.toCharArray();
+        int i = 0, j = 0;
+        int n = word.length();
+        int[] h = new int[n];
+        int nxt = n;
+        
+        for (i = n - 1; i >= 0; i--) {
+            h[i] = nxt;
+            if (!(ch[i] == 'a' || ch[i] == 'e' || ch[i] == 'i' || ch[i] == 'o' || ch[i] == 'u'))  
+                nxt = i;
+        }
+        
+        i = 0;
+        int con = 0, a = 0, e = 0, ii = 0, o = 0, u = 0;
+
+        while (j < n) {
+            if (ch[j] == 'a') a++;
+            else if (ch[j] == 'e') e++;
+            else if (ch[j] == 'i') ii++;
+            else if (ch[j] == 'o') o++;
+            else if (ch[j] == 'u') u++;
+            else con++;
+
+            // Maintain valid window
+            while (con > k) {
+                if (ch[i] == 'a') a--;
+                else if (ch[i] == 'e') e--;
+                else if (ch[i] == 'i') ii--;
+                else if (ch[i] == 'o') o--;
+                else if (ch[i] == 'u') u--;
+                else con--;
+                i++;
+            }
+
+            // Valid substring found
+            while (a > 0 && e > 0 && ii > 0 && o > 0 && u > 0 && con == k) {
+                int next = h[j];
+                ans =ans + (long) (next - j);
+                
+                if (ch[i] == 'a') a--;
+                else if (ch[i] == 'e') e--;
+                else if (ch[i] == 'i') ii--;
+                else if (ch[i] == 'o') o--;
+                else if (ch[i] == 'u') u--;
+                else con--;
+
+                i++;
+            }
+
+            j++;
+        }
+        return ans;
+    }
+}
