@@ -1,0 +1,25 @@
+class Solution {
+    public int minOperations(int[][] a, int x) {
+        List<Integer> al=new ArrayList<>();
+        for(int i=0;i<a.length;i++)
+        {
+            for(int j=0;j<a[0].length;j++)
+            {
+                al.add(a[i][j]);
+            }
+        }
+        Collections.sort(al);
+        int med=al.get((al.size()-1)/2);
+        int cnt=0;
+        for(int e: al)
+        {
+            if(e!=med)
+            {
+                int diff=Math.abs(e-med);
+                if(diff%x!=0) return -1;
+                cnt+=diff/x;
+            }
+        }
+        return cnt;
+    }
+}
