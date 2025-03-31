@@ -1,0 +1,44 @@
+class Graph {
+    List<int[]>[] adj;
+    int[] dis;
+    public Graph(int n, int[][] edges) {
+        adj=new ArrayList[n];
+        for(int i=0;i<n;i++) adj[i]=new ArrayList<>();
+        for(int[] e: edges)  adj[e[0]].add(new int[]{e[1],e[2]});
+        dis=new int[n];
+       
+
+
+    }
+    
+    public void addEdge(int[] e) {
+    
+        adj[e[0]].add(new int[]{e[1],e[2]});
+        
+    }
+    
+    public int shortestPath(int node1, int node2) {
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[0]-b[0]);
+        pq.offer(new int[]{0,node1});
+         Arrays.fill(dis,Integer.MAX_VALUE);
+        dis[node1]=0;
+        
+        while(!pq.isEmpty())
+        {
+            int[] pair=pq.poll();
+            int wt=pair[0];
+            int cur_node=pair[1];
+            if(cur_node==node2) return dis[node2];
+            if(dis[cur_node]<wt) continue;
+            for(int[] x: adj[cur_node])
+            {
+                if(dis[x[0]]>dis[cur_node]+x[1])
+                {
+                    dis[x[0]]=dis[cur_node]+x[1];
+                    pq.offer(new int[]{dis[x[0]],x[0]});
+                }
+            }
+        }
+        return dis[node2]==Integer.MAX_VALUE?-1:dis[node2];
+    }
+}
