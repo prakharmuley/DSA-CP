@@ -1,0 +1,26 @@
+import java.util.*;
+
+public class Solution {
+    public long mostPoints(int[][] qs) {
+        final int sz = qs.length;
+        qs[sz - 1][1] = qs[sz - 1][0];
+        qs[sz - 1][0] = 0;
+        
+        for (int i = sz - 2; i >= 0; --i) {
+            long tmp = ((long) qs[i + 1][0] << 32) | (qs[i + 1][1] & 0xFFFFFFFFL);
+            int sc = qs[i][0], nxt = qs[i][1] + i + 1;
+            
+            if (nxt < sz) {
+                long jmp = ((long) qs[nxt][0] << 32) | (qs[nxt][1] & 0xFFFFFFFFL);
+                tmp = Math.max(tmp, jmp + sc);
+            } else {
+                tmp = Math.max(tmp, (long) sc);
+            }
+            
+            qs[i][0] = (int) (tmp >> 32);
+            qs[i][1] = (int) tmp;
+        }
+        
+        return ((long) qs[0][0] << 32) | (qs[0][1] & 0xFFFFFFFFL);
+    }
+}
