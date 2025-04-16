@@ -1,0 +1,151 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int n = sc.nextInt();
+            int[][] edge = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                edge[i][0] = sc.nextInt();
+                edge[i][1] = sc.nextInt();
+            }
+            Solution obj = new Solution();
+            int res = obj.minCost(edge);
+
+            System.out.println(res);
+            System.out.println("~");
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+
+class Solution {
+
+    public int minCost(int[][] points) {
+        // code here
+        // int n=houses.length;
+        // DSU dsu=new DSU(n);
+        // PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[2]-b[2]);
+        // for(int i=0;i<n;i++)
+        // {
+        //     for(int j=i+1;j<n;j++)
+        //     {
+        //         int c=Math.abs(houses[i][0]-houses[j][0])+Math.abs(houses[i][1]-houses[j][1]);
+        //         pq.offer(new int[]{i,j,c});
+        //     }
+        // }
+        // int ans=0;
+        // while(!pq.isEmpty())
+        // {
+        //     int[] p=pq.poll();
+        //     int u=p[0];
+        //     int v=p[1];
+        //     int c=p[2];
+        //     if(dsu.findPar(u)!=dsu.findPar(v))
+        //     {
+        //         ans+=c;
+        //         dsu.unionBySize(u,v);
+        //     }
+            
+            
+        // }
+        // return ans;
+        
+        
+        int n = points.length;
+        boolean[] visited = new boolean[n];
+        int[] minDist = new int[n];
+        Arrays.fill(minDist, Integer.MAX_VALUE);
+        minDist[0] = 0; // Start from point 0
+
+        int totalCost = 0;
+
+        for (int i = 0; i < n; i++) {
+            int u = -1;
+
+            // Find the unvisited node with the smallest distance
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && (u == -1 || minDist[j] < minDist[u])) {
+                    u = j;
+                }
+            }
+
+            visited[u] = true;
+            totalCost += minDist[u];
+
+            // Update the distances to all unvisited neighbors
+            for (int v = 0; v < n; v++) {
+                if (!visited[v]) {
+                    int dist = Math.abs(points[u][0] - points[v][0]) +
+                               Math.abs(points[u][1] - points[v][1]);
+                    minDist[v] = Math.min(minDist[v], dist);
+                }
+            }
+        }
+
+        return totalCost;
+
+    }
+}
+// class DSU{
+//     int[] par;
+//     int[] rank;
+//     int[] size;
+//     public DSU(int n)
+//     {
+//         par=new int[n+1];
+//         rank=new int[n+1];
+//         size=new int[n+1];
+//         Arrays.fill(size,1);
+//         for(int i=0;i<n;i++) par[i]=i;
+//     }
+//     public int findPar(int node)
+//     {
+//         if(par[node]==node) return node;
+//         return par[node]=findPar(par[node]);
+//     }
+//     public void unionByRank(int u, int v)
+//     {
+//         int up=findPar(u);
+//         int vp=findPar(v);
+//         if(up==vp) return ;
+//         if(rank[up]>rank[vp])
+//         {
+//             par[vp]=up;
+//         }
+//         else if(rank[vp]>rank[up])
+//         {
+//             par[up]=vp;
+//         }
+//         else
+//         {
+//             par[vp]=up;
+//             rank[up]++;
+//         }
+//     }
+//     public void unionBySize(int u, int v)
+//     {
+//         int up=findPar(u);
+//         int vp=findPar(v);
+//         if(up==vp) return ;
+//         if(size[up]<size[vp])
+//         {
+//             par[up]=vp;
+//             size[vp]+=size[up];
+//         }
+//         else
+//         {
+//             par[vp]=up;
+//             size[up]+=size[vp];
+//         }
+//     }
+// }
