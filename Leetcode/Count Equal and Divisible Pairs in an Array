@@ -1,0 +1,28 @@
+class Solution {
+    public int countPairs(int[] nums, int k) {
+         Map<Integer, Map<Integer, Integer>> freqMap = new HashMap<>();
+        int count = 0;
+
+        for (int j = 0; j < nums.length; j++) {
+            int num = nums[j];
+            int idx = j;
+
+            if (freqMap.containsKey(num)) {
+                Map<Integer, Integer> modFreq = freqMap.get(num);
+
+                for (int m : modFreq.keySet()) {
+                    if (((long)m * idx) % k == 0) {
+                        count += modFreq.get(m);
+                    }
+                }
+            }
+
+            // Store index % k for this value
+            freqMap.putIfAbsent(num, new HashMap<>());
+            int mod = idx ;
+            freqMap.get(num).put(mod, freqMap.get(num).getOrDefault(mod, 0) + 1);
+        }
+
+        return count;
+    }
+}
