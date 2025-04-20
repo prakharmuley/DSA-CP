@@ -1,0 +1,10 @@
+// User function Template for Java
+class Solution {
+    public int findDuplicate(int[] arr) {
+        // code here
+        long sum=0;
+        for(var a: arr) sum+=a;
+        return (int)(sum-(((long)arr.length-1)*((long)arr.length))/2) ;
+        
+    }
+}
