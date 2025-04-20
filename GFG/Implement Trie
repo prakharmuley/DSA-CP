@@ -1,0 +1,59 @@
+class Trie {
+    Node root; 
+    public Trie() {
+        // Implement Trie
+        root=new Node();
+    }
+
+    // Insert a word into the Trie
+    public void insert(String word) {
+        Node node=root;
+        for(char c: word.toCharArray())
+        {
+            int idx=c-'a';
+            if(node.child[idx]==null)
+              node.child[idx]=new Node();
+              
+             node=node.child[idx]; 
+        }
+        node.end=true;
+    }
+
+    // Search for a word in the Trie
+    public boolean search(String word) {
+        Node cur=root;
+        for(char c: word.toCharArray())
+        {
+            int idx=c-'a';
+            if(cur.child[idx]==null)
+            {
+                return false;
+            }
+            cur=cur.child[idx];
+        }
+        return cur.end;
+    }
+
+    // Check if a prefix exists in the Trie
+    public boolean isPrefix(String word) {
+        Node cur=root;
+        for(char c: word.toCharArray())
+        {
+            int idx=c-'a';
+            if(cur.child[idx]==null)
+            {
+                return false;
+            }
+            cur=cur.child[idx];
+        }
+        return true;
+    }
+}
+class Node{
+    Node[] child=new Node[26];
+    boolean end;
+    public Node()
+    {
+        end=false;
+    }
+}
