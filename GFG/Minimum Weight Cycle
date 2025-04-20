@@ -1,0 +1,68 @@
+class Solution {
+    public void remove(List<int[]>[] adj, int[] e)
+    {
+        adj[e[0]].removeIf(x -> x[0] == e[1] && x[1] == e[2]);
+        adj[e[1]].removeIf(x -> x[0] == e[0] && x[1] == e[2]);
+    }
+    public void addd(List<int[]>[] adj, int[] e)
+    {
+        adj[e[0]].add(new int[]{e[1],e[2]});
+        adj[e[1]].add(new int[]{e[0],e[2]});
+    }
+    public int dij(List<int[]>[] adj, int src, int dest, int n)
+    {
+        PriorityQueue<int[]> pq=new PriorityQueue<>((x,y)->x[0]-y[0]);
+        pq.offer(new int[]{0,src});
+        int[] dis=new int[n];
+        Arrays.fill(dis,(int)1e6);
+        dis[src]=0;
+        while(!pq.isEmpty())
+        {
+            int[] pair=pq.poll();
+            int wt=pair[0];
+            int node=pair[1];
+            
+            for(int[] x: adj[node])
+            {
+                
+                if(dis[x[0]]>dis[node]+x[1])
+                {
+                    dis[x[0]]=dis[node]+x[1];
+                    pq.offer(new int[]{dis[x[0]],x[0]});
+                }
+            }
+            
+//             for (int[] x : adj[node]) {
+//     int neighbor = x[0];
+//     int edgeWeight = x[1];
+
+//     if (dis[neighbor] > dis[node] + edgeWeight) {
+//         dis[neighbor] = dis[node] + edgeWeight;
+//         pq.offer(new int[]{dis[neighbor], neighbor});
+//     }
+// }
+        }
+        return dis[dest];
+    }
+    public int findMinCycle(int V, int[][] edges) {
+        // code here
+        
+        List<int[]>[] adj=new ArrayList[V];
+        for(int i=0;i<V;i++) adj[i]=new ArrayList<>();
+        for(int[] e: edges)
+        {
+            adj[e[0]].add(new int[]{e[1],e[2]});
+            adj[e[1]].add(new int[]{e[0],e[2]});
+        }
+        int ans=Integer.MAX_VALUE;;
+         for (int[] e : edges) {
+            remove(adj, e);
+            int d = dij(adj, e[0], e[1], V);
+            if (d != (int) 1e6) {
+                ans = Math.min(ans, d + e[2]);
+            }
+            addd(adj, e);
+        }
+        return ans;
+    }
+};
