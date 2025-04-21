@@ -1,0 +1,87 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            int N = Integer.parseInt(read.readLine());
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int arr[]= new int[N];
+            for(int i = 0; i < N; i++)
+                arr[i] = Integer.parseInt(input_line[i]);
+            
+
+            Solution ob = new Solution();
+            
+            System.out.println(ob.maxSubarrayXOR(N,arr));
+            
+            
+        
+System.out.println("~");
+}
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    static int maxSubarrayXOR(int N, int[] arr) {
+        Trie trie = new Trie();
+        trie.insert(0);
+        int ans = 0;
+        int xor = 0;
+        for (int i = 0; i < N; i++) {
+            xor ^= arr[i];
+            trie.insert(xor);
+            ans = Math.max(ans, trie.findMax(xor));
+        }
+        return ans;
+    }
+}
+
+class Node {
+    Node[] child;
+    public Node() {
+        child = new Node[2];
+    }
+}
+
+class Trie {
+    Node root;
+    public Trie() {
+        root = new Node();
+    }
+
+    public void insert(int num) {
+        Node node = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node.child[bit] == null) {
+                node.child[bit] = new Node();
+            }
+            node = node.child[bit];
+        }
+    }
+
+    public int findMax(int num) {
+        Node node = root;
+        int ans = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node.child[1 - bit] != null) {
+                ans |= (1 << i);
+                node = node.child[1 - bit];
+            } else {
+                node = node.child[bit];
+            }
+        }
+        return ans;
+    }
+}
