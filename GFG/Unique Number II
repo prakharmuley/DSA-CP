@@ -1,0 +1,24 @@
+class Solution {
+    public int[] singleNum(int[] nums) {
+        // Code here
+          int sumXor = nums[0];
+        for(int i=1; i<nums.length; i++) {
+           
+            sumXor = sumXor ^ nums[i];
+        }
+        
+     
+        int rightMostBit = sumXor & ~(sumXor-1);
+        
+        int x = 0, y = 0;
+        for(int i=0; i<nums.length; i++) {
+            if((rightMostBit & nums[i])!=0) {
+          
+                x = x ^ nums[i];
+            }
+           
+        }
+        y=sumXor^x;
+        return new int[]{Math.min(x, y), Math.max(x, y)};
+    }
+}
