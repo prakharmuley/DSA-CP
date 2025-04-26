@@ -1,0 +1,28 @@
+class Solution {
+    public long countSubarrays(int[] nums, int minK, int maxK) {
+        int i=0,j=0;
+        int mnk=-1;
+        int mxk=-1;
+        long l=0;
+        int n=nums.length;
+        while(j<n)
+        {
+            if((maxK<nums[j])||(minK>nums[j]))
+            {
+                mxk=-1;
+                mnk=-1;
+                i=j+1;
+            }
+            if(nums[j]==maxK) mxk=j;
+            if(nums[j]==minK) mnk=j;
+            if(mxk!=-1&&mnk!=-1)
+            {
+                l+=(long)(Math.min(mxk,mnk)-i+1);
+            }
+            j++;
+           
+        }
+        
+        return l;
+    }
+}
