@@ -1,0 +1,38 @@
+class Solution {
+    public boolean isP(int len, List<Long> list, long k, int[] a)
+    {
+       int left=0,right=len;
+       int n=list.size();
+       while(right<n)
+       {
+          int mid=(left+right+1)/2;
+          long ls=list.get(mid)-list.get(left);
+          long rs=list.get(right)-list.get(mid);
+          if(((((long)(a[mid-1])*(mid-left))-ls)+(rs-((long)(a[mid-1])*(right-mid))))<=k) return true;
+          right++;
+          left++;
+       }
+       return false;
+    }
+    public int maxFrequencyScore(int[] nums, long k) {
+        int n=nums.length;
+        Arrays.sort(nums);
+        List<Long> list=new ArrayList<>();
+       
+        long s=0L;
+        list.add(s);
+        for(int i=0;i<n;i++)
+        {
+            s+=(nums[i]*1L);
+            list.add(s);
+        }
+        int left=1,right=n;
+        while(left<=right)
+        {
+            int m=(left+right)/2;
+            if(isP(m,list,k,nums)) left=m+1;
+            else right=m-1;
+        }
+        return right;
+    }
+}
