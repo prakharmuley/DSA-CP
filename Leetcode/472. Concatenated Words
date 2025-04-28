@@ -1,0 +1,40 @@
+public class Solution {
+    Set<String> dict;
+    Map<String, Boolean> memo;
+
+    public boolean dfs(String word) {
+        if (memo.containsKey(word)) return memo.get(word);
+
+        for (int i = 1; i < word.length(); i++) {
+            String left = word.substring(0, i);
+            String right = word.substring(i);
+            if (dict.contains(left)) {
+                if (dict.contains(right) || dfs(right)) {
+                    memo.put(word, true);
+                    return true;
+                }
+            }
+        }
+
+        memo.put(word, false);
+        return false;
+    }
+
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        dict = new HashSet<>(Arrays.asList(words));
+        memo = new HashMap<>();
+
+        List<String> result = new ArrayList<>();
+        for (String word : words) {
+            if (word.isEmpty()) continue;
+            if (dfs(word)) {
+                result.add(word);
+            }
+        }
+        return result;
+    }
+}
+
+
+
+
