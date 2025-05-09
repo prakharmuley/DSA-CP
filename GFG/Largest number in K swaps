@@ -1,0 +1,66 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GfG {
+    public static void main(String args[]) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int k = sc.nextInt();
+            String str = sc.next();
+            Solution obj = new Solution();
+            System.out.println(obj.findMaximumNum(str, k));
+
+            System.out.println("~");
+        }
+    }
+}
+// } Driver Code Ends
+
+
+
+
+class Solution {
+    // Function to find the largest number after k swaps.
+    static String max;
+    public String findMaximumNum(String s, int k) {
+        // code here.
+        max=new String(s);
+        dfs(s.toCharArray(),0,k);
+        return max;
+    }
+    
+    public void dfs(char[] a, int idx,int k)
+    {
+        if (k == 0 || idx == a.length) return;
+        char mx=a[idx];
+        for(int i=idx+1;i<a.length;i++)
+        {
+            if(a[i]>mx)
+            {
+                mx=a[i];
+            }
+        }
+        if(mx!=a[idx])
+           k--;
+           
+        for (int i = a.length - 1; i >= idx; i--) {
+            if (a[i] == mx) {
+                swap(a, idx, i);
+                String current = new String(a);
+                if (current.compareTo(max) > 0) {
+                    max = current;
+                }
+                dfs(a, idx + 1, k);
+                swap(a, idx, i);
+            }
+        }
+    }
+    public void swap(char[] a, int x, int y)
+    {
+        char temp=a[x];
+        a[x]=a[y];
+        a[y]=temp;
+    }
+}
