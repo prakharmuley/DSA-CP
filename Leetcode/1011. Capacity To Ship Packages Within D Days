@@ -1,0 +1,49 @@
+class Solution {
+    int partition;
+    public boolean isPossible(int[] w, int k, int key)
+    {
+        int sum=key;
+         partition=1;
+        for(int i=0;i<w.length;i++)
+        {
+            
+            key-=w[i];
+            if(key<0)
+            {
+                partition++;
+                key=sum-w[i];
+            }
+        }
+        
+        return (partition<=k);
+        
+        
+    }
+    public int shipWithinDays(int[] weights, int days) {
+        
+       
+        int mx=0,sum=0;
+        for(int x: weights)
+        {
+            mx=Math.max(x,mx);
+            sum+=x;
+            
+        }
+        int l=mx;
+        int r=10000000;
+        while(l<r)
+        {
+            int mid=l+((r-l)/2);
+            if(isPossible(weights,days,mid))
+            {
+                r=mid;
+            }
+            else
+            {
+                l=mid+1;
+            }
+        }
+        System.out.println("part "+partition);
+        return Math.max(r,mx);
+    }
+}
