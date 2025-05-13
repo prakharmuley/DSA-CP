@@ -1,0 +1,27 @@
+class Solution {
+    public int lengthAfterTransformations(String s, int t) {
+        int mod = (int)1e9 + 7;
+        int[][] dp = new int[26][t + 1];
+
+        for (int ch = 0; ch < 26; ch++) {
+            dp[ch][0] = 1;
+        }
+
+        for (int time = 1; time <= t; time++) {
+            for (int ch = 0; ch < 26; ch++) {
+                if (ch == 25) {
+                    dp[ch][time] = (dp[0][time - 1] + dp[1][time - 1]) % mod;
+                } else {
+                    dp[ch][time] = dp[ch + 1][time - 1];
+                }
+            }
+        }
+
+        long result = 0;
+        for (char ch : s.toCharArray()) {
+            result = (result + dp[ch - 'a'][t]) % mod;
+        }
+
+        return (int) result;
+    }
+}
