@@ -1,0 +1,70 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class DriverClass {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int arr[][] = new int[k][n];
+            for (int i = 0; i < k; i++) {
+                for (int j = 0; j < n; j++) arr[i][j] = sc.nextInt();
+            }
+            ArrayList<Integer> range = new Solution().findSmallestRange(arr);
+            System.out.println(range.get(0) + " " + range.get(1));
+            System.out.println("~");
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+
+
+
+class Solution {
+    public ArrayList<Integer> findSmallestRange(int[][] arr) {
+        int k = arr.length;
+        int cmx = Integer.MIN_VALUE;
+        int[] sm = new int[2];
+        sm[0] = 0;
+        sm[1] = Integer.MAX_VALUE;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+
+        for (int i = 0; i < k; i++) {
+            pq.offer(new int[]{i, 0, arr[i][0]});
+            cmx = Math.max(cmx, arr[i][0]);
+        }
+
+        while (pq.size() == k) {
+            int[] p = pq.poll();
+            int row = p[0];
+            int col = p[1];
+            int val = p[2];
+            if (sm[1] - sm[0] > cmx - val) {
+                sm[0] = val;
+                sm[1] = cmx;
+            }
+
+            if (col + 1 < arr[row].length) {
+                int nextVal = arr[row][col + 1];
+                pq.offer(new int[]{row, col + 1, nextVal});
+                cmx = Math.max(cmx, nextVal);
+            } else {
+                break; 
+            }
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        ans.add(sm[0]);
+        ans.add(sm[1]);
+        return ans;
+    }
+}
