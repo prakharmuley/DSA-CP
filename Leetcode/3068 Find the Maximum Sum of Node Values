@@ -1,0 +1,42 @@
+class Solution {
+    public long maximumValueSum(int[] nums, int kk, int[][] edges) {
+        long sum=0L;
+        long mn=Long.MAX_VALUE;
+        int c=0;
+        long k=(long)kk;
+        for(int xx: nums)
+        {
+            long x=(long)xx;
+            if((x^k)>x)
+            {
+                sum+=(x^k);
+                mn=Math.min(mn,(x^k)-x);
+                c++;
+            }
+            else
+            {
+                sum+=x;
+                mn=Math.min(mn,x-(x^k));
+            }
+        }
+        return c%2==1?sum-mn:sum;
+    }
+}
+
+/*
+
+3 7
+
+0011
+0111
+-----
+0100
+
+
+0111
+0111
+-----
+0000
+
+
+*/
