@@ -1,0 +1,68 @@
+class Solution {
+    public void dfs(List<Integer>[] edges, int[] cost, int node, int par, PriorityQueue<Integer>[] pq, PriorityQueue<Integer>[] pqq, long[] ans) {
+
+        if (cost[node] > 0) {
+            pq[node].add(cost[node]);
+        } else {
+            pqq[node].add(cost[node]);
+        }
+
+        for (int x : edges[node]) {
+            if (x == par) continue;
+            dfs(edges, cost, x, node, pq, pqq, ans);
+            pq[node].addAll(pq[x]);
+            pqq[node].addAll(pqq[x]);
+            while (pq[node].size() > 3) pq[node].poll();
+            while (pqq[node].size() > 3) pqq[node].poll();
+        }
+
+        int pos = pq[node].size();
+        int neg = pqq[node].size();
+
+        if (pos + neg < 3) {
+            ans[node] = 1;
+        } else {
+            long maxProduct = Long.MIN_VALUE;
+
+            if (pos >= 3) {
+                List<Integer> topPos = new ArrayList<>(pq[node]);
+                Collections.sort(topPos, Collections.reverseOrder());
+                maxProduct = Math.max(maxProduct, 1L * topPos.get(0) * topPos.get(1) * topPos.get(2));
+            }
+
+            if (neg >= 2 && pos >= 1) {
+                List<Integer> topNeg = new ArrayList<>(pqq[node]);
+                Collections.sort(topNeg);
+                int a = topNeg.get(0);
+                int b = topNeg.get(1);
+                int c = Collections.max(pq[node]);
+                maxProduct = Math.max(maxProduct, 1L * a * b * c);
+            }
+
+            ans[node] = maxProduct == Long.MIN_VALUE ? 0 : maxProduct;
+        }
+    }
+
+    public long[] placedCoins(int[][] edges, int[] cost) {
+        int n = cost.length;
+        long[] ans = new long[n];
+
+        PriorityQueue<Integer>[] pq = new PriorityQueue[n];
+        PriorityQueue<Integer>[] pqq = new PriorityQueue[n];
+        List<Integer>[] adj = new ArrayList[n];
+
+        for (int i = 0; i < n; i++) {
+            pq[i] = new PriorityQueue<>();
+            pqq[i] = new PriorityQueue<>(Collections.reverseOrder());
+            adj[i] = new ArrayList<>();
+        }
+
+        for (int[] e : edges) {
+            adj[e[0]].add(e[1]);
+            adj[e[1]].add(e[0]);
+        }
+
+        dfs(adj, cost, 0, -1, pq, pqq, ans);
+        return ans;
+    }
+}
