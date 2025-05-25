@@ -1,0 +1,21 @@
+class Solution {
+    boolean pythagoreanTriplet(int[] a) {
+       int mx=0;
+       int n=a.length;
+        Map<Integer,Integer> mp=new HashMap<>();
+        Arrays.sort(a);
+         
+        
+        for(int i=0;i<n;i++)
+        {
+            int l=1,r=i-1;
+            while(l<r)
+            {
+               if(a[l]*a[l]+a[r]*a[r]==a[i]*a[i]) return true;
+               else if(a[l]*a[l]+a[r]*a[r]<a[i]*a[i]) l++;
+               else r--;
+            }
+        }
+        return false;
+    }
+}
