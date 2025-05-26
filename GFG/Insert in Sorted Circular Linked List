@@ -1,0 +1,47 @@
+/*
+class Node {
+    int data;
+    Node next;
+
+    Node(int x) {
+        data = x;
+        next = null;
+    }
+} */
+
+class Solution {
+    public Node sortedInsert(Node head, int data) {
+        // code here
+       Node neww = new Node(data);
+
+    // Case 1: Empty list
+    if (head == null) {
+        neww.next = neww;
+        return neww;
+    }
+
+    Node cur = head;
+
+    // Special case: if the new node needs to be inserted before the head
+    if (data <= head.data) {
+        // Find the last node
+        while (cur.next != head) {
+            cur = cur.next;
+        }
+        cur.next = neww;
+        neww.next = head;
+        return neww; // new node becomes new head
+    }
+
+    // General case: find proper position
+    while (cur.next != head && cur.next.data < data) {
+        cur = cur.next;
+    }
+
+    // Insert between cur and cur.next
+    neww.next = cur.next;
+    cur.next = neww;
+
+    return head; 
+    }
+}
