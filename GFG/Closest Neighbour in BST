@@ -1,0 +1,32 @@
+/*
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int x) {
+        data = x;
+        left = right = null;
+    }
+} */
+class Solution {
+     static int max=-1;
+    
+    public int findMaxFork(Node root, int k) {
+        // code here.
+          traverse(root,k);
+        int ans = max;
+        max = -1;
+        return ans;
+    }
+    
+     public static void traverse(Node root,int n){
+         if(root==null)
+            return;
+            
+        traverse(root.left,n);
+        if(root.data>max&&root.data<=n){
+            max = root.data;
+        }
+        traverse(root.right,n);
+     }
+}
