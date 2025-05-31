@@ -1,0 +1,67 @@
+class Solution {
+
+    public void bfs(ArrayList<Integer>[] tree, int[] colourCount, int[] nodeColour, int root) {
+        int n = tree.length;
+        boolean[] vis = new boolean[n];
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{root, 0});
+
+        while (!q.isEmpty()) {
+            int[] pair = q.poll();
+            int node = pair[0];
+            int colour = pair[1];
+
+            if (vis[node]) continue;
+
+            vis[node] = true;
+            nodeColour[node] = colour;
+            colourCount[colour]++;
+
+            for (int adj : tree[node]) {
+                if (!vis[adj]) {
+                    q.offer(new int[]{adj, (colour + 1) % 2});
+                }
+            }
+        }
+    }
+
+    public int[] maxTargetNodes(int[][] edges1, int[][] edges2) {
+        int n1 = edges1.length + 1;
+        int n2 = edges2.length + 1;
+        int n = Math.max(n1, n2);  
+
+        ArrayList<Integer>[] tree1 = formTree(edges1, n1);
+        ArrayList<Integer>[] tree2 = formTree(edges2, n2);
+
+        int[] colour1 = new int[2];
+        int[] colour2 = new int[2];
+
+        int[] node1 = new int[n1];
+        int[] node2 = new int[n2];
+
+        bfs(tree1, colour1, node1, 0);  
+        bfs(tree2, colour2, node2, 0);  
+
+        int[] result = new int[n1];
+        int max2 = Math.max(colour2[0], colour2[1]);
+
+        for (int i = 0; i < n1; i++) {
+            result[i] = colour1[node1[i]] + max2;
+        }
+
+        return result;
+    }
+
+    public ArrayList<Integer>[] formTree(int[][] edges, int n) {
+        ArrayList<Integer>[] tree = new ArrayList[n];
+        for (int i = 0; i < n; i++) tree[i] = new ArrayList<>();
+
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            tree[u].add(v);
+            tree[v].add(u);
+        }
+        return tree;
+    }
+}
