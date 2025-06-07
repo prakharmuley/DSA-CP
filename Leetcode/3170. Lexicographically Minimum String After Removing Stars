@@ -1,0 +1,41 @@
+class Solution {
+    public String clearStars(String s) {
+        char[] arr = s.toCharArray();
+        PriorityQueue<CharOccurrence> pq = new PriorityQueue<>((a, b) -> {
+            if (a.ch != b.ch) {
+                return Character.compare(a.ch, b.ch);
+            }
+            return Integer.compare(b.index, a.index);
+        });
+
+        for (int i = 0; i < arr.length; i++) {
+            char c = arr[i];
+            if (c == '*') {
+                if (!pq.isEmpty()) {
+                    CharOccurrence toRemove = pq.poll();
+                    arr[toRemove.index] = '*';
+                }
+            } else {
+                pq.offer(new CharOccurrence(c, i));
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (char c : arr) {
+            if (c != '*') {
+                res.append(c);
+            }
+        }
+        return res.toString();
+    }
+
+    private static class CharOccurrence {
+        char ch;
+        int index;
+
+        CharOccurrence(char ch, int index) {
+            this.ch = ch;
+            this.index = index;
+        }
+    }
+}
