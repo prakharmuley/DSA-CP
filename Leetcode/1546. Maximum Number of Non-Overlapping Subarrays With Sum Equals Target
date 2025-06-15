@@ -1,0 +1,21 @@
+class Solution {
+    public int maxNonOverlapping(int[] nums, int target) {
+        Map<Integer,Integer> mp=new HashMap<>();
+        int sum=0,ans=0,n=nums.length;
+        int prev_right_idx=-1;
+        mp.put(0,-1);
+        for(int i=0;i<n;i++)
+        {
+            sum+=nums[i];
+            int t=sum-target;
+            if(mp.containsKey(t)&&mp.get(t)>=prev_right_idx)
+            {
+                ans++;
+                prev_right_idx=i;
+                System.out.print(prev_right_idx+" ");
+            }
+            mp.put(sum,i);
+        }
+        return ans;
+    }
+}
