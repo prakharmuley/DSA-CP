@@ -1,0 +1,19 @@
+class Solution {
+    public long dfs(int ai, int bi, int[] a, int[] b, long[][] dp) {
+        if (ai == 4) return 0L; 
+        if (bi == b.length) return Long.MIN_VALUE / 2; 
+
+        if (dp[ai][bi] != Long.MIN_VALUE) return dp[ai][bi];
+        long pick = (long) a[ai] * b[bi] + dfs(ai + 1, bi + 1, a, b, dp);
+        long skip = dfs(ai, bi + 1, a, b, dp);
+
+        return dp[ai][bi] = Math.max(pick, skip);
+    }
+
+    public long maxScore(int[] a, int[] b) {
+        int n = b.length;
+        long[][] dp = new long[5][n + 1];
+        for (long[] row : dp) Arrays.fill(row, Long.MIN_VALUE);
+        return dfs(0, 0, a, b, dp);
+    }
+}
