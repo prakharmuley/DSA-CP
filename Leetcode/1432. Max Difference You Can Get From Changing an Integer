@@ -1,0 +1,22 @@
+class Solution {
+    public int maxDiff(int num) {
+        String s = Integer.toString(num);
+        int maxVal = num, minVal = num;
+
+        for (char d1 = '0'; d1 <= '9'; d1++) {
+            for (char d2 = '0'; d2 <= '9'; d2++) {
+                if (d1 == d2) continue;
+
+                String replaced = s.replace(d1, d2);
+
+                if (replaced.charAt(0) == '0') continue;
+
+                int val = Integer.parseInt(replaced);
+                maxVal = Math.max(maxVal, val);
+                minVal = Math.min(minVal, val);
+            }
+        }
+
+        return maxVal - minVal;
+    }
+}
