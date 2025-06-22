@@ -1,0 +1,124 @@
+// class Solution {
+//     int[][] dir=new int[][]{{-2,-1},{-1,-2},{1,-2},{2,-1},{2,1},{1,2},{-1,2},{-2,1}}; 
+//     public boolean dfs(Set<Integer> hs, int src, int[][] grid, int i, int j)
+//     {
+//         if(i<0||j<0||i>=grid.length||j>=grid[0].length) return false;
+//         if(hs.size()==grid[0].length*grid.length) return true;
+//         boolean a=false;
+//         boolean b=false;
+//         boolean c=false;
+//         boolean d=false;
+//         boolean e=false;
+//         boolean f=false;
+//         boolean g=false;
+//         boolean h=false;
+//         if(src==grid[i][j]){
+//           hs.add(src);
+//          a=dfs(hs,src+1,grid,i-2,j-1);
+//          b=dfs(hs,src+1,grid,i-1,j-2);
+//          c=dfs(hs,src+1,grid,i+1,j-2);
+//          d=dfs(hs,src+1,grid,i+2,j-1);
+//          e=dfs(hs,src+1,grid,i+2,j+1);
+//          f=dfs(hs,src+1,grid,i+1,j+2);
+//          g=dfs(hs,src+1,grid,i-1,j+2);
+//          h=dfs(hs,src+1,grid,i-2,j+1);
+//          return a||b||c||d||e||f||g||h;
+//         }
+//         return false;
+        
+
+        
+//     }
+//     public boolean checkValidGrid(int[][] grid) {
+//         Set<Integer> hs=new HashSet<>();
+//         int src=0;
+//         hs.add(src);
+//         return dfs(hs,src,grid,0,0);
+//     }
+// }
+
+
+// class Solution {
+//     int[][] dir = new int[][]{{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
+
+//     public boolean checkValidGrid(int[][] grid) {
+//         if (grid[0][0] != 0) {
+//             return false;
+//         }
+
+//         int n = grid.length;
+//         int totalCells = n * n;
+
+//         int[] visitedSteps = new int[totalCells];
+//         for (int k = 0; k < totalCells; k++) {
+//             visitedSteps[k] = -1;
+//         }
+
+//         return dfs(grid, 0, 0, 0, totalCells, visitedSteps);
+//     }
+
+//     private boolean dfs(int[][] grid, int r, int c, int currentStep, int totalCells, int[] visitedSteps) {
+//         if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length) {
+//             return false;
+//         }
+
+//         if (grid[r][c] != currentStep) {
+//             return false;
+//         }
+
+//         if (visitedSteps[currentStep] == currentStep) {
+//             return false;
+//         }
+//         visitedSteps[currentStep] = currentStep;
+
+//         if (currentStep == totalCells - 1) {
+//             return true;
+//         }
+
+//         for (int[] move : dir) {
+//             int nextR = r + move[0];
+//             int nextC = c + move[1];
+
+//             if (dfs(grid, nextR, nextC, currentStep + 1, totalCells, visitedSteps)) {
+//                 return true;
+//             }
+//         }
+
+//         visitedSteps[currentStep] = -1;
+
+//         return false;
+//     }
+// }
+
+class Solution {
+    private static final int[][] DIRS = {
+        {-2, -1}, {-1, -2}, {1, -2}, {2, -1},
+        {2, 1}, {1, 2}, {-1, 2}, {-2, 1}
+    };
+
+    public boolean checkValidGrid(int[][] grid) {
+        if (grid[0][0] != 0) return false;
+        int n = grid.length;
+        int m = grid[0].length;
+        int total = n * m;
+
+        int[][] pos = new int[total][2];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                pos[grid[i][j]] = new int[]{i, j};
+
+        for (int i = 1; i < total; i++) {
+            int[] prev = pos[i - 1];
+            int[] curr = pos[i];
+            if (!isKnightMove(prev, curr)) return false;
+        }
+
+        return true;
+    }
+
+    private boolean isKnightMove(int[] from, int[] to) {
+        int dx = Math.abs(from[0] - to[0]);
+        int dy = Math.abs(from[1] - to[1]);
+        return dx * dy == 2;  
+    }
+}
