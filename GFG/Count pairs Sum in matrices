@@ -1,0 +1,44 @@
+class Solution {
+    int countPairs(int[][] mat1, int[][] mat2, int x) {
+        // code here
+       int n = mat1.length;
+        int r1 = 0, r2 = n - 1; // Row pointers for mat1 and mat2
+        int c1 = 0, c2 = n - 1; // Column pointers for mat1 and mat2
+        int ans = 0;
+
+        // Loop as long as both row pointers are within bounds
+        while (r1 < n && r2 >= 0) {
+            int v1 = mat1[r1][c1];
+            int v2 = mat2[r2][c2];
+
+            if (v1 + v2 == x) {
+                ans++;
+                // If a pair is found, move both pointers to search for other pairs.
+                // The direction of movement depends on the sorting.
+                // Assuming you want to move away from the current pair to find new ones.
+                c1++;
+                c2--;
+            } else if (v1 + v2 < x) {
+                // If sum is too small, need a larger sum.
+                // Move c1 forward in mat1 to get a larger v1.
+                c1++;
+            } else { // v1 + v2 > x
+                // If sum is too large, need a smaller sum.
+                // Move c2 backward in mat2 to get a smaller v2.
+                c2--;
+            }
+
+            // Handle column boundary conditions and advance rows
+            if (c1 == n) { // If c1 goes beyond the last column for current row in mat1
+                c1 = 0; // Reset c1 to the first column
+                r1++;   // Move to the next row in mat1
+            }
+            if (c2 == -1) { // If c2 goes before the first column for current row in mat2
+                c2 = n - 1; // Reset c2 to the last column
+                r2--;       // Move to the previous row in mat2
+            }
+        }
+        return ans;
+        
+    }
+}
