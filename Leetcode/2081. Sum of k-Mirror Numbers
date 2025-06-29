@@ -1,0 +1,55 @@
+class Solution {
+    public boolean isP(long num, int k)
+    {
+        long temp=num;
+        long rev=0;
+        while(num>0)
+        {
+          rev=rev*k+(num%k);
+          num/=k;
+        }
+        return temp==rev;
+    }
+    public long createPal(int half, boolean odd)
+    {
+        long pal=(long)half;
+        if(odd) half/=10;
+
+         
+        while(half>0)
+        {
+            pal=pal*10+(half%10);
+            half/=10;
+        }
+        return pal;
+    }
+    public long kMirror(int k, int n) {
+        long sum=0;
+        int cnt=0;
+        for(int len=1;cnt<n;len++)
+        {
+             int start=(int)Math.pow(10,(len-1)/2);
+             int end=(int)Math.pow(10,(len+1)/2);
+             for(int i=start;i<=end;i++)
+             {
+                 long pal=createPal(i,len%2==1);
+                 if(isP(pal,k))
+                 {
+                    sum+=pal;
+                    cnt++;
+                    if(cnt==n)
+                      return sum;
+                 }
+             }
+        }
+
+        return sum;
+        
+    }
+}
+
+
+
+// 1 0 1 1
+//1 0 0 0 1
+
