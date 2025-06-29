@@ -1,0 +1,33 @@
+class Solution {
+    public int longestSubsequence(String s, int k) {
+        String f=new String();
+        int n=s.length();
+        int ans=0;
+        int t=0;
+        int m=0;
+        for(int i=n-1;i>=0;i--)
+        {
+            if(s.charAt(i)=='1')
+            {
+                if(ans>k || m>=31)
+                {
+                    continue;
+                }
+                else if((ans+(1<<m))<=k)
+                {
+                    ans+=(1<<m);
+                    f+="1";
+                }
+            }
+            else
+            {
+                f+=s.charAt(i);
+            }
+            m++;
+        }
+        StringBuilder sb=new StringBuilder(f);
+        
+       
+        return sb.length();
+    }
+}
