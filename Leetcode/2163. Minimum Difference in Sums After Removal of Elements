@@ -1,0 +1,39 @@
+class Solution {
+    public long minimumDifference(int[] nums) {
+        int n=nums.length/3;
+        long[] left=new long[n*3];
+        long[] right=new long[n*3];
+        PriorityQueue<Integer> pql=new PriorityQueue<>((a,b)->b-a);
+        PriorityQueue<Integer> pqr=new PriorityQueue<>();
+        long ls=0,rs=0L;
+        for(int i=0;i<n;i++)
+        {
+            ls+=(long)nums[i];
+            pql.offer(nums[i]);
+        }
+        left[n-1]=ls;
+        
+        for(int i=3*n-1;i>=2*n;i--)
+        {
+            rs+=nums[i]*1L;
+            pqr.offer(nums[i]);
+        }
+        for(int i=n;i<2*n;i++)
+        {
+            ls+=nums[i]*1L;
+            pql.offer(nums[i]);
+            ls=ls-pql.poll();
+            left[i]=ls;
+        }
+
+        long ans=left[2*n-1]-rs;
+        for(int i=2*n-1;i>=n;i--)
+        {
+            rs+=nums[i]*1L;
+            pqr.offer(nums[i]);
+            rs-=(long)pqr.poll();
+            ans=Math.min(ans,left[i-1]-rs);
+        }
+        return ans;
+    }
+}
