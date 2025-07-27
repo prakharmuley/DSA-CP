@@ -1,0 +1,55 @@
+class Solution {
+    public ArrayList<Integer> topKSumPairs(int[] a, int[] b, int k) {
+        // code here
+        Arrays.sort(a);
+        Arrays.sort(b);
+        ArrayList<Integer> ans=new ArrayList<>();
+        PriorityQueue<Pair> pq=new PriorityQueue<>();
+        HashSet<String> set = new HashSet<>();
+        
+        int n=a.length,m=b.length;
+        int x=n-1,y=m-1;
+        pq.offer(new Pair(a[x]+b[y],x,y));
+        set.add(x+" "+y);
+        for(int i=0;i<k;i++)
+        {
+            Pair p=pq.poll();
+            ans.add(p.sum);
+            int xx=p.f;
+            int yy=p.s;
+            if(xx-1>=0&&!set.contains((xx-1)+" "+yy))
+            {
+                pq.offer(new Pair(a[xx-1]+b[yy],xx-1,yy));
+                set.add((xx-1)+" "+yy);
+            }
+            if(yy-1>=0&&!set.contains(xx+" "+(yy-1)))
+            {
+                pq.offer(new Pair(a[xx]+b[yy-1],xx,yy-1));
+                set.add(xx+" "+(yy-1));
+            }
+        }
+        return ans;
+        
+        
+    }
+}
+class Pair implements Comparable<Pair>{
+    
+    int sum;
+    int f;
+    int s;
+    public Pair(int sum, int f, int s)
+    {
+        this.sum=sum;
+        this.f=f;
+        this.s=s;
+    }
+    @Override
+    public int compareTo(Pair o)
+    {
+        if(o.sum>this.sum) return 1;
+        else if(o.sum==this.sum) return 0;
+        
+        return -1;
+    }
+}
