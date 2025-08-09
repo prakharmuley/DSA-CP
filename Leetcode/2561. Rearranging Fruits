@@ -1,0 +1,32 @@
+class Solution {
+    public long minCost(int[] basket1, int[] basket2) {
+     
+        Map<Integer,Integer> mp1=new TreeMap<>();
+        for(int x: basket1) mp1.put(x,mp1.getOrDefault(x,0)+1);
+        for(int x: basket2) mp1.put(x,mp1.getOrDefault(x,0)-1);
+        
+       
+        long ans=0L;
+        Arrays.sort(basket1);
+        Arrays.sort(basket2);
+        int mn=Math.min(basket1[0],basket2[0]);
+        int n=basket1.length;
+        List<Integer> l=new ArrayList<>();
+        for(Map.Entry<Integer,Integer> e: mp1.entrySet())
+        {
+            if(e.getValue()%2!=0) return -1;
+            for(int i=0;i<Math.abs(e.getValue())/2;i++)
+            {
+               l.add(e.getKey());      
+            }
+
+        }
+        for(int i=0;i<l.size()/2;i++)
+        {
+            ans+=(long)Math.min(l.get(i),2*mn);
+        }
+        return ans;
+        //-1 case;
+
+    }
+}
