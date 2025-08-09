@@ -1,0 +1,32 @@
+class Solution {
+    public int latestTimeCatchTheBus(int[] buses, int[] pas, int cap) {
+        Arrays.sort(buses);
+        Arrays.sort(pas);
+        int ans =0;
+        HashSet<Integer> hs = new HashSet<>();
+        int pidx =0;
+        int bidx=0;
+        int n=buses.length;
+        int m=pas.length;
+        for(int i=0;i<n;i++){
+            int c=0;
+            while(c<cap&&pidx<m&&pas[pidx]<=buses[i])
+            {
+                c++;
+                if(!hs.contains(pas[pidx]-1))
+                {
+                    ans=pas[pidx]-1;
+                }
+                hs.add(pas[pidx]);
+                pidx++;
+            }
+            if(c<cap&&!hs.contains(buses[i]))
+            {
+                ans=buses[i];
+            }
+
+    }
+      return ans;
+    }
+  
+}
