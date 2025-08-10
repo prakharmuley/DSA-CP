@@ -1,0 +1,36 @@
+class Solution {
+    public boolean reorderedPowerOf2(int n) {
+        if(n==1) return true;
+        int val=1;
+        Set<String> hs=new HashSet<>();
+        for(int i=1;i<=31;i++)
+        {
+            val<<=1;
+            StringBuilder sb=new StringBuilder(String.valueOf(val));
+            char ch[]=sb.toString().toCharArray();
+            Arrays.sort(ch);
+            sb.setLength(0);
+            for(int j=0;j<ch.length;j++)
+            {
+                sb.append(ch[j]);
+            }    
+            hs.add(sb.toString());
+            
+        }
+        
+        StringBuilder sb=new StringBuilder(String.valueOf(n));
+        char ch[]=sb.toString().toCharArray();
+        Arrays.sort(ch);
+        sb.setLength(0);
+         for(int i=0;i<ch.length;i++)
+            {
+                sb.append(ch[i]);
+              
+            }
+
+        return (hs.contains(sb.toString())); 
+
+        
+        
+    }
+}
