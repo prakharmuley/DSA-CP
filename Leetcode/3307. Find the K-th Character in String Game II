@@ -1,0 +1,13 @@
+class Solution {
+    public char kthCharacter(long k, int[] operations) {
+        int op=0;
+        long val=k;
+        while(val>1L)
+        {
+            int j=(int)Math.ceil(Math.log(val) / Math.log(2));
+            val-=(long)(1L<<(long)(j-1));
+            op+=operations[j-1];
+        }
+        return (char)(('a'+op%26));
+    }
+}
