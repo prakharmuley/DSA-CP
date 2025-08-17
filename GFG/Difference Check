@@ -1,0 +1,37 @@
+
+import java.util.*;
+
+class Solution {
+    private int toSeconds(String time) {
+        String[] parts = time.split(":");
+        int h = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+        int s = Integer.parseInt(parts[2]);
+        return h * 3600 + m * 60 + s;
+    }
+
+    public int minDifference(String[] arr) {
+        int n = arr.length;
+        int[] seconds = new int[n];
+
+        // Convert all times to seconds
+        for (int i = 0; i < n; i++) {
+            seconds[i] = toSeconds(arr[i]);
+        }
+
+        // Sort times
+        Arrays.sort(seconds);
+
+        int ans = Integer.MAX_VALUE;
+
+        // Check consecutive differences
+        for (int i = 1; i < n; i++) {
+            ans = Math.min(ans, seconds[i] - seconds[i - 1]);
+        }
+
+        // Also check circular difference (last -> first across midnight)
+        ans = Math.min(ans, 86400 - (seconds[n - 1] - seconds[0]));
+
+        return ans;
+    }
+}
