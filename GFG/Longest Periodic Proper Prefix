@@ -1,0 +1,27 @@
+class Solution {
+    int getLongestPrefix(String str) {
+        // code here
+        char[] s=str.toCharArray();
+         int i = str.length() - 1, j = 0, pos = str.length() - 1, cnt = 0;
+   
+        while (i > 0 && i < str.length()) {
+            if (s[i] == s[j]) {
+                j++;
+                i++;
+
+            }
+
+            else {
+                j = 0;
+                pos--;
+                i = pos;
+            }
+        }
+
+        if (i == 0) {
+            return -1;
+        }
+
+        return pos;
+    }
+}
