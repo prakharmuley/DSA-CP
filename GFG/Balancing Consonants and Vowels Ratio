@@ -1,0 +1,42 @@
+class Solution {
+    private boolean isvowel(char ch){
+        return ch=='a' || ch=='e' || 
+        ch=='i' || ch=='o' || ch=='u';
+    }
+    private int SubarraySumK(int[] arr,int k){
+        int n=arr.length;
+        HashMap<Integer,Integer> map=new HashMap<>();
+        map.put(0,1);
+        int sum=0;
+        int cnt=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            if(map.containsKey(sum-k)){
+                cnt+=map.get(sum-k);
+            }
+            map.put(sum,map.getOrDefault(sum,0)+1);
+        }
+        return cnt;
+    }
+    public int countBalanced(String[] str) {
+        int n=str.length;
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            String s=str[i];
+            int cnt=0;
+            for(int j=0;j<s.length();j++){
+                char ch=s.charAt(j);
+                if(isvowel(ch)){
+                    cnt++;
+                }
+                else{
+                    cnt--;
+                }
+            }
+            arr[i]=cnt;
+        }
+        int k=0;
+        int count=SubarraySumK(arr,k);
+        return count;
+    }
+}
