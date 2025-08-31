@@ -1,0 +1,20 @@
+class Solution {
+    public boolean isValidSudoku(char[][] b) {
+        HashSet<String> hs=new HashSet<>();
+        for(int i=0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                char ch=b[i][j];
+                if(ch!='.')
+                {
+                    if(!hs.add(ch+"found in"+i)||
+                    !hs.add(ch+"found inn"+j)||
+                    !hs.add(ch+"sub"+i/3+"-"+j/3))
+                       return false; 
+                }
+            }
+        }
+        return true;
+    }
+}
