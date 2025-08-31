@@ -1,0 +1,22 @@
+class Solution {
+    public long flowerGame(int n, int m) {
+        long oddN=0;
+        long evenN=0;
+        for (long i=1;i<=n;i++){
+            if (i%2==0){
+                evenN++;
+            }
+        }
+        oddN = n-evenN;
+        long oddM=0;
+        long evenM=0;
+        for (long i=1;i<=m;i++){
+            if (i%2==0){
+                evenM++;
+            }
+        }
+        oddM = m-evenM;
+
+        return (evenN*oddM)+(oddN*evenM);
+    }
+}
