@@ -1,0 +1,29 @@
+class Solution {
+    
+    public String sortVowels(String s) {
+        Set<Character> hs=new HashSet<>();
+        StringBuilder sb=new StringBuilder();
+        hs.add('A'); hs.add('a'); hs.add('E'); hs.add('e'); hs.add('i'); hs.add('I'); hs.add('O'); hs.add('o'); hs.add('u'); hs.add('U'); 
+        TreeMap<Character,Integer> mp=new TreeMap<>();
+        for(char c: s.toCharArray())
+        {
+            if(hs.contains(c)) mp.put(c,mp.getOrDefault(c,0)+1);
+        }
+        for(int i=0;i<s.length();i++)
+        {
+            if(!hs.contains(s.charAt(i)))
+            {
+                sb.append(s.charAt(i));
+            }
+            else
+            {
+                char c=mp.firstKey();
+                sb.append(c);
+                mp.put(c,mp.get(c)-1);
+                if(mp.get(c)==0) mp.remove(c);
+            }
+        }
+        return sb.toString();
+            
+    }
+}
