@@ -1,0 +1,17 @@
+class Solution {
+    public int dfs(List<List<Integer>> t, Integer[][] dp, int lvl, int i)
+    {
+        if(dp[lvl][i]!=null) return dp[lvl][i];
+        dp[lvl][i] = t.get(lvl).get(i);
+	    if (lvl < t.size() - 1) 
+		dp[lvl][i] += Math.min(dfs(t,dp, lvl+1, i), dfs(t,dp,lvl + 1, i + 1));
+
+	    return dp[lvl][i] ;
+        
+    }
+    public int minimumTotal(List<List<Integer>> t) {
+        int n=t.size();
+        Integer dp[][]=new Integer[n][n];
+       return dfs(t,dp,0,0);
+    }
+}
