@@ -1,0 +1,19 @@
+class Solution {
+    public int triangularSum(int[] num) {
+        if(num.length==1) return num[0];
+          List<Integer> nums=new ArrayList<>();
+        for(int x: num) nums.add(x);
+        List<Integer> t=new ArrayList<>();
+        while(nums.size()>1){
+            for(int i=0;i<nums.size()-1;i++){
+                int x=(nums.get(i)+nums.get(i+1))%10;
+                t.add(x);
+            }
+            nums.clear();
+            nums.addAll(t);
+            t.clear();
+        }
+        return nums.get(0);
+    
+    }
+}
