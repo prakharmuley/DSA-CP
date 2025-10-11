@@ -1,0 +1,32 @@
+class Solution {
+    public long dfs(TreeMap<Long, Long> mp, long[] dp, long[] vals, int n, int i) {
+        if (i >= n) return 0L;
+        if (dp[i] != -1L) return dp[i];
+
+        long currVal = vals[i];
+        long currDamage = currVal * mp.get(currVal);
+        int j = i + 1;
+        while (j < n && vals[j] <= currVal + 2) j++;
+
+        long take = currDamage + dfs(mp, dp, vals, n, j);
+        long skip = dfs(mp, dp, vals, n, i + 1);
+
+        return dp[i] = Math.max(take, skip);
+    }
+
+    public long maximumTotalDamage(int[] power) {
+        TreeMap<Long, Long> mp = new TreeMap<>();
+        for (int p : power)
+            mp.put((long) p, mp.getOrDefault((long) p, 0L) + 1L);
+
+        int n = mp.size();
+        long[] vals = new long[n];
+        int idx = 0;
+        for (long key : mp.keySet()) vals[idx++] = key;
+
+        long[] dp = new long[n];
+        Arrays.fill(dp, -1L);
+
+        return dfs(mp, dp, vals, n, 0);
+    }
+}
