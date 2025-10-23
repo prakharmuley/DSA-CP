@@ -1,0 +1,66 @@
+import java.util.*;
+
+class Solution {
+    public int minimumVisitedCells(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        Queue<int[]> q = new LinkedList<>();
+        boolean[][] vis = new boolean[n][m];
+
+        // Each row[i] holds unvisited column indices in that row
+        TreeSet<Integer>[] row = new TreeSet[n];
+        // Each col[j] holds unvisited row indices in that column
+        TreeSet<Integer>[] col = new TreeSet[m];
+
+        for (int i = 0; i < n; i++) {
+            row[i] = new TreeSet<>();
+            for (int j = 0; j < m; j++) {
+                row[i].add(j);
+            }
+        }
+
+        for (int j = 0; j < m; j++) {
+            col[j] = new TreeSet<>();
+            for (int i = 0; i < n; i++) {
+                col[j].add(i);
+            }
+        }
+
+        q.offer(new int[]{0, 0});
+        vis[0][0] = true;
+        row[0].remove(0);
+        col[0].remove(0);
+
+        int cnt = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            cnt++;
+
+            for (int i = 0; i < size; i++) {
+                int[] cur = q.poll();
+                int x = cur[0], y = cur[1];
+
+                if (x == n - 1 && y == m - 1) return cnt;
+
+                Integer ky = row[x].ceiling(y + 1);
+                while (ky != null && ky <= y + grid[x][y]) {
+                    vis[x][ky] = true;
+                    q.offer(new int[]{x, ky});
+                    row[x].remove(ky);
+                    col[ky].remove(x);
+                    ky = row[x].ceiling(ky + 1);
+                }
+
+                Integer kx = col[y].ceiling(x + 1);
+                while (kx != null && kx <= x + grid[x][y]) {
+                    vis[kx][y] = true;
+                    q.offer(new int[]{kx, y});
+                    col[y].remove(kx);
+                    row[kx].remove(y);
+                    kx = col[y].ceiling(kx + 1);
+                }
+            }
+        }
+
+        return -1;
+    }
+}
