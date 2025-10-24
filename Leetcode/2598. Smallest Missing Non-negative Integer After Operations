@@ -1,0 +1,10 @@
+class Solution {
+    public int findSmallestInteger(int[] nums, int value) {
+        int[] freq=new int[value];
+        for(int x: nums) freq[(value+(x%value))%value]++;
+        int idx=0;
+        for(;idx<(int)Integer.MAX_VALUE&&freq[idx%value]>0;idx++) freq[idx%value]--;
+
+        return idx;
+    }
+}
