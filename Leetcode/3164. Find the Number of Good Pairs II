@@ -1,0 +1,66 @@
+// class Solution {
+//     public long numberOfPairs(int[] nums1, int[] nums2, int k) {
+//         Map<Long, Long> freq2 = new HashMap<>();
+//         for (int y : nums2) {
+//             long val = (long) y * k;
+//             freq2.put(val, freq2.getOrDefault(val, 0L) + 1);
+//         }
+
+//         long ans = 0;
+//         for (int x : nums1) {
+//             for (long d = 1; d * d <= x; d++) {
+//                 if (x % d == 0) {
+//                     if (freq2.containsKey(d)) ans += freq2.get(d);
+//                     if (d != x / d && freq2.containsKey(x / d)) ans += freq2.get(x / d);
+//                 }
+//             }
+//         }
+
+//         return ans;
+//     }
+// }
+
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.stream.*;
+
+class Solution {
+    public long numberOfPairs(int[] nums1, int[] nums2, int k) {
+        // Step 1: Precompute nums2[i] * k frequencies
+        Map<Long, Long> freq2 = new ConcurrentHashMap<>();
+        for (int y : nums2) {
+            long val = (long) y * k;
+            freq2.put(val, freq2.getOrDefault(val, 0L) + 1);
+        }
+
+        // Optional: Cache divisors for duplicate nums1 values
+        ConcurrentHashMap<Integer, List<Long>> divisorCache = new ConcurrentHashMap<>();
+
+        // Step 2: Use parallel stream to process nums1 faster
+        long ans = Arrays.stream(nums1).parallel().mapToLong(x -> {
+            long count = 0;
+
+            // Retrieve cached divisors if available
+            List<Long> divs = divisorCache.computeIfAbsent(x, n -> {
+                List<Long> dList = new ArrayList<>();
+                for (long d = 1; d * d <= n; d++) {
+                    if (n % d == 0) {
+                        dList.add(d);
+                        if (d != n / d) dList.add(n / d);
+                    }
+                }
+                return dList;
+            });
+
+            // Count valid divisors that exist in nums2*k
+            for (long d : divs) {
+                Long freq = freq2.get(d);
+                if (freq != null) count += freq;
+            }
+
+            return count;
+        }).sum();
+
+        return ans;
+    }
+}
