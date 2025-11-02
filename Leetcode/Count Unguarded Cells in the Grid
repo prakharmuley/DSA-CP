@@ -1,0 +1,57 @@
+class Solution {
+    int dx[]=new int[]{0,-1,1,0};
+    int dy[]=new int[]{-1,0,0,1};
+    public int countUnguarded(int n, int m, int[][] g, int[][] w) {
+        Queue<Pair> q=new LinkedList<>();
+        int res[][]=new int[n][m];
+        for(int i=0;i<g.length;i++)
+        {     
+            q.offer(new Pair(g[i][0],g[i][1]));
+            res[g[i][0]][g[i][1]]=1;    
+        }
+        
+        for(int i=0;i<w.length;i++)
+        {
+            
+                 res[w[i][0]][w[i][1]]=-1;
+
+        }
+        while(!q.isEmpty())
+        {
+            Pair p=q.poll();
+            int rr=p.f;
+            int cc=p.s;
+            for(int i=0;i<4;i++)
+            {
+                int r=rr+dx[i];
+                int c=cc+dy[i];
+                while(!(r<0||r>=n||c<0||c>=m||res[r][c]==1||res[r][c]==-1))
+                {
+                    res[r][c]=2;
+                    r+=dx[i];
+                    c+=dy[i];
+                        
+                }
+            }
+        }
+        int c=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++) 
+            {
+               if(res[i][j]!=0) c++;
+            }
+        }
+        return n*m-c;
+       
+    }
+}
+class Pair{
+    int f;
+    int s;
+    public Pair(int f, int s)
+    {
+        this.f=f;
+        this.s=s;
+    }
+}
