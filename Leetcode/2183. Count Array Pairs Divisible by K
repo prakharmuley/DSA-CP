@@ -1,0 +1,24 @@
+class Solution {
+    public long countPairs(int[] nums, int k) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        long res = 0L;
+
+        for (int x : nums) {
+            int curGcd = gcd(x, k);
+            for (int prevGcd : mp.keySet()) {
+                if ((1L * curGcd * prevGcd) % k == 0) {
+                    res += mp.get(prevGcd);
+                }
+            }
+
+            mp.put(curGcd, mp.getOrDefault(curGcd, 0) + 1);
+        }
+
+        return res;
+    }
+
+    public int gcd(int a, int b) {
+        if (b == 0) return a;
+        return gcd(b, a % b);
+    }
+}
