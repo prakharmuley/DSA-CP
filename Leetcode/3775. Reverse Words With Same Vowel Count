@@ -1,0 +1,24 @@
+class Solution {
+    public String reverseWords(String s) {
+        String parivontel = s;
+
+        String[] words = parivontel.split(" ");
+        long firstVowelCount = countVowels(words[0]);
+
+        for (int i = 1; i < words.length; i++) {
+            if (countVowels(words[i]) == firstVowelCount) {
+                words[i] = new StringBuilder(words[i]).reverse().toString();
+            }
+        }
+
+        return String.join(" ", words);
+    }
+
+    private long countVowels(String word) {
+        return word.chars().filter(c -> isVowel((char) c)).count();
+    }
+
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+}
