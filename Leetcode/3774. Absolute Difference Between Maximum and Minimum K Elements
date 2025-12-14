@@ -1,0 +1,16 @@
+class Solution {
+    public int absDifference(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        Arrays.stream(nums).forEach(n -> {
+            minHeap.offer(n);
+            maxHeap.offer(n);
+        });
+
+        int minSum = IntStream.range(0, k).map(i -> minHeap.poll()).sum();
+        int maxSum = IntStream.range(0, k).map(i -> maxHeap.poll()).sum();
+
+        return Math.abs(maxSum - minSum);
+    }
+}
