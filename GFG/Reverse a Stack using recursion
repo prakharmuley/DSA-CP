@@ -1,0 +1,41 @@
+class Solution {
+    // public static void reverse(Stack<Integer> st)
+    // {
+    //     if(st.isEmpty())
+    //       return;
+    //       int top=st.pop();
+    //       reverse(st);
+    //       Stack<Integer> temp=new Stack<>();
+    //       while(!st.isEmpty()) temp.push(st.pop());
+          
+    //       st.push(top);
+    //       while(!temp.isEmpty()) st.push(temp.pop());
+          
+    // }
+    
+      public static void insertAtBottom(Stack<Integer> st, int ele)
+    {
+        if(st.isEmpty())
+          {
+              st.push(ele);
+              return;
+          }
+         int top=st.pop();
+         insertAtBottom(st,ele);
+         st.push(top);
+          
+    }
+    
+    public static void reverseStack(Stack<Integer> st) {
+        // code here
+        if(st.isEmpty())
+          return;
+        int top=st.pop();
+        reverseStack(st);
+        insertAtBottom(st,top);
+        
+    }
+}
+
+
+    
