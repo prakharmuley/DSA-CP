@@ -1,0 +1,51 @@
+class Solution {
+    public void fun(int i, String s, StringBuilder sb){
+
+    if(i>=s.length()) 
+     {
+        return ;
+
+     }
+     if(!Character.isDigit(s.charAt(i)))
+    {
+          return ;
+    }
+    char ch=s.charAt(i);
+    
+        
+        sb.append(ch); 
+        fun(i+1,s,sb);
+    
+
+    }
+    public int myAtoi(String s) {
+        int i=0;
+        char ch='*';
+        int sign=1;
+        
+        while(i<s.length()&&s.charAt(i)==' ') i++;
+        if(i<s.length()&&(s.charAt(i)=='+'||s.charAt(i)=='-'))
+        {
+            ch=s.charAt(i);
+            if(ch=='+') sign=1;
+            else sign=-1;
+            i++;
+        }
+        StringBuilder sb=new StringBuilder();
+        fun(i,s, sb);
+        if(sb.length()==0) return 0;
+          int num = 0;
+        for (int k = 0; k < sb.length(); k++) {
+            int digit = sb.charAt(k) - '0';
+            if (num > (Integer.MAX_VALUE - digit) / 10) {
+                return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+
+            num = num * 10 + digit;
+        }
+
+        return num * sign;
+
+
+    }
+}
