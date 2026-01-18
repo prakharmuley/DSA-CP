@@ -1,0 +1,24 @@
+class Solution {
+    public void fun(int n, ArrayList<String> list, String str)
+    {
+        if(str.length()==n)
+        {
+            list.add(str);
+            return;
+        }
+        char ch='1';
+        fun(n,list,str+ch);
+        ch='0';
+        fun(n,list,str+ch);
+        
+    }
+    public ArrayList<String> binstr(int n) {
+        // code here
+        ArrayList<String> list=new ArrayList<>();
+        fun(n,list, "");
+        Collections.sort(list);
+        return list;
+        
+        
+    }
+}
