@@ -1,0 +1,23 @@
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int fun(int[] arr, int target, int i)
+    {
+        if (target == 0) return 1;
+        if (i < 0 || target < 0) return 0;
+
+        int tk=0,ntk=0;
+        if(target-arr[i]>=0)
+         tk=fun(arr,target-arr[i],i-1);
+          
+        ntk=fun(arr,target,i-1);
+        return tk+ntk;
+    }
+    public static int findWays(int num[], int tar) {
+        Arrays.sort(num);
+        int[] 
+        return fun(num,tar,num.length-1);
+
+    }
+}
