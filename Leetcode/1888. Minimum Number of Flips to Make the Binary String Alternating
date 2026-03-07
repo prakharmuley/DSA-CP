@@ -1,0 +1,23 @@
+class Solution{
+public int minFlips(String s) {
+    int n = s.length();
+    int i = 0;
+    int ans = Integer.MAX_VALUE;
+    int flip = 0;
+    for (int j = 0; j < 2 * n; j++) {
+        if (j - i + 1 > n) {
+            if (s.charAt(i % n) != ((i % 2 == 1) ? '1' : '0')) {
+                flip--;
+            }
+            i++;
+        }
+        if (s.charAt(j % n) != ((j % 2 == 1) ? '1' : '0')) {
+            flip++;
+        }
+        if (j - i + 1 == n) {
+            ans = Math.min(ans, Math.min(flip, n - flip));
+        }
+    }
+    return ans;
+}
+}
