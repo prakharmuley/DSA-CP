@@ -1,0 +1,65 @@
+class Solution {
+    public int countSubmatrices(int[][] grid, int k) {
+         int m = grid.length, n = grid[0].length;
+        int count = 0;
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0) {
+                    grid[i][j] += grid[i-1][j];
+                }
+
+                if (j > 0) {
+                    grid[i][j] += grid[i][j-1];
+                }
+   
+                if (i > 0 && j > 0) {
+                    grid[i][j] -= grid[i-1][j-1];
+                }
+                
+                if (grid[i][j] <= k) {
+                    count++;
+                }
+                else break;
+            }
+        }
+        
+        return count;
+    }
+}
+
+// 7 13 16
+// 6 12 13
+
+
+/*
+7 9 18
+1 6 6
+2 8 14
+
+
+
+7 16 34
+8  6  6
+10  8  14
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
