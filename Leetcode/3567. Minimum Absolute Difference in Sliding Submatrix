@@ -1,0 +1,71 @@
+class Solution {
+
+    public int[][] minAbsDiff(int[][] grid, int k) {
+
+        int n = grid.length;
+        int m = grid[0].length;
+
+        int[][] ans = new int[n-k+1][m-k+1];
+
+        for(int i=0;i<=n-k;i++)
+        {
+            TreeMap<Integer,Integer> ts = new TreeMap<>();
+
+            for(int r=i;r<i+k;r++)
+            {
+                for(int c=0;c<k;c++)
+                {
+                    add(ts, grid[r][c]);
+                }
+            }
+
+            ans[i][0] = getMinDiff(ts);
+
+            for(int j=1;j<=m-k;j++)
+            {
+                for(int r=i;r<i+k;r++)
+                {
+                    remove(ts, grid[r][j-1]);
+                }
+
+                for(int r=i;r<i+k;r++)
+                {
+                    add(ts, grid[r][j+k-1]);
+                }
+
+                ans[i][j] = getMinDiff(ts);
+            }
+        }
+
+        return ans;
+    }
+
+    private void add(TreeMap<Integer,Integer> ts,int val)
+    {
+        ts.put(val, ts.getOrDefault(val,0)+1);
+    }
+
+    private void remove(TreeMap<Integer,Integer> ts,int val)
+    {
+        if(ts.get(val)==1) ts.remove(val);
+        else ts.put(val, ts.get(val)-1);
+    }
+
+    private int getMinDiff(TreeMap<Integer,Integer> ts)
+{
+    if(ts.size() <= 1) return 0;
+
+    int res = Integer.MAX_VALUE;
+    Integer prev = null;
+
+    for(int val : ts.keySet())
+    {
+        if(prev != null)
+            res = Math.min(res, val - prev);
+
+        prev = val;
+    }
+
+    return res;
+}
+}
