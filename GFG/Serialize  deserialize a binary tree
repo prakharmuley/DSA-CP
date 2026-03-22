@@ -1,0 +1,54 @@
+/*
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}*/
+
+import java.util.*;
+
+class Solution {
+
+    public ArrayList<Integer> serialize(Node root) {
+        ArrayList<Integer> res = new ArrayList<>();
+        preorder(root, res);
+        return res;
+    }
+
+    private void preorder(Node root, ArrayList<Integer> res) {
+
+        if (root == null) {
+            res.add(-1);
+            return;
+        }
+
+        res.add(root.data);
+
+        preorder(root.left, res);
+        preorder(root.right, res);
+    }
+
+    int idx = 0;
+
+    public Node deSerialize(ArrayList<Integer> arr) {
+
+        if (idx >= arr.size()) return null;
+
+        int val = arr.get(idx++);
+        
+        if (val == -1) return null;
+
+        Node node = new Node(val);
+
+        node.left = deSerialize(arr);
+        node.right = deSerialize(arr);
+
+        return node;
+    }
+}
