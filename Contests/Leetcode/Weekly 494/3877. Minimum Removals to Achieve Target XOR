@@ -1,0 +1,47 @@
+class Solution {
+
+    private int f(int i, int target, int[] nums, int[][] dp) {
+        if (i >= nums.length) {
+            if (target == 0) {
+                return 0;
+            }
+            return (int)-1e8;
+        }
+        if (dp[i][target] != -1) {
+            return dp[i][target];
+        }
+        int pick = 1 + f(i + 1, target ^ nums[i], nums, dp);
+        int notPick = f(i + 1, target, nums, dp);
+        return dp[i][target] = Math.max(pick, notPick);
+    }
+
+    public int minRemovals(int[] nums, int target) {
+
+        int maxi = 1 << 14;
+        int[][] dp = new int[nums.length + 1][maxi];
+
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        if (nums.length == 0) {
+            if (target == 0) return 0;
+            return -1;
+        }
+
+        int size = f(0, target, nums, dp);
+
+        if (size < 0) return -1;
+
+        return nums.length - size;
+    }
+}
+
+/*
+
+001
+010
+011
+
+010
+*/
