@@ -1,0 +1,25 @@
+class Solution {
+    public boolean uniformArray(int[] nums) {
+        int n = nums.length; 
+        if(n==1) return true;
+        // if(n==2)
+        // {
+        //     if(nums[0]%2==nums[1]%2||) return true;
+        //     return false;
+        // }
+        int min = Integer.MAX_VALUE;
+        for(int x : nums) min = Math.min(min, x);
+
+        if(min % 2 == 1) return true;
+
+        for(int x : nums) {
+            if(x % 2 == 1) return false;
+        }
+
+        return true;
+    }
+}
+
+// 1 6 7
+//2 5 7
+ // 2 2 
