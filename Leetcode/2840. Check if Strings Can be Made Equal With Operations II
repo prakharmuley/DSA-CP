@@ -1,0 +1,32 @@
+class Solution {
+    public boolean checkStrings(String s1, String s2) {
+        Character[] even1 = IntStream.range(0, s1.length())
+        .filter(i -> i % 2 == 0)
+        .mapToObj(s1::charAt)
+        .sorted()
+        .toArray(Character[]::new);
+
+        Character[] odd1 = IntStream.range(0, s1.length())
+        .filter(i -> i % 2 != 0)
+        .mapToObj(s1::charAt)
+        .sorted()
+        .toArray(Character[]::new);
+
+        Character[] even2 = IntStream.range(0, s2.length())
+        .filter(i -> i % 2 == 0)
+        .mapToObj(s2::charAt)
+        .sorted()
+        .toArray(Character[]::new);
+
+        Character[] odd2 = IntStream.range(0, s2.length())
+        .filter(i -> i % 2 != 0)
+        .mapToObj(s2::charAt)
+        .sorted()
+        .toArray(Character[]::new);
+
+        return (Arrays.equals(even1,even2)&&Arrays.equals(odd1,odd2)); 
+
+
+
+    }
+}
