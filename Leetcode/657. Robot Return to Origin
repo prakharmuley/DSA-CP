@@ -1,0 +1,19 @@
+class Solution {
+    public boolean judgeCircle(String s) {
+       int i=0;
+        int j=0;
+
+        int k=0;
+        while(k<s.length()){
+            if(s.charAt(k)=='L')j--;
+            else if(s.charAt(k)=='R')j++;
+            else if(s.charAt(k)=='U')i--;
+            else if(s.charAt(k)=='D')i++;a
+
+            k++;
+        }
+
+        if(i==0 && j==0)return true; 
+        return false;
+    }
+}
