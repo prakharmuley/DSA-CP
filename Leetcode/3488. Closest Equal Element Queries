@@ -1,0 +1,60 @@
+class Solution {
+    public List<Integer> solveQueries(int[] nums, int[] queries) {
+        Map<Integer,TreeSet<Integer>> mp=new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(mp.containsKey(nums[i]))
+            {
+                TreeSet<Integer> list=mp.get(nums[i]);
+                list.add(i);
+                mp.put(nums[i],list);
+            }
+            else
+            {
+                 TreeSet<Integer> list=new TreeSet<>();
+                 list.add(i);
+                 mp.put(nums[i],list);
+            }
+        }
+
+        List<Integer> ans=new ArrayList<>();
+
+        for(int i=0;i<queries.length;i++)
+        {
+            int min=2*nums.length;
+            int idx = queries[i];
+
+            TreeSet<Integer> ts=mp.getOrDefault(nums[idx], new TreeSet<>());
+
+            if(ts.size() == 1) {
+                ans.add(-1);
+                continue;
+            }
+
+            Integer floor = ts.lower(idx);
+            Integer ceil  = ts.higher(idx);
+
+            if(floor!=null) {
+                int d = Math.abs(idx - floor);
+                min = Math.min(min, Math.min(d, nums.length - d));
+            } else {
+                int last = ts.last();
+                int d = Math.abs(idx - last);
+                min = Math.min(min, Math.min(d, nums.length - d));
+            }
+
+            if(ceil!=null) {
+                int d = Math.abs(ceil - idx);
+                min = Math.min(min, Math.min(d, nums.length - d));
+            } else {
+                int first = ts.first();
+                int d = Math.abs(idx - first);
+                min = Math.min(min, Math.min(d, nums.length - d));
+            }
+
+            ans.add(min);
+        }
+            
+        return ans;
+    }
+}
