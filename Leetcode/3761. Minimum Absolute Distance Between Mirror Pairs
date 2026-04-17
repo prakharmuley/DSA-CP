@@ -1,0 +1,22 @@
+class Solution {
+    public int minMirrorPairDistance(int[] nums) {
+        int ans=Integer.MAX_VALUE;
+        Map<Long,Integer> mp=new HashMap<>();
+        for(int i=nums.length-1;i>=0;i--)
+        {
+            long temp=(long)nums[i];
+             long rev = 0;
+while (temp != 0) {
+    rev = rev * 10 + (temp % 10);
+    temp /= 10;
+}
+            if(mp.containsKey(rev))
+            {
+                ans=Math.min(ans,mp.get(rev)-i);
+            }
+           
+            mp.put((long)nums[i],i);
+        }
+        return ans==Integer.MAX_VALUE?-1:ans;
+    }
+}
