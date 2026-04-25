@@ -1,0 +1,67 @@
+class Solution {
+    public long[] distance(int[] nums) {
+        Map<Integer,List<Integer>> mp=new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(!mp.containsKey(nums[i]))
+            {
+                List<Integer> list=new ArrayList<>();
+                list.add(i);
+                mp.put(nums[i],list);
+            }
+            else
+            {
+                List<Integer> list=mp.get(nums[i]);
+                list.add(i);
+                mp.put(nums[i],list);
+            }
+        }
+        long[] ans=new long[nums.length];
+        for(Map.Entry<Integer,List<Integer>> e: mp.entrySet())
+        {
+            List<Integer> list=e.getValue();
+            int size = list.size();
+            long totalSum = 0;
+            for (int idx : list) {
+                totalSum += idx;
+            }
+            long prefixSum = 0;
+            
+            for (int i = 0; i < size; i++) {
+                int index = list.get(i);
+                
+                long left = (long) index * i - prefixSum;
+                
+                long right = (totalSum - prefixSum - index) 
+                           - (long) index * (size - i - 1);
+                
+                ans[index] = left + right;
+                
+                prefixSum += index;
+            }
+            
+        }
+        return ans;
+    }
+}
+
+/*
+
+1-2  +  1-3     = 3
+
+2 - 5
+(size-1)*cur - (6-cur)
+
+
+2-0 + 2-3 +     
+
+(3-1)*2 - (5-2)
+
+
+3-2 + 3-0
+
+(3-1)*3 + (3-3)
+
+
+*/
+
