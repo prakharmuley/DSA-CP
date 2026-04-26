@@ -1,0 +1,75 @@
+class Solution {
+
+    public static boolean isVowel(char c) {
+        return switch (Character.toLowerCase(c)) {
+            case 'a', 'e', 'i', 'o', 'u' -> true;
+            default -> false;
+        };
+    }
+
+    public String sortVowels(String s) {
+
+        StringBuilder sb = new StringBuilder();
+
+        int A = 0, E = 0, I = 0, O = 0, U = 0;
+
+        for (char c : s.toCharArray()) {
+            if (isVowel(c)) {
+                if (c == 'a') A++;
+                else if (c == 'e') E++;
+                else if (c == 'i') I++;
+                else if (c == 'o') O++;
+                else U++;
+            }
+        }
+
+        List<Pair> list = new ArrayList<>();
+        list.add(new Pair('a', A));
+        list.add(new Pair('e', E));
+        list.add(new Pair('i', I));
+        list.add(new Pair('o', O));
+        list.add(new Pair('u', U));
+
+        Map<Character, Integer> firstPos = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (isVowel(c) && !firstPos.containsKey(c)) {
+                firstPos.put(c, i);
+            }
+        }
+
+        Collections.sort(list, (a, b) -> {
+            if (b.f != a.f) return b.f - a.f;
+            return firstPos.getOrDefault(a.c, Integer.MAX_VALUE)
+                    - firstPos.getOrDefault(b.c, Integer.MAX_VALUE);
+        });
+
+        List<Character> sortedVowels = new ArrayList<>();
+        for (Pair p : list) {
+            for (int i = 0; i < p.f; i++) {
+                sortedVowels.add(p.c);
+            }
+        }
+
+        int idx = 0;
+        for (char c : s.toCharArray()) {
+            if (isVowel(c)) {
+                sb.append(sortedVowels.get(idx++));
+            } else {
+                sb.append(c);
+            }
+        }
+
+        return sb.toString();
+    }
+}
+
+class Pair {
+    char c;
+    int f;
+
+    public Pair(char c, int f) {
+        this.c = c;
+        this.f = f;
+    }
+}
