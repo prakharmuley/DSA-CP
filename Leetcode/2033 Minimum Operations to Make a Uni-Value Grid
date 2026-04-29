@@ -1,0 +1,75 @@
+// class Solution {
+//     public int minOperations(int[][] a, int x) {
+//         List<Integer> al=new ArrayList<>();
+//         for(int i=0;i<a.length;i++)
+//         {
+//             for(int j=0;j<a[0].length;j++)
+//             {
+//                 al.add(a[i][j]);
+//             }
+//         }
+//         Collections.sort(al);
+//         int med=al.get((al.size()-1)/2);
+//         int cnt=0;
+//         for(int e: al)
+//         {
+//             if(e!=med)
+//             {
+//                 int diff=Math.abs(e-med);
+//                 if(diff%x!=0) return -1;
+//                 cnt+=diff/x;
+//             }
+//         }
+//         return cnt;
+//     }
+// }
+
+class Solution {
+    public int minOperations(int[][] grid, int x) {
+        int m = grid.length, n = grid[0].length;
+        int total = m * n, left = grid[0][0] % x;
+        int mini = grid[0][0], maxi = grid[0][0];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] % x != left) return -1;
+                mini = Math.min(mini, grid[i][j]);
+                maxi = Math.max(maxi, grid[i][j]);
+            }
+        }
+
+        int k = total / 2, low = mini, high = maxi, median = low;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int count = 0;
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (grid[i][j] <= mid) count++;
+                }
+            }
+            if (count <= k) {
+                low = mid + 1;
+            } else {
+                median = mid;
+                high = mid - 1;
+            }
+        }
+
+        long totalOperations = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                totalOperations += Math.abs(grid[i][j] - median) / x;
+            }
+        }
+        return (int) totalOperations;
+    }
+}
+
+
+/*
+
+1 2 3 5
+
+
+
+*/
