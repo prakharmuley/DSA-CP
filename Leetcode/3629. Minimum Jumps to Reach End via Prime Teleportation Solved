@@ -1,0 +1,79 @@
+class Solution {
+    public int minJumps(int[] nums) {
+        int n = nums.length;
+        int mx = 0;
+
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+        }
+
+        boolean[] prime = new boolean[mx + 1];
+        Arrays.fill(prime, true);
+
+        if (mx >= 0) prime[0] = false;
+        if (mx >= 1) prime[1] = false;
+
+        for (long i = 2; i <= mx; i++) {
+            if (prime[(int) i]) {
+                for (long j = i * i; j <= mx; j += i) {
+                    prime[(int) j] = false;
+                }
+            }
+        }
+
+        List<Integer>[] pos = new ArrayList[mx + 1];
+
+        for (int i = 0; i <= mx; i++) {
+            pos[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n; i++) {
+            pos[nums[i]].add(i);
+        }
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{0, 0});
+
+        boolean[] vis = new boolean[n];
+        vis[0] = true;
+
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+
+            int i = cur[0];
+            int t = cur[1];
+
+            if (i == n - 1) {
+                return t;
+            }
+
+            if (i > 0 && !vis[i - 1]) {
+                vis[i - 1] = true;
+                q.offer(new int[]{i - 1, t + 1});
+            }
+
+            if (i < n - 1 && !vis[i + 1]) {
+                vis[i + 1] = true;
+                q.offer(new int[]{i + 1, t + 1});
+            }
+
+            if (prime[nums[i]]) {
+                int p = nums[i];
+
+                for (int m = p; m <= mx; m += p) {
+                    for (int j : pos[m]) {
+                        if (!vis[j]) {
+                            vis[j] = true;
+                            q.offer(new int[]{j, t + 1});
+                        }
+                    }
+                    pos[m].clear();
+                }
+
+                prime[p] = false;
+            }
+        }
+
+        return n - 1;
+    }
+}
