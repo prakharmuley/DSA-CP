@@ -1,0 +1,60 @@
+class Solution {
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+
+        int r = grid.length;
+        int c = grid[0].length;
+        int n = r * c;
+
+        int xor = 0;
+        int num = 1;
+
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+                xor ^= grid[i][j];
+                xor ^= num;
+                num++;
+            }
+        }
+
+        int bit = xor & -xor;
+
+        int one = 0;
+        int zero = 0;
+
+        num = 1;
+
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+
+                int val = grid[i][j];
+
+                if((val & bit) != 0)
+                    one ^= val;
+                else
+                    zero ^= val;
+
+                if((num & bit) != 0)
+                    one ^= num;
+                else
+                    zero ^= num;
+
+                num++;
+            }
+        }
+
+        int count = 0;
+
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+                if(grid[i][j] == one)
+                    count++;
+            }
+        }
+
+        if(count == 2) {
+            return new int[]{one, zero};
+        }
+
+        return new int[]{zero, one};
+    }
+}
