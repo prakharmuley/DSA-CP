@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+
+
+public class div7 {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new FileReader("div7.in"));
+
+		int n = Integer.parseInt(br.readLine());
+		int[] arr = new int[n];
+		
+
+		for (int i = 0; i <n; i++) {
+			arr[i]=Integer.parseInt(br.readLine());
+		}
+        Map<Long, Integer> mp=new HashMap<Long,Integer>();
+        int k=7;
+        mp.put(0L, -1);
+        int ans=0;
+        long sum=0L;
+        for(int i=0;i<n;i++)
+        {
+        	sum+=((long)arr[i]);
+        	sum=sum%7L;
+        	if(mp.containsKey(sum))
+        	{
+        		ans=Math.max(ans, i-mp.get(sum));
+        	}
+        	else {
+        		mp.put(sum, i);
+			}
+        }
+        
+
+		PrintWriter out = new PrintWriter("div7.out");
+		out.println(ans);
+		out.close();
+	}
+}
