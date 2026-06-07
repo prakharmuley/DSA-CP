@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class bcount {
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new FileReader("bcount.in"));
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("bcount.out")));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int Q = Integer.parseInt(st.nextToken());
+
+        int[] p1 = new int[N + 1];
+        int[] p2 = new int[N + 1];
+        int[] p3 = new int[N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            int breed = Integer.parseInt(br.readLine());
+
+            p1[i] = p1[i - 1];
+            p2[i] = p2[i - 1];
+            p3[i] = p3[i - 1];
+
+            if (breed == 1) p1[i]++;
+            else if (breed == 2) p2[i]++;
+            else p3[i]++;
+        }
+
+        for (int i = 0; i < Q; i++) {
+            st = new StringTokenizer(br.readLine());
+
+            int l = Integer.parseInt(st.nextToken());
+            int r = Integer.parseInt(st.nextToken());
+
+            out.println(
+                (p1[r] - p1[l - 1]) + " " +
+                (p2[r] - p2[l - 1]) + " " +
+                (p3[r] - p3[l - 1])
+            );
+        }
+
+        br.close();
+        out.close();
+    }
+}
