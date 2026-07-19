@@ -1,0 +1,309 @@
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
+
+
+
+
+
+
+public class Cses {
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public Reader(String file_name) throws IOException {
+            din = new DataInputStream(new FileInputStream(file_name));
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+        
+        public String next() throws IOException {
+            StringBuilder sb = new StringBuilder();
+            byte c = read();
+
+            while (c <= ' ')
+                c = read();
+
+            while (c > ' ') {
+                sb.append((char)c);
+                c = read();
+            }
+
+            return sb.toString();
+        }
+
+        public String readLine() throws IOException {
+            byte[] buf = new byte[64]; // line length
+            int cnt = 0, c;
+            while ((c = read()) != -1) {
+                if (c == '\n') {
+                    if (cnt != 0) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+                buf[cnt++] = (byte) c;
+            }
+            return new String(buf, 0, cnt);
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') {
+                c = read();
+            }
+            boolean neg = (c == '-');
+            if (neg)
+                c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+
+            if (neg)
+                return -ret;
+            return ret;
+        }
+
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ')
+                c = read();
+            boolean neg = (c == '-');
+            if (neg)
+                c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            if (neg)
+                return -ret;
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1)
+                buffer[0] = -1;
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead)
+                fillBuffer();
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din == null)
+                return;
+            din.close();
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Thread(null, () -> {
+            try {
+                Reader in = new Reader();
+                PrintWriter out = new PrintWriter(System.out);
+                solve(in, out);
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "1", 1 << 26).start();
+    }
+    public static int fun(int n)
+    {
+    	      n = n | (n >> 1);
+    			n = n | (n >> 2);
+    			n = n | (n >> 4);
+    			n = n | (n >> 8);
+    			n = n | (n >> 16);  
+    			return n - (n >> 1);
+    }
+
+    
+    static void bfs(int start, List<Integer>[] adj, int[] ans, int n) {
+
+        Queue<int[]> q = new LinkedList<>();
+        boolean[] vis = new boolean[n + 1];
+
+        q.offer(new int[]{start, 0});
+        vis[start] = true;
+
+        while (!q.isEmpty()) {
+
+            int[] cur = q.poll();
+
+            int node = cur[0];
+            int dist = cur[1];
+
+            if (dist > ans[1]) {
+                ans[1] = dist;
+                ans[0] = node;
+            }
+
+            for (int next : adj[node]) {
+                if (!vis[next]) {
+                    vis[next] = true;
+                    q.offer(new int[]{next, dist + 1});
+                }
+            }
+        }
+    }
+    static long d0 = 0;
+
+    public static void dfs(List<Integer>[] adj, long[] count) {
+        Stack<int[]> st = new Stack<>();
+        st.push(new int[]{1, -1, 0, 0});
+
+        while (!st.isEmpty()) {
+            int[] cur = st.pop();
+            int node = cur[0];
+            int par = cur[1];
+            int depth = cur[2];
+            int state = cur[3];
+
+            if (state == 0) {
+                d0 += depth;
+                st.push(new int[]{node, par, depth, 1});
+                for (int x : adj[node]) {
+                    if (x != par) {
+                        st.push(new int[]{x, node, depth + 1, 0});
+                    }
+                }
+            } else {
+                long sz = 1;
+                for (int x : adj[node]) {
+                    if (x != par) {
+                        sz += count[x];
+                    }
+                }
+                count[node] = sz;
+            }
+        }
+    }
+
+    public static void dfs(List<Integer>[] adj, int[] depth) {
+        Stack<int[]> st = new Stack<>();
+        st.push(new int[]{1, -1, 0});
+
+        while (!st.isEmpty()) {
+            int[] cur = st.pop();
+            int node = cur[0];
+            int parent = cur[1];
+            int d=cur[2];
+
+            for (int x : adj[node]) {
+                if (x != parent) {
+                    depth[x]=d+1;
+                    st.push(new int[]{x,node,d+1 });
+                }
+            }
+        }
+    }
+    
+    public static int push(int node,int k, int[] depth, int[][] dp)
+    {
+    	for(int i=0;i<=20;++i)
+    	{
+    		if((k&(1<<i))!=0)
+    		{
+    			if(node!=-1)
+    			 node=dp[node][i];
+    		}
+    	}
+    	return node;
+    }
+    public static int lca(int u, int v, int[] depth, int[][] dp)
+    {
+    	  if(depth[v]>depth[u])
+    	  {
+    		  v^=u;
+    		  u^=v;
+    		  v^=u;
+    	  }
+    	  int diff=depth[u]-depth[v];
+    	  u=push(u,diff,depth,dp);
+    	  if(u==v) return u;
+    	  for(int i=20;i>=0;i--)
+    	  {
+    		  int i_push_u=dp[u][i];
+    		  int i_push_v=dp[v][i];
+    		  if(i_push_u==i_push_v) continue;
+    		  u=i_push_u;
+    		  v=i_push_v;
+    		  
+    	  }
+    	   return dp[u][0];
+       }
+
+    public static void solve(Reader scanner, PrintWriter pw) throws IOException {
+
+        int n = scanner.nextInt();
+        int queries=scanner.nextInt();
+
+        List<Integer>[] adj = new ArrayList[n + 1];
+        int [][] dp=new int[n+1][22];
+        for(int []x: dp) Arrays.fill(x, -1);
+        for (int i = 0; i <= n; i++)
+            adj[i] = new ArrayList<>();
+
+        for (int i = 2; i <=n; i++) {
+            int a = scanner.nextInt();
+            adj[a].add(i);
+            adj[i].add(a);
+            dp[i][0]=a;
+        }
+        for(int k=1;k<=21;k++)
+        {
+        	for(int i=2;i<=n;i++)
+        	{
+        		if(dp[i][k-1]!=-1)
+        		 dp[i][k]=dp[dp[i][k-1]][k-1];
+        	}
+        }
+        int[] depth=new int[n+1];
+        
+        dfs(adj,depth);
+        
+        for(int i=0;i<queries;i++)
+        {
+        	int u=scanner.nextInt();
+        	int v=scanner.nextInt();
+        	int ans=lca(u,v,depth,dp); 
+        	pw.print(ans+" ");
+        }
+ 
+       
+    }
+    
+    private static int power(int a, int b) {
+		if(b==0)
+		{
+			return 0;
+		}
+		int ans=power(a, b/2);
+		if(b%2==0)
+		{
+			return ans+ans;
+		}
+		return ans+ans+a;
+		
+	}
+        
+
+        
+    }
+
